@@ -47,9 +47,17 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'personne', targetEntity: Chien::class, orphanRemoval: true)]
     private Collection $chiens;
 
+    #[ORM\OneToMany(mappedBy: 'auteur', targetEntity: Topic::class)]
+    private Collection $topics;
+
+    #[ORM\OneToMany(mappedBy: 'auteur', targetEntity: Post::class)]
+    private Collection $posts;
+
     public function __construct()
     {
         $this->chiens = new ArrayCollection();
+        $this->topics = new ArrayCollection();
+        $this->posts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -194,6 +202,66 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($chien->getPersonne() === $this) {
                 $chien->setPersonne(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Topic>
+     */
+    public function getTopics(): Collection
+    {
+        return $this->topics;
+    }
+
+    public function addTopic(Topic $topic): static
+    {
+        if (!$this->topics->contains($topic)) {
+            $this->topics->add($topic);
+            $topic->setAuteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTopic(Topic $topic): static
+    {
+        if ($this->topics->removeElement($topic)) {
+            // set the owning side to null (unless already changed)
+            if ($topic->getAuteur() === $this) {
+                $topic->setAuteur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Post>
+     */
+    public function getPosts(): Collection
+    {
+        return $this->posts;
+    }
+
+    public function addPost(Post $post): static
+    {
+        if (!$this->posts->contains($post)) {
+            $this->posts->add($post);
+            $post->setAuteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removePost(Post $post): static
+    {
+        if ($this->posts->removeElement($post)) {
+            // set the owning side to null (unless already changed)
+            if ($post->getAuteur() === $this) {
+                $post->setAuteur(null);
             }
         }
 

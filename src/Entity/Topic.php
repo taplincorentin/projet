@@ -29,6 +29,10 @@ class Topic
     #[ORM\OneToMany(mappedBy: 'topic', targetEntity: Post::class, orphanRemoval: true)]
     private Collection $posts;
 
+    #[ORM\ManyToOne(inversedBy: 'topics')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Personne $auteur = null;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -101,6 +105,18 @@ class Topic
                 $post->setTopic(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAuteur(): ?Personne
+    {
+        return $this->auteur;
+    }
+
+    public function setAuteur(?Personne $auteur): static
+    {
+        $this->auteur = $auteur;
 
         return $this;
     }
