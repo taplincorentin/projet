@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class RegistrationController extends AbstractController
 {
@@ -29,11 +30,13 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-
+            // $now = new \DateTime();
+            // $user->setDateCreation($now);
             $entityManager->persist($user);
             $entityManager->flush();
+            dd('test');
             // do anything else you need here, like send an email
-
+            die;
             return $this->redirectToRoute('_profiler_home');
         }
 

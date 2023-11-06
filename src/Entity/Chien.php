@@ -20,7 +20,7 @@ class Chien
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $date_de_naissance = null;
+    private ?\DateTimeInterface $dateNaissance = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
@@ -54,14 +54,14 @@ class Chien
         return $this;
     }
 
-    public function getDateDeNaissance(): ?\DateTimeInterface
+    public function getDateNaissance(): ?\DateTimeInterface
     {
-        return $this->date_de_naissance;
+        return $this->dateNaissance;
     }
 
-    public function setDateDeNaissance(\DateTimeInterface $date_de_naissance): static
+    public function setDateNaissance(\DateTimeInterface $dateNaissance): static
     {
-        $this->date_de_naissance = $date_de_naissance;
+        $this->dateNaissance = $dateNaissance;
 
         return $this;
     }

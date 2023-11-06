@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: PersonneRepository::class)]
-#[UniqueEntity(fields: ['pseudo'], message: 'There is already an account with this pseudo')]
+#[UniqueEntity(fields: ['pseudo'], message: 'pseudo déjà utilisé')] //check pseudo est unique
 class Personne implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -32,17 +32,17 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $date_creation = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, options: ['default' =>'CURRENT_TIMESTAMP'])]
+    private ?\DateTime $dateCreation = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column]
-    private ?bool $is_educateur = null;
+    #[ORM\Column (nullable: true)]
+    private ?bool $isEducateur = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $description_educateur = null;
+    private ?string $descriptionEducateur = null;
 
     #[ORM\OneToMany(mappedBy: 'personne', targetEntity: Chien::class, orphanRemoval: true)]
     private Collection $chiens;
@@ -130,14 +130,14 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getDateCreation(): ?\DateTimeInterface
+    public function getDateCreation(): ?DateTime
     {
-        return $this->date_creation;
+        return $this->dateCreation;
     }
 
-    public function setDateCreation(\DateTimeInterface $date_creation): static
+    public function setDateCreation(\DateTime $dateCreation): static
     {
-        $this->date_creation = $date_creation;
+        $this->dateCreation = $dateCreation;
 
         return $this;
     }
@@ -156,24 +156,24 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function isIsEducateur(): ?bool
     {
-        return $this->is_educateur;
+        return $this->isEducateur;
     }
 
-    public function setIsEducateur(bool $is_educateur): static
+    public function setIsEducateur(bool $isEducateur): static
     {
-        $this->is_educateur = $is_educateur;
+        $this->isEducateur = $isEducateur;
 
         return $this;
     }
 
     public function getDescriptionEducateur(): ?string
     {
-        return $this->description_educateur;
+        return $this->descriptionEducateur;
     }
 
-    public function setDescriptionEducateur(?string $description_educateur): static
+    public function setDescriptionEducateur(?string $descriptionEducateur): static
     {
-        $this->description_educateur = $description_educateur;
+        $this->descriptionEducateur = $descriptionEducateur;
 
         return $this;
     }
