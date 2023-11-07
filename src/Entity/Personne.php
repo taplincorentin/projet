@@ -32,7 +32,7 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, options: ['default' =>'CURRENT_TIMESTAMP'])]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTime $dateCreation = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
