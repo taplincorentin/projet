@@ -1,6 +1,6 @@
 security:
     password_hashers: 
-    #pourrait utiliser bcrypt ou argon2i mais je mets auto pour que ce soit le meilleur qui soit utilisé
+    #peut utiliser bcrypt ou argon2i. En auto, c'est la meilleure solution qui sera utilisée
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
     providers:
         app_user_provider:
@@ -29,8 +29,10 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/login, role: PUBLIC_ACCESS }
+        - { path: ^/register, role: PUBLIC_ACCESS }
+        - { path: ^/, role: ROLE_USER }
+        
 
 #when@test:
 #     security:

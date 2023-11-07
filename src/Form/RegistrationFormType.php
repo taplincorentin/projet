@@ -31,8 +31,7 @@ class RegistrationFormType extends AbstractType
                 'second_options' => ['label' => 'Confirmer le mot de passe : '],
             ])
             ->add("isEducateur", CheckboxType::class, [
-                'mapped' => true,
-                'required' => false, // Permet à la checkbox de ne pas forcément être cochée pour valider le formulaire
+                'required' => false,                                                                                // Permet à la checkbox de ne pas forcément être cochée pour valider le formulaire
                 'label' => "Voulez-vous vous inscrire en tant qu'éducateur?"
             ])
             ->add("agreeTerms", CheckboxType::class, [
@@ -45,7 +44,7 @@ class RegistrationFormType extends AbstractType
                 'label' => "J'accepte les conditions d'utilisation",
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Register',
+                'label' => "S'inscrire",
             ]);
             
         ;
