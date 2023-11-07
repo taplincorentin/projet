@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Personne;
+use App\Validator\Constraints\RegexMdp;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\IsTrue;
@@ -29,6 +30,9 @@ class RegistrationFormType extends AbstractType
                 'required' => true,
                 'first_options'  => ['label' => 'Mot de passe : '],
                 'second_options' => ['label' => 'Confirmer le mot de passe : '],
+                'constraints' => [
+                    new RegexMdp(),
+                ]
             ])
             ->add("isEducateur", CheckboxType::class, [
                 'required' => false,                                                                                // Permet à la checkbox de ne pas forcément être cochée pour valider le formulaire
