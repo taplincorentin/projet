@@ -130,7 +130,7 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getDateCreation(): ?DateTime
+    public function getDateCreation()
     {
         return $this->dateCreation;
     }

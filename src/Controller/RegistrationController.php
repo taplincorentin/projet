@@ -23,20 +23,22 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
+            // encodage du mot de passe
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
                     $form->get('plainPassword')->getData()
                 )
             );
+
+            //ajout de la date et heure de la création du compte utilisateur
             $now = new \DateTime();
             $user->setDateCreation($now);
+
             $entityManager->persist($user);
             $entityManager->flush();
             
-            
-            
+            //redirection
             return $this->redirectToRoute('app_home');
         }
 
