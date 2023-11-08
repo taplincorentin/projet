@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User account{% endblock %}
+
+{% block body %}    
+    <div>
+        <h2>{{personne.pseudo}}'s page</h2>
+    </div>
+
+    {# <div class="personne-chien">
+        <h3>{{personne.pseudo}}'s dog(s)</h3>
+        {% for chien in personne.chiens %}
+            <div class="personne-chien">
+                dog's info
+            </div>
+        {% endfor %}
+    </div> #}
+    
+
+{% endblock %}

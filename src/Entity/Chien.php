@@ -29,8 +29,6 @@ class Chien
     #[ORM\JoinColumn(nullable: false)]
     private ?Personne $personne = null;
 
-    #[ORM\ManyToMany(targetEntity: Race::class, inversedBy: 'chiens')]
-    private Collection $races;
 
     public function __construct()
     {
@@ -90,27 +88,4 @@ class Chien
         return $this;
     }
 
-    /**
-     * @return Collection<int, Race>
-     */
-    public function getRaces(): Collection
-    {
-        return $this->races;
-    }
-
-    public function addRace(Race $race): static
-    {
-        if (!$this->races->contains($race)) {
-            $this->races->add($race);
-        }
-
-        return $this;
-    }
-
-    public function removeRace(Race $race): static
-    {
-        $this->races->removeElement($race);
-
-        return $this;
-    }
 }
