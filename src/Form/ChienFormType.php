@@ -7,16 +7,26 @@ use App\Entity\Chien;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ChienFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom')
-            ->add('dateNaissance')
-            ->add('description')
+        ->add('nom', TextType::class, ['label' => 'Name :'])
+            ->add('dateNaissance', DateType::class, [
+                'widget' => 'single_text',
+                'label' => 'Birthday :'
+            ])
+            ->add('description', TextareaType::class, ['label' => 'Tell us about you dog :'])
             ->add('personne')
+            ->add('submit', SubmitType::class, [
+                'label' => "Add dog",
+            ]);
         ;
     }
 

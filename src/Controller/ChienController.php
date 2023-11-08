@@ -37,7 +37,7 @@ class ChienController extends AbstractController
             $entityManager->persist($chien); //prepare
             $entityManager->flush(); //execute
 
-            return $this->redirectToRoute('app_chien'); //redirect to chienList
+            return $this->redirectToRoute('app_home'); //redirect to chienList
 
         }
         return $this->render('chien/new.html.twig', [
