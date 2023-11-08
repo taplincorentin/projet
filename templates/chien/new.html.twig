@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajout chien{% endblock %}
+
+{% block body %}
+
+    <div class="form-body">
+    
+        <h1>Formulaire d'ajout/modification d'un chien : </h1>
+        <p>Remplissez le formulaire pour ajouter un nouveau chien</p>
+
+        <hr>
+
+        {{ form_start(formAddChien) }}
+        {{ form_end(formAddChien) }}
+    </div>
+
+{% endblock %}
