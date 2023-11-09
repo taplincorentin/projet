@@ -6,7 +6,7 @@ security:
         app_user_provider:
             entity:
                 class: App\Entity\Personne
-                property: pseudo
+                property: email
 
     firewalls:
         dev:
