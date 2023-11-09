@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Topic List{% endblock %}
+
+{% block body %}    
+    <div>
+        <h2>{{categorie}}</h2>
+    </div>
+
+    <div class="topics">
+        <h3>Topics</h3>
+        {% for topic in categorie.topics %}
+            <div class="categorie-topic">
+                <td><a href="{{ path('show_topic', {'id': topic.id}) }}">{{topic}}</a></td>
+            </div>
+        {% endfor %}
+    </div>
+    
+
+{% endblock %}
