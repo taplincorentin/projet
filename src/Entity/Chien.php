@@ -22,7 +22,7 @@ class Chien
     #[ORM\Column(length: 20)]
     private ?string $nom = null;
 
-    #[Vich\UploadableField(mapping: 'dchien_images', fileNameProperty: 'imageName')]
+    #[Vich\UploadableField(mapping: 'chien_images', fileNameProperty: 'imageName')]
     private ?File $imageFile = null;
 
     #[ORM\Column(nullable: true)]

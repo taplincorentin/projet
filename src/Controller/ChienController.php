@@ -35,6 +35,8 @@ class ChienController extends AbstractController
             $personne = $this->getUser();
             
             $chien = $form->getData();
+            $now = new \DateTime();
+            $chien->setDateActualisation($now);
             $chien->setPersonne($personne);
 
             $entityManager->persist($chien); //prepare

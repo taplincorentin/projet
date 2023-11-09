@@ -6,6 +6,7 @@ use App\Entity\Chien;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -22,7 +23,14 @@ class ChienFormType extends AbstractType
                 'widget' => 'single_text',
                 'label' => 'Birthday :'
             ])
-            ->add('description', TextareaType::class, ['label' => 'Tell us about you dog :'])
+            ->add('imageFile', VichImageType::class, [
+                'required' => false,  
+                'label' => 'picture :'
+                ])
+            ->add('description', TextareaType::class, [
+                'required' => false,
+                'label' => 'Tell us about you dog :'
+                ])
             ->add('submit', SubmitType::class, [
                 'label' => "Add dog",
             ]);

@@ -7,14 +7,16 @@
         <h2>{{personne.pseudo}}'s page</h2>
     </div>
 
-    {# <div class="personne-chien">
+    <div class="personne-chien">
         <h3>{{personne.pseudo}}'s dog(s)</h3>
         {% for chien in personne.chiens %}
             <div class="personne-chien">
-                dog's info
+                <img style="max-width: 200px;" src="{{ vich_uploader_asset(chien, 'imageFile') }}">
+                {{chien.nom}}
+                <a href="{{ path('edit_chien', {'id': chien.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
             </div>
         {% endfor %}
-    </div> #}
+    </div>
     
 
 {% endblock %}
