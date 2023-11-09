@@ -20,6 +20,9 @@ security:
                 target: app_login          #redirection sur la page login après déconnexion
             custom_authenticator: App\Security\AppAuthenticator
 
+            login_throttling:
+                max_attempts: 3
+
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
