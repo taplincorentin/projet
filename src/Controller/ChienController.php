@@ -32,12 +32,15 @@ class ChienController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) { //if form submitted and valid
+            $personne = $this->getUser();
             
             $chien = $form->getData();
+            $chien->setPersonne($personne);
+
             $entityManager->persist($chien); //prepare
             $entityManager->flush(); //execute
 
-            return $this->redirectToRoute('app_home'); //redirect to chienList
+            return $this->redirectToRoute('show_personne', ['id' => $personne->getId()]);; //redirection profil de l'utilisateur
 
         }
         return $this->render('chien/new.html.twig', [

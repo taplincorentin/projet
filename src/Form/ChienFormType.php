@@ -23,7 +23,6 @@ class ChienFormType extends AbstractType
                 'label' => 'Birthday :'
             ])
             ->add('description', TextareaType::class, ['label' => 'Tell us about you dog :'])
-            ->add('personne')
             ->add('submit', SubmitType::class, [
                 'label' => "Add dog",
             ]);
