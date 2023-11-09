@@ -4,15 +4,16 @@
 
 {% block body %}
 
-    <div class="form-body">
+    <div class="dog-form-page">
     
         <h1> Add/Edit dog info </h1>
 
 
         <hr>
-
-        {{ form_start(formAddChien) }}
-        {{ form_end(formAddChien) }}
+        <div class="dog-form">
+            {{ form_start(formAddChien) }}
+            {{ form_end(formAddChien) }}
+        </div>
     </div>
 
 {% endblock %}

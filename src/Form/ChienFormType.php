@@ -26,7 +26,6 @@ class ChienFormType extends AbstractType
             ->add('imageFile', VichImageType::class, [
                 'required' => false,  
                 'label' => 'picture :'
-                'imagine_pattern' => 'product_photo_320x240',
                 ])
             ->add('description', TextareaType::class, [
                 'required' => false,
