@@ -41,8 +41,7 @@ class Chien
     #[ORM\JoinColumn(nullable: false)]
     private ?Personne $personne = null;
 
-    #[ORM\OneToMany(mappedBy: 'chien', targetEntity: Race::class)]
-    private Collection $races;
+
 
     public function __construct()
     {
@@ -149,34 +148,5 @@ class Chien
         return $this->nom;
     }
 
-    /**
-     * @return Collection<int, Race>
-     */
-    public function getRaces(): Collection
-    {
-        return $this->races;
-    }
-
-    public function addRace(Race $race): static
-    {
-        if (!$this->races->contains($race)) {
-            $this->races->add($race);
-            $race->setChien($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRace(Race $race): static
-    {
-        if ($this->races->removeElement($race)) {
-            // set the owning side to null (unless already changed)
-            if ($race->getChien() === $this) {
-                $race->setChien(null);
-            }
-        }
-
-        return $this;
-    }
 
 }
