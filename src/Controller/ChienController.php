@@ -32,12 +32,14 @@ class ChienController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $personne = $this->getUser();
+            
             dd($form);
             $chien = $form->getData();
+
             $now = new \DateTime();
-            
             $chien->setDateActualisation($now);
+
+            $personne = $this->getUser();
             $chien->setPersonne($personne);
 
             $entityManager->persist($chien); //prepare

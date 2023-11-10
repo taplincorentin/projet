@@ -6,6 +6,7 @@ use App\Entity\Topic;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class TopicFormType extends AbstractType
 {
@@ -13,10 +14,10 @@ class TopicFormType extends AbstractType
     {
         $builder
             ->add('titre')
-            ->add('dateCreation')
-            ->add('categorie')
-            ->add('auteur')
-        ;
+            ->add('submit', SubmitType::class, [
+                'label' => "add/edit topic",
+            ]);
+        
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -6,6 +6,7 @@ use App\Entity\Post;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class PostFormType extends AbstractType
 {
@@ -13,9 +14,9 @@ class PostFormType extends AbstractType
     {
         $builder
             ->add('contenu')
-            ->add('dateCreation')
-            ->add('topic')
-            ->add('auteur')
+            ->add('submit', SubmitType::class, [
+                'label' => "add/edit post",
+            ])
         ;
     }
 
