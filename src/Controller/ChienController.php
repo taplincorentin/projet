@@ -31,11 +31,12 @@ class ChienController extends AbstractController
         $form = $this->createForm(ChienFormType::class, $chien);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) { //if form submitted and valid
+        if ($form->isSubmitted() && $form->isValid()) {
             $personne = $this->getUser();
-            
+            dd($form);
             $chien = $form->getData();
             $now = new \DateTime();
+            
             $chien->setDateActualisation($now);
             $chien->setPersonne($personne);
 

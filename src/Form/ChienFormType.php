@@ -18,7 +18,7 @@ class ChienFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        ->add('nom', TextType::class, ['label' => 'Name :'])
+            ->add('nom', TextType::class, ['label' => 'Name :'])
             ->add('dateNaissance', DateType::class, [
                 'widget' => 'single_text',
                 'label' => 'Birthday :'
