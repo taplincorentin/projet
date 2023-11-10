@@ -7,7 +7,7 @@ async function start(){
 
 start()
 
-//création du semenu déroulant à partir de la liste de races
+//création du menu déroulant à partir de la liste de races
 function creationListeRaces(listeRaces){
 
     document.getElementById("race").innerHTML = `
@@ -26,4 +26,4 @@ function creationListeRaces(listeRaces){
 //     if (race != "Choose a breed") {
 
 //     }
-// }µ
+// }
