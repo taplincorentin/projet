@@ -11,7 +11,11 @@
         <h3>Topics</h3>
         {% for topic in categorie.topics %}
             <div class="categorie-topic">
-                <td><a href="{{ path('show_topic', {'id': topic.id}) }}">{{topic}} {{topic.dateCreation | date('d-m-Y H:i:s')}}</a></td>
+                <td>
+                    <a href="{{ path('show_topic', {'id': topic.id}) }}">{{topic}} {{topic.dateCreation | date('d-m-Y H:i:s')}}</a>
+                    <a href="{{ path('edit_topic', {'id': topic.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
+                    <a href="{{ path('delete_topic', {'id': topic.id}) }}" onclick="return confirm('delete topic ?')"><i class="fa-solid fa-trash fa-lg"></i></a>
+                </td>
             </div>
         {% endfor %}
     </div>
