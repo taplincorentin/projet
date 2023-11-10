@@ -11,7 +11,7 @@
         <h3>Topics</h3>
         {% for topic in categorie.topics %}
             <div class="categorie-topic">
-                <td><a href="{{ path('show_topic', {'id': topic.id}) }}">{{topic}}</a></td>
+                <td><a href="{{ path('show_topic', {'id': topic.id}) }}">{{topic}} {{topic.dateCreation | date('d-m-Y H:i:s')}}</a></td>
             </div>
         {% endfor %}
     </div>

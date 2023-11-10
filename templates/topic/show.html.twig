@@ -13,6 +13,7 @@
             <div class="topic-post">
                 <td>{{post.auteur}}</td>
                 <td>{{post}}</td>
+                <td>{{post.dateCreation | date('d-m-Y H:i:s')}}</td>
             </div>
         {% endfor %}
     </div>
