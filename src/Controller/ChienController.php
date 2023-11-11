@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Chien;
 use App\Form\ChienFormType;
+use App\Service\CallApiService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,6 +35,7 @@ class ChienController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             
             dd($form);
+            $races = $form->get('races')->getData();
             $chien = $form->getData();
 
             $now = new \DateTime();

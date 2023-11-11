@@ -10,6 +10,7 @@ use Vich\UploaderBundle\Form\Type\VichImageType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
@@ -31,6 +32,21 @@ class ChienFormType extends AbstractType
                 'required' => false,
                 'label' => 'Tell us about you dog :'
                 ])
+            
+            ->add('races', ChoiceType::class, [
+                'mapped' => false,
+                'choices'  => [
+                    'Boxer' => 'boxer',
+                    'Corgi' => 'corgi',
+                    'Great dane' => 'great dane'
+                ],
+                'expanded' => false,
+                'multiple' => true,
+                'attr' => [
+                    'class' => 'select-breeds'
+                ]
+            ])
+
             ->add('submit', SubmitType::class, [
                 'label' => "Add dog",
             ]);

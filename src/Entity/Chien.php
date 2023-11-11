@@ -42,13 +42,6 @@ class Chien
     private ?Personne $personne = null;
 
 
-
-    public function __construct()
-    {
-        $this->races = new ArrayCollection();
-    }
-
-
     public function getId(): ?int
     {
         return $this->id;

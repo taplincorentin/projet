@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+{% endblock %}
+
 {% block title %}Ajout chien{% endblock %}
 
 {% block body %}
@@ -7,7 +11,7 @@
     <div class="dog-form-page">
     
         <h1> Add/Edit dog info </h1>
-
+        {# {{ dump(breedList) }} #}
 
         <hr>
         <div class="dog-form">
@@ -20,4 +24,14 @@
         
     </div>
 
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(function() {
+            $('.select-breeds').select2();
+        })
+    </script>
 {% endblock %}
