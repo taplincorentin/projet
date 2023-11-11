@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\ChienRacesRepository;
+use App\Repository\ChienRaceRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ChienRacesRepository::class)]
-class ChienRaces
+#[ORM\Entity(repositoryClass: ChienRaceRepository::class)]
+class ChienRace
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -16,7 +16,7 @@ class ChienRaces
     #[ORM\Column(length: 30)]
     private ?string $nomRace = null;
 
-    #[ORM\ManyToOne(inversedBy: 'chienRaces')]
+    #[ORM\ManyToOne(inversedBy: 'chienRace')]
     private ?Chien $chien = null;
 
     public function getId(): ?int

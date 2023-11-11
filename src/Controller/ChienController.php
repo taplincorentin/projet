@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Chien;
-use App\Entity\ChienRaces;
+use App\Entity\ChienRace;
 use App\Form\ChienFormType;
 use App\Service\CallApiService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -50,10 +50,12 @@ class ChienController extends AbstractController
             $entityManager->persist($chien); //prepare
             $entityManager->flush(); //execute
 
-            $races = $form->get('races')->getData();
+
+
+            $races = $form->get('races')->getData(); //get races data
             
             foreach($races as $race) {
-                $chienRace = new ChienRaces();
+                $chienRace = new ChienRace();      //new Chien/Race 
                 $chienRace->setNomRace($race);
                 $chienRace->setChien($chien);
 

@@ -2,12 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\ChienRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\ChienRace;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ChienRepository;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\Common\Collections\ArrayCollection;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: ChienRepository::class)]
@@ -41,12 +42,12 @@ class Chien
     #[ORM\JoinColumn(nullable: false)]
     private ?Personne $personne = null;
 
-    #[ORM\OneToMany(mappedBy: 'chien', targetEntity: ChienRaces::class)]
-    private Collection $chienRaces;
+    #[ORM\OneToMany(mappedBy: 'chien', targetEntity: ChienRace::class, orphanRemoval: true)]
+    private Collection $chienRace;
 
     public function __construct()
     {
-        $this->chienRaces = new ArrayCollection();
+        $this->chienRace = new ArrayCollection();
     }
 
 
@@ -150,26 +151,26 @@ class Chien
     }
 
     /**
-     * @return Collection<int, ChienRaces>
+     * @return Collection<int, ChienRace>
      */
-    public function getChienRaces(): Collection
+    public function getChienRace(): Collection
     {
-        return $this->chienRaces;
+        return $this->chienRace;
     }
 
-    public function addChienRace(ChienRaces $chienRace): static
+    public function addChienRace(ChienRace $chienRace): static
     {
-        if (!$this->chienRaces->contains($chienRace)) {
-            $this->chienRaces->add($chienRace);
+        if (!$this->chienRace->contains($chienRace)) {
+            $this->chienRace->add($chienRace);
             $chienRace->setChien($this);
         }
 
         return $this;
     }
 
-    public function removeChienRace(ChienRaces $chienRace): static
+    public function removeChienRace(ChienRace $chienRace): static
     {
-        if ($this->chienRaces->removeElement($chienRace)) {
+        if ($this->chienRace->removeElement($chienRace)) {
             // set the owning side to null (unless already changed)
             if ($chienRace->getChien() === $this) {
                 $chienRace->setChien(null);
