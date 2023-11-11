@@ -21,7 +21,17 @@ class CallApiService
             "https://dog.ceo/api/breeds/list/all"
         );
 
-        return $response->toArray();
+        $data = $response->toArray();
+
+        $rawList = $data['message'];
+        $list = [];
+
+        foreach ($rawList as $key=>$values) {
+            $list[$key] = array_combine($values, $values);
+        }
+
+        //dd($list);
+        return $list;
     }
 
 }

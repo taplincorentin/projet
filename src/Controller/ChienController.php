@@ -23,19 +23,22 @@ class ChienController extends AbstractController
 
     #[Route('/chien/new', name: 'new_chien')]
     #[Route('/chien/{id}/edit', name: 'edit_chien')]
-    public function new_edit(Chien $chien = null, Request $request, EntityManagerInterface $entityManager): Response {
+    public function new_edit(Chien $chien = null, Request $request, EntityManagerInterface $entityManager, CallApiService $callApiService): Response {
         
         if(!$chien) { //condition if no chien create new one otherwise it's an edit of the existing one
             $chien = new Chien();
         }
 
-        $form = $this->createForm(ChienFormType::class, $chien);
+        $form = $this->createForm(ChienFormType::class, $chien, ['breedList' => $callApiService->getBreedList()]);
+
+        //dd($callApiService->getBreedList());
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             
-            dd($form);
+            
             $races = $form->get('races')->getData();
+            dd($races);
             $chien = $form->getData();
 
             $now = new \DateTime();

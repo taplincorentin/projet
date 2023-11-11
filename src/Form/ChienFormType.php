@@ -35,11 +35,7 @@ class ChienFormType extends AbstractType
             
             ->add('races', ChoiceType::class, [
                 'mapped' => false,
-                'choices'  => [
-                    'Boxer' => 'boxer',
-                    'Corgi' => 'corgi',
-                    'Great dane' => 'great dane'
-                ],
+                'choices'  => $options['breedList'],
                 'expanded' => false,
                 'multiple' => true,
                 'attr' => [
@@ -57,6 +53,7 @@ class ChienFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Chien::class,
+            'breedList' => [], // array vide par défaut
         ]);
     }
 }

@@ -22,9 +22,4 @@
 // }
 
 
-// function selectRace(race){
-//     if (race != "Choose a breed") {
-
-//     }
-// }
 
