@@ -1,4 +1,7 @@
-
 img {
     max-width: 200px;
+}
+
+* {
+    font-family: 'Raleway', sans-serif;
 }
