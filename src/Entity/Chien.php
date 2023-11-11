@@ -41,6 +41,14 @@ class Chien
     #[ORM\JoinColumn(nullable: false)]
     private ?Personne $personne = null;
 
+    #[ORM\OneToMany(mappedBy: 'chien', targetEntity: ChienRaces::class)]
+    private Collection $chienRaces;
+
+    public function __construct()
+    {
+        $this->chienRaces = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -139,6 +147,36 @@ class Chien
 
     public function __toString(){
         return $this->nom;
+    }
+
+    /**
+     * @return Collection<int, ChienRaces>
+     */
+    public function getChienRaces(): Collection
+    {
+        return $this->chienRaces;
+    }
+
+    public function addChienRace(ChienRaces $chienRace): static
+    {
+        if (!$this->chienRaces->contains($chienRace)) {
+            $this->chienRaces->add($chienRace);
+            $chienRace->setChien($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChienRace(ChienRaces $chienRace): static
+    {
+        if ($this->chienRaces->removeElement($chienRace)) {
+            // set the owning side to null (unless already changed)
+            if ($chienRace->getChien() === $this) {
+                $chienRace->setChien(null);
+            }
+        }
+
+        return $this;
     }
 
 

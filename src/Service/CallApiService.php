@@ -26,12 +26,24 @@ class CallApiService
         $rawList = $data['message'];
         $list = [];
 
-        foreach ($rawList as $key=>$values) {
-            $list[$key] = array_combine($values, $values);
+        // foreach ($rawList as $key=>$values) {
+        //     $list[$key] = array_combine($values, $values);
+        // }
+
+        foreach ($rawList as $key => $values) {
+            if (empty($values)) {
+                $list[] = $key;
+            } else {
+                foreach ($values as $value) {
+                    $list[] = "$key $value";
+                }
+            }
         }
 
-        //dd($list);
-        return $list;
+        $list2 = array_combine($list, $list);
+    
+        //dd($list2);
+        return $list2;
     }
 
 }

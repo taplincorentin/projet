@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Chien;
+use App\Entity\ChienRaces;
 use App\Form\ChienFormType;
 use App\Service\CallApiService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -37,8 +38,7 @@ class ChienController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             
             
-            $races = $form->get('races')->getData();
-            dd($races);
+            
             $chien = $form->getData();
 
             $now = new \DateTime();
@@ -49,6 +49,17 @@ class ChienController extends AbstractController
 
             $entityManager->persist($chien); //prepare
             $entityManager->flush(); //execute
+
+            $races = $form->get('races')->getData();
+            
+            foreach($races as $race) {
+                $chienRace = new ChienRaces();
+                $chienRace->setNomRace($race);
+                $chienRace->setChien($chien);
+
+                $entityManager->persist($chienRace); 
+                $entityManager->flush();
+            }
 
             return $this->redirectToRoute('show_personne', ['id' => $personne->getId()]);; //redirection profil de l'utilisateur
 
