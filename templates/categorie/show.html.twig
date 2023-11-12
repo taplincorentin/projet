@@ -13,7 +13,11 @@
         {% for topic in categorie.topics %}
             <div class="categorie-topic">
                 <td>
-                    {{topic.auteur}}
+                    {% if topic.auteur is empty %}
+                        {{ 'deleted' }}
+                    {% else %}
+                        {{topic.auteur}}
+                    {% endif %}
                     <a href="{{ path('show_topic', {'id': topic.id}) }}">{{topic}} {{topic.dateCreation | date('d-m-Y H:i:s')}}</a>
                     <a href="{{ path('edit_topic',  {'categorie_id': categorie.id, 'id': topic.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
                     <a href="{{ path('delete_topic', {'id': topic.id}) }}" onclick="return confirm('delete topic ?')"><i class="fa-solid fa-trash fa-lg"></i></a>

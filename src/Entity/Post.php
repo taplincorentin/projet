@@ -25,7 +25,7 @@ class Post
     private ?Topic $topic = null;
 
     #[ORM\ManyToOne(inversedBy: 'posts')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Personne $auteur = null;
 
     public function getId(): ?int

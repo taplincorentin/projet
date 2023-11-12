@@ -13,7 +13,12 @@
         {% for post in topic.posts %}
             <div class="topic-post">
                 <td>
-                    {{post.auteur}}
+                    {% if post.auteur is empty %}
+                        {{ 'deleted' }}
+                    {% else %}
+                        {{post.auteur}}
+                    {% endif %}
+                    
                     {{post}}
                     {{post.dateCreation | date('d-m-Y H:i:s')}}
                     <a href="{{ path('edit_post',  {'topic_id': topic.id, 'id': post.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>

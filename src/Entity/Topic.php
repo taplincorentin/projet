@@ -30,7 +30,7 @@ class Topic
     private Collection $posts;
 
     #[ORM\ManyToOne(inversedBy: 'topics')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Personne $auteur = null;
 
     public function __construct()
