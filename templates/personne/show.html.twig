@@ -13,6 +13,8 @@
             <div class="personne-chien">
                 <img style="max-width: 200px;" src="{{ vich_uploader_asset(chien, 'imageFile') }}">
                 {{chien.nom}}
+                {{chien.dateNaissance | date('d-m-Y')}}
+                {{chien.description}}
                 <a href="{{ path('edit_chien', {'id': chien.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
                 <a href="{{ path('delete_chien', {'id': chien.id}) }}" onclick="return confirm('Are you sure?')"><i class="fa-solid fa-trash fa-lg"></i></a>
             </div>
