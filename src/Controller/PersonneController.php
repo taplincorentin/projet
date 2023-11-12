@@ -45,7 +45,7 @@ class PersonneController extends AbstractController
     }
 
     #[Route('/personne/{id}/delete', name: 'delete_personne')]
-    public function delete(personne $personne, EntityManagerInterface $entityManager) {
+    public function delete(Personne $personne, EntityManagerInterface $entityManager) {
 
         //récupération des topics et posts de l'utilisateur
         $posts = $personne->getPosts();
@@ -66,6 +66,8 @@ class PersonneController extends AbstractController
         $entityManager->remove($personne);
         $entityManager->flush();
 
+
+        //suppression de la session en cours
         $session = new Session;
         $session->invalidate();
 
