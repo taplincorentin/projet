@@ -15,7 +15,7 @@ class VilleApiService
 
     public function getVilleListe()
     {
-        $url = 'http://api.openweathermap.org/data/2.5/box/city?bbox=180,-90,180,90,100&appid=%s=';
+        $url = 'http://api.openweathermap.org/data/2.5/box/city?bbox=180,-90,180,90,100&appid=%s=6977d652c686df85875de405090c55f2';
 
         $response = $this->client->request('GET', $url);
         $data = $response->toArray();
