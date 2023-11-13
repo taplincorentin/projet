@@ -146,10 +146,6 @@ class Chien
     }
 
 
-    public function __toString(){
-        return $this->nom;
-    }
-
     /**
      * @return Collection<int, ChienRace>
      */
@@ -178,6 +174,11 @@ class Chien
         }
 
         return $this;
+    }
+
+
+    public function __toString(){
+        return $this->nom;
     }
 
 

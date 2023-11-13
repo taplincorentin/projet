@@ -13,6 +13,20 @@
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         
         {% endblock %}
+        
+        
+        <div class='navbar'>
+            <ul>
+                <li><a href="{{ path('app_categorie') }}">Forum</a></li>
+                <li><a href="{{ path('show_personne', {'id': app.user.id}) }}">Profil</a></li>  
+                <li><a href="{{ path('new_balade') }}">Création balade</a></li>          
+            </ul>
+        </div>
+        
+
+
+
+
 
         {% block javascripts %}
             <script src="/scripts/app.js"></script>

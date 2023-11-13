@@ -23,6 +23,15 @@
             </div>
         {% endfor %}
     </div>
+
+    <div>
+        <h3>upcoming walks</h3>
+        {% for balade in personne.balades %}
+            <tr>
+                <td><a href="{{ path('show_balade', {'id': balade.id}) }}">{{ balade }}</a></td>
+            </tr>  
+        {% endfor %}
+    </div>
     
 
 {% endblock %}
