@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\BaladeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -21,10 +23,18 @@ class Balade
     private ?string $description = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $lieu = null;
+    private ?string $ville = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateHeureDepart = null;
+
+    #[ORM\ManyToMany(targetEntity: Personne::class, inversedBy: 'balades')]
+    private Collection $personnes;
+
+    public function __construct()
+    {
+        $this->personnes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -55,14 +65,14 @@ class Balade
         return $this;
     }
 
-    public function getLieu(): ?string
+    public function getVille(): ?string
     {
-        return $this->lieu;
+        return $this->ville;
     }
 
-    public function setLieu(string $lieu): static
+    public function setVille(string $ville): static
     {
-        $this->lieu = $lieu;
+        $this->ville = $ville;
 
         return $this;
     }
@@ -75,6 +85,30 @@ class Balade
     public function setDateHeureDepart(\DateTimeInterface $dateHeureDepart): static
     {
         $this->dateHeureDepart = $dateHeureDepart;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Personne>
+     */
+    public function getPersonnes(): Collection
+    {
+        return $this->personnes;
+    }
+
+    public function addPersonne(Personne $personne): static
+    {
+        if (!$this->personnes->contains($personne)) {
+            $this->personnes->add($personne);
+        }
+
+        return $this;
+    }
+
+    public function removePersonne(Personne $personne): static
+    {
+        $this->personnes->removeElement($personne);
 
         return $this;
     }

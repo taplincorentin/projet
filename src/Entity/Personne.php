@@ -57,6 +57,9 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'auteur', targetEntity: Post::class)]
     private Collection $posts;
 
+    #[ORM\ManyToMany(targetEntity: Balade::class, mappedBy: 'personnes')]
+    private Collection $balades;
+
     
 
     public function __construct()
@@ -64,6 +67,7 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
         $this->chiens = new ArrayCollection();
         $this->topics = new ArrayCollection();
         $this->posts = new ArrayCollection();
+        $this->balades = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -288,6 +292,33 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __toString(){
         return $this->pseudo;
+    }
+
+    /**
+     * @return Collection<int, Balade>
+     */
+    public function getBalades(): Collection
+    {
+        return $this->balades;
+    }
+
+    public function addBalade(Balade $balade): static
+    {
+        if (!$this->balades->contains($balade)) {
+            $this->balades->add($balade);
+            $balade->addPersonne($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBalade(Balade $balade): static
+    {
+        if ($this->balades->removeElement($balade)) {
+            $balade->removePersonne($this);
+        }
+
+        return $this;
     }
 
 }

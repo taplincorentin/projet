@@ -18,10 +18,7 @@ class BaladeFormType extends AbstractType
         $builder
             ->add('nom')
             ->add('description')
-            ->add('lieu', TextType::class)
-            // ->add('lieu', ChoiceType::class, [
-            //     'choices'  => $options['villeListe'],
-            // ])
+            ->add('ville', TextType::class)
             ->add('dateHeureDepart', DateTimeType::class, [
                 'widget' => 'single_text',
                 'label' => 'When?'
