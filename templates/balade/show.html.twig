@@ -6,7 +6,7 @@
     <div>
         <h2>{{balade.nom}}</h2>
         {{balade.lieu}}
-        {{balade.dateHeureDepart}}
+        {{balade.dateHeureDepart | date('d-m-Y H:i')}}
         {{balade.description}}
     </div>
    
