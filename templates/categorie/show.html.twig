@@ -2,23 +2,36 @@
 
 {% block title %}Category Topics{% endblock %}
 
-{% block body %}    
+{% block body %}   
+
+    <div>
+        <p><a href="{{ path('app_categorie') }}">back to category list</a></p>
+    </div>
     <div>
         <h2>{{categorie}}</h2>
     </div>
 
     <div class="topics">
         <h3>Topics</h3>
-        <a href="{{ path('new_topic', {'categorie_id': categorie.id}) }}">new topic</a>
+        
+        
+        <table>
         {% for topic in categorie.topics %}
             <div class="categorie-topic">
-                <td>
+                <tr>
                     {% if topic.auteur is empty %}
-                        {{ 'deleted' }}
+                        <td>
+                            {{ 'deleted' }}
+                            {{topic.dateCreation | date('d-m-Y H:i:s')}}
+                        </td>
                     {% else %}
-                        <a href="{{ path('show_personne', {'id': topic.auteur.id}) }}">{{topic.auteur}}</a>
+                        <td>
+                            <a href="{{ path('show_personne', {'id': topic.auteur.id}) }}">{{topic.auteur}}</a>
+                            {{topic.dateCreation | date('d-m-Y H:i:s')}}
+                        </td>
                     {% endif %}
-                    <a href="{{ path('show_topic', {'id': topic.id}) }}">{{topic}} {{topic.dateCreation | date('d-m-Y H:i:s')}}</a>
+                    <td><a href="{{ path('show_topic', {'id': topic.id}) }}">{{topic}} </a></td>
+
                     
                     {#if user is topic auteur, can edit/delete topic#}
                     {% if app.user == topic.auteur %}
@@ -26,9 +39,12 @@
                         <a href="{{ path('delete_topic', {'id': topic.id}) }}" onclick="return confirm('delete topic ?')"><i class="fa-solid fa-trash fa-lg"></i></a>
                     {% endif %}
                     
-                </td>
+                </tr>
             </div>
         {% endfor %}
+        </table>
+
+        <p><a href="{{ path('new_topic', {'categorie_id': categorie.id}) }}">new topic</a></p>
     </div>
     
 

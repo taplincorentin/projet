@@ -2,35 +2,51 @@
 
 {% block title %}Topic Posts{% endblock %}
 
-{% block body %}    
+{% block body %}
+
+    <div>
+        <p><a href="{{ path('show_categorie', {'id': topic.categorie.id}) }}">back to category</a></p>
+    </div>
     <div>
         <h2>{{topic}}</h2>
     </div>
 
     <div class="posts">
         <h3>Posts</h3>
-        <a href="{{ path('new_post', {'topic_id': topic.id}) }}">new post</a>
+        
+        <table>
         {% for post in topic.posts %}
             <div class="topic-post">
-                <td>
+                <tr>
                     {% if post.auteur is empty %}
-                        {{ 'deleted' }}
+                        <td>
+                            {{ 'deleted' }}
+                            {{post.dateCreation | date('d-m-Y H:i:s')}}
+                        </td>
                     {% else %}
-                        <a href="{{ path('show_personne', {'id': post.auteur.id}) }}">{{post.auteur}}</a>
+                        <td>
+                            <a href="{{ path('show_personne', {'id': post.auteur.id}) }}">{{post.auteur}}</a>
+                            {{post.dateCreation | date('d-m-Y H:i:s')}}
+                        </td>
                     {% endif %}
                     
-                    {{post}}
-                    {{post.dateCreation | date('d-m-Y H:i:s')}}
+                    <td>{{post}}</td>
                     
                     {#if user is post auteur, can edit/delete post#}
                     {% if app.user == post.auteur %}
-                        <a href="{{ path('edit_post',  {'topic_id': topic.id, 'id': post.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
-                        <a href="{{ path('delete_post', {'id': post.id}) }}" onclick="return confirm('delete post ?')"><i class="fa-solid fa-trash fa-lg"></i></a>
+                        <td>
+                            <a href="{{ path('edit_post',  {'topic_id': topic.id, 'id': post.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
+                            <a href="{{ path('delete_post', {'id': post.id}) }}" onclick="return confirm('delete post ?')"><i class="fa-solid fa-trash fa-lg"></i></a>
+                        </td>
                     {% endif %}
                     
-                </td>
+                </tr>
             </div>
         {% endfor %}
+        </table>
+
+        <p><a href="{{ path('new_post', {'topic_id': topic.id}) }}">new post</a></p>
+        
     </div>
     
 
