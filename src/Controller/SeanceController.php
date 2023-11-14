@@ -33,17 +33,53 @@ class SeanceController extends AbstractController
     }
 
     #[Route('/seance/new', name: 'new_seance')]
-    #[Route('/seance/{id}/edit', name: 'edit_seance')]
-    public function new_edit(Seance $seance = null, Request $request, EntityManagerInterface $entityManager): Response {
+    public function new(Seance $seance = null, Request $request, EntityManagerInterface $entityManager): Response {
         
 
-        $personne = $this->getUser();                       //get user that is ctrying to create session
+        $personne = $this->getUser();                       //get user that is trying to create session
         
         if($personne->isIsEducateur()){                     //check that user is a dog trainer 
             
-            if(!$seance) {                                  //condition if no seance create new one otherwise it's an edit of the existing one
-                $seance = new Seance();
+
+            $seance = new Seance();
+    
+            $form = $this->createForm(SeanceFormType::class, $seance);
+    
+    
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                
+                $seance = $form->getData();                 //get submitted data
+    
+                
+                $seance->setOrganisateur($personne);        //add user as seance organiser
+    
+                $entityManager->persist($seance);           //prepare
+                $entityManager->flush();                    //execute
+    
+                return $this->redirectToRoute('show_seance', ['id' => $seance->getId()]);; //redirection page d'info de la seance
+    
             }
+
+            return $this->render('seance/new.html.twig', [
+                'formAddSeance' => $form,
+            ]);
+        }
+
+        else {
+            return $this->redirectToRoute('app_home');
+        }
+
+    }
+
+
+    #[Route('/seance/{id}/edit', name: 'edit_seance')]
+    public function edit(Seance $seance = null, Request $request, EntityManagerInterface $entityManager): Response {
+        
+        $organisateur = $seance->getOrganisateur();
+        $personne = $this->getUser();                                          //get user that is trying to edit session
+        
+        if($personne == $organisateur){                                      //check that user is the organiser
     
             $form = $this->createForm(SeanceFormType::class, $seance);
     
