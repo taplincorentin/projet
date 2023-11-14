@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Entity\Topic;
 use App\Form\PostFormType;
+use App\Service\VerificationRoleService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -68,7 +69,7 @@ class PostController extends AbstractController
 
     #[Route('/post/{id}/delete', name: 'delete_post')]
 
-    public function delete(Post $post, EntityManagerInterface $entityManager) {
+    public function delete(Post $post, EntityManagerInterface $entityManager, VerificationRoleService $verficationRole) {
 
         //get current user and post creator
         $user = $this->getUser();
