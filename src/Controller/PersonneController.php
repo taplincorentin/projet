@@ -26,22 +26,29 @@ class PersonneController extends AbstractController
     #[Route('/personne/{id}/edit', name: 'edit_personne')]
     public function edit(Personne $personne = null, Request $request, EntityManagerInterface $entityManager): Response {
         
-        $form = $this->createForm(PersonneFormType::class, $personne);
+        $user = $this->getUser();
 
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
+        //check that the person who's info is getting edited is the current user
+        if($user == $personne){
+            $form = $this->createForm(PersonneFormType::class, $personne);
+
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
             
-            $personne = $form->getData();
+                $personne = $form->getData();
 
-            $entityManager->persist($personne); //prepare
-            $entityManager->flush(); //execute
+                $entityManager->persist($personne); //prepare
+                $entityManager->flush(); //execute
 
-            return $this->redirectToRoute('show_personne', ['id' => $personne->getId()]); //redirection profil de l'utilisateur
+                return $this->redirectToRoute('show_personne', ['id' => $personne->getId()]); //redirection profil de l'utilisateur
 
+            }
+            return $this->render('personne/edit.html.twig', [
+                'formAddPersonne' => $form,
+            ]);
         }
-        return $this->render('personne/edit.html.twig', [
-            'formAddPersonne' => $form,
-        ]);
+
+        return $this->redirectToRoute('app_home');
 
     }
 
