@@ -91,9 +91,6 @@ class BaladeController extends AbstractController
             $entityManager->persist($balade);
             $entityManager->flush();
             
-            if(empty($balade->getPersonnes())){                                                         //check if walk still as participants
-                return $this->redirectToRoute('delete_balade', ['id' => $balade->getId()]);             //if not, delete walk
-            }
 
             return $this->redirectToRoute('show_balade', ['id' => $balade->getId()]);
         }                                                                        
