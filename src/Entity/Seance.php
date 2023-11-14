@@ -35,6 +35,9 @@ class Seance
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
+    #[ORM\ManyToOne(inversedBy: 'seances')]
+    private ?Theme $theme = null;
+
     public function __construct()
     {
         $this->participants = new ArrayCollection();
@@ -131,5 +134,17 @@ class Seance
 
     public function __toString(){
         return $this->nom;
+    }
+
+    public function getTheme(): ?Theme
+    {
+        return $this->theme;
+    }
+
+    public function setTheme(?Theme $theme): static
+    {
+        $this->theme = $theme;
+
+        return $this;
     }
 }
