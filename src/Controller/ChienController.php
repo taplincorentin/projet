@@ -75,11 +75,25 @@ class ChienController extends AbstractController
     #[Route('/chien/{id}/delete', name: 'delete_chien')]
     public function delete(Chien $chien, EntityManagerInterface $entityManager) {
 
-        $personne= $this->getUser(); //pour la redirection
-        
-        $entityManager->remove($chien);
-        $entityManager->flush();
+        //get current user
+        $user = $this->getUser();                                                                       
+        //get dog owner for condition and redirection
+        $personne = $chien->getPersonne();
 
-        return $this->redirectToRoute('show_personne', ['id' => $personne->getId()]);; //redirection profil de l'utilisateur
+        //check that the current user is the dog's owner
+        if ($personne == $user){
+            
+            //prepare execute
+            $entityManager->remove($chien);
+            $entityManager->flush();
+
+            //redirect to user profile
+            return $this->redirectToRoute('show_personne', ['id' => $personne->getId()]);; 
+        }
+
+        return $this->redirectToRoute('app_home');
+        
+        
+        
     }
 }
