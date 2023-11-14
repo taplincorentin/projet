@@ -302,9 +302,7 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function __toString(){
-        return $this->pseudo;
-    }
+    
 
     /**
      * @return Collection<int, Balade>
@@ -418,6 +416,10 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    public function __toString(){
+        return $this->pseudo;
     }
 
 }
