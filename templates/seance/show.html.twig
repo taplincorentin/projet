@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Session page{% endblock %}
+
+{% block body %}
+
+    <a href="{{ path('edit_seance', {'id': seance.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
+    <a href="{{ path('delete_seance', {'id': seance.id}) }}" onclick="return confirm('delete seance ?')"><i class="fa-solid fa-trash fa-lg"></i></a>
+    <div>
+        <h2>{{seance.nom}} by {{seance.organisateur}}</h2>
+        {{seance.ville}}
+        {{seance.dateHeureDepart | date('d-m-Y H:i')}}
+        {{seance.description}}
+
+
+        <h3>Participants</h3>
+        {% for personne in seance.participants|sort((a, b) => a.pseudo <=> b.pseudo) %}
+            <tr>
+                <td><a href="{{ path('show_personne', {'id': personne.id}) }}">{{ personne }}</a></td>
+            </tr>  
+        {% endfor %}
+    </div>
+   
+
+{% endblock %}

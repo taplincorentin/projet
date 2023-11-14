@@ -32,6 +32,9 @@ class Seance
     #[ORM\ManyToMany(targetEntity: Personne::class, inversedBy: 'seancesParticipees')]
     private Collection $participants;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = null;
+
     public function __construct()
     {
         $this->participants = new ArrayCollection();
@@ -110,6 +113,18 @@ class Seance
     public function removeParticipant(Personne $participant): static
     {
         $this->participants->removeElement($participant);
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }

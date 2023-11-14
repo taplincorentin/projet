@@ -16,8 +16,6 @@ class BaladeController extends AbstractController
     public function index(): Response
     {
 
-        
-
         return $this->render('balade/index.html.twig', [
             'controller_name' => 'BaladeController',
         ]);

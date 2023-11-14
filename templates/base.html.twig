@@ -14,14 +14,20 @@
         
         {% endblock %}
         
-        
+        {% if app.user %}
         <div class='navbar'>
             <ul>
                 <li><a href="{{ path('app_categorie') }}">Forum</a></li>
-                <li><a href="{{ path('show_personne', {'id': app.user.id}) }}">Profil</a></li>  
-                <li><a href="{{ path('new_balade') }}">Création balade</a></li>          
+                <li><a href="{{ path('new_balade') }}">New walk</a></li>
+                {% if app.user.isEducateur %}        
+                    <li><a href="{{ path('new_seance') }}">New session</a></li>
+                {% endif %}
+                <li><a href="{{ path('show_personne', {'id': app.user.id}) }}">Profile</a></li>  
+                <li><a href="{{ path('app_logout') }}">Logout</a></li> 
             </ul>
         </div>
+        {% endif %}
+
         
 
 
