@@ -32,6 +32,23 @@
             </tr>  
         {% endfor %}
     </div>
+
+    <div>
+        <h3>sessions (as participant)</h3>
+        {% for seance in personne.seancesParticipees %}
+            <tr>
+                <td><a href="{{ path('show_seance', {'id': seance.id}) }}">{{ seance }}</a></td>
+            </tr>  
+        {% endfor %}
+    </div>
     
+    <div>
+        <h3>sessions (as trainer)</h3>
+        {% for seance in personne.seancesOrganisees %}
+            <tr>
+                <td><a href="{{ path('show_seance', {'id': seance.id}) }}">{{ seance }}</a></td>
+            </tr>  
+        {% endfor %}
+    </div>
 
 {% endblock %}
