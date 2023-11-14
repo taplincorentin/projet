@@ -47,12 +47,13 @@ class ChienController extends AbstractController
             $personne = $this->getUser();
             $chien->setPersonne($personne);
 
-            $entityManager->persist($chien); //prepare
-            $entityManager->flush(); //execute
+            //prepare execute
+            $entityManager->persist($chien); 
+            $entityManager->flush();
 
 
-
-            $races = $form->get('races')->getData(); //get races form data
+            //get races form data
+            $races = $form->get('races')->getData(); 
             
             foreach($races as $race) {
                 $chienRace = new ChienRace();       //new Chien/Race

@@ -27,6 +27,7 @@
         <p>{{personne.description}}</p>
     </div>
 
+    {#Person's dog(s)#}
     <div class="personne-chien">
         <h3>{{personne.pseudo}}'s dog(s)</h3>
         {% for chien in personne.chiens %}
@@ -41,6 +42,7 @@
         {% endfor %}
     </div>
 
+    {#Walks person is participitating#}
     <div>
         <h3>walks (participant)</h3>
         {% for balade in personne.balades %}
@@ -50,6 +52,7 @@
         {% endfor %}
     </div>
 
+    {#Walks person is organising#}
     <div>
         <h3>walks (as organiser)</h3>
         {% for balade in personne.baladesOrganisees %}
@@ -59,6 +62,7 @@
         {% endfor %}
     </div>
 
+    {#Sessions person is participitating#}
     <div>
         <h3>sessions (as participant)</h3>
         {% for seance in personne.seancesParticipees %}
@@ -68,6 +72,7 @@
         {% endfor %}
     </div>
     
+    {#Sessions person is organising#}
     <div>
         <h3>sessions (as trainer)</h3>
         {% for seance in personne.seancesOrganisees %}

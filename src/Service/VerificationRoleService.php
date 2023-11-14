@@ -4,6 +4,7 @@ namespace App\Service;
 
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
+//Service to check user roles in controllers
 class VerificationRoleService
 {
     private $verificationAuthorisation;

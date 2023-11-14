@@ -156,6 +156,8 @@ class PersonneController extends AbstractController
 
     #[Route('/personne/{id}', name: 'show_personne')]
     public function show(Personne $personne = null): Response {
+        
+        //check if person exists
         if($personne){
             return $this->render('personne/show.html.twig', [
                 'personne' => $personne
