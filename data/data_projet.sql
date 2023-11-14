@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `balade` (
   CONSTRAINT `FK_540083D7D936B2FA` FOREIGN KEY (`organisateur_id`) REFERENCES `personne` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.balade : ~2 rows (environ)
+-- Listage des données de la table projet.balade : ~1 rows (environ)
 INSERT INTO `balade` (`id`, `nom`, `description`, `ville`, `date_heure_depart`, `organisateur_id`) VALUES
 	(6, 'balade du siècle', 'Lorem Elsass ipsum Richard Schirmeck Kabinetpapier nullam leverwurscht Heineken und blottkopf, pellentesque tchao bissame merci vielmols dui salu libero. jetz gehts los sed gal baeckeoffe id, Huguette Miss Dahlias Spätzle wurscht messti de Bischheim sit schneck bredele ornare Racing. amet hopla vielmols, Oberschaeffolsheim Strasbourg dolor sit DNA, hoplageiss auctor, risus, s\'guelt geht\'s placerat habitant geïz senectus rossbolla non non sed nüdle elit hopla Salu bissame Chulien semper in, gravida id kartoffelsalad vulputate ac Verdammi quam. commodo ftomi!', 'Oberhausbergen', '2023-12-22 19:30:00', 1);
 
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `balade_personne` (
   CONSTRAINT `FK_1BC368A7FE292D59` FOREIGN KEY (`balade_id`) REFERENCES `balade` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.balade_personne : ~0 rows (environ)
+-- Listage des données de la table projet.balade_personne : ~1 rows (environ)
 INSERT INTO `balade_personne` (`balade_id`, `personne_id`) VALUES
 	(6, 4);
 
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `categorie` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.categorie : ~4 rows (environ)
+-- Listage des données de la table projet.categorie : ~5 rows (environ)
 INSERT INTO `categorie` (`id`, `nom`) VALUES
 	(1, 'Health'),
 	(2, 'Behaviour'),
@@ -80,14 +80,15 @@ CREATE TABLE IF NOT EXISTS `chien` (
   CONSTRAINT `FK_13A4067EA21BD112` FOREIGN KEY (`personne_id`) REFERENCES `personne` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.chien : ~3 rows (environ)
+-- Listage des données de la table projet.chien : ~6 rows (environ)
 INSERT INTO `chien` (`id`, `personne_id`, `nom`, `image_name`, `date_naissance`, `description`, `date_actualisation`) VALUES
 	(2, 1, 'harlem', 'img-20220724-100308-654cd877e51d8679592298.jpg', '2016-02-12', NULL, '2023-11-11 18:58:54'),
 	(3, 1, 'boomer', 'img-20220828-180548-654cdb1b7b442503021540.jpg', '2016-04-01', NULL, '2023-11-11 18:59:09'),
 	(4, 1, 'lilas', 'img-20221228-163206-654cdb3b0a5ae901954140.jpg', '2019-02-14', NULL, '2023-11-11 19:15:55'),
 	(8, 1, 'Rex', 'dash-dachshund-with-hat-654fd5f1f1a3c306932782.jpg', '2014-12-20', NULL, '2023-11-11 19:30:03'),
-	(9, 4, 'Burton', 'mastiff-english-65535721a08d3904027177.jpg', '2018-05-12', NULL, '2023-11-14 11:16:49'),
-	(10, 6, 'Trevor', 'beagle-adult-65538deff26f5295072921.jpg', '2019-02-12', NULL, '2023-11-14 15:10:39');
+	(9, 4, 'Burtono', 'mastiff-english-65535721a08d3904027177.jpg', '2018-05-12', NULL, '2023-11-14 17:13:18'),
+	(10, 6, 'Trevor', 'beagle-adult-65538deff26f5295072921.jpg', '2019-02-12', NULL, '2023-11-14 15:10:39'),
+	(11, 4, 'Joy', 'setter-gordon-6553ab19d4669759752159.jpg', '2023-05-18', NULL, '2023-11-14 17:15:05');
 
 -- Listage de la structure de table projet. chien_race
 CREATE TABLE IF NOT EXISTS `chien_race` (
@@ -99,7 +100,7 @@ CREATE TABLE IF NOT EXISTS `chien_race` (
   CONSTRAINT `FK_B584F83FBFCF400E` FOREIGN KEY (`chien_id`) REFERENCES `chien` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.chien_race : ~6 rows (environ)
+-- Listage des données de la table projet.chien_race : ~10 rows (environ)
 INSERT INTO `chien_race` (`id`, `chien_id`, `nom_race`) VALUES
 	(6, 2, 'bouvier'),
 	(7, 2, 'collie border'),
@@ -110,7 +111,8 @@ INSERT INTO `chien_race` (`id`, `chien_id`, `nom_race`) VALUES
 	(12, 8, 'dachshund'),
 	(13, 9, 'mastiff english'),
 	(14, 10, 'beagle'),
-	(15, 10, 'beagle');
+	(15, 10, 'beagle'),
+	(16, 11, 'setter gordon');
 
 -- Listage de la structure de table projet. doctrine_migration_versions
 CREATE TABLE IF NOT EXISTS `doctrine_migration_versions` (
@@ -120,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `doctrine_migration_versions` (
   PRIMARY KEY (`version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
--- Listage des données de la table projet.doctrine_migration_versions : ~0 rows (environ)
+-- Listage des données de la table projet.doctrine_migration_versions : ~9 rows (environ)
 INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_time`) VALUES
 	('DoctrineMigrations\\Version20231109110955', '2023-11-09 11:10:02', 289),
 	('DoctrineMigrations\\Version20231111181119', '2023-11-11 18:11:34', 157),
@@ -165,10 +167,10 @@ CREATE TABLE IF NOT EXISTS `personne` (
   UNIQUE KEY `UNIQ_FCEC9EF86CC499D` (`pseudo`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.personne : ~1 rows (environ)
+-- Listage des données de la table projet.personne : ~3 rows (environ)
 INSERT INTO `personne` (`id`, `email`, `pseudo`, `roles`, `password`, `date_creation`, `description`, `is_educateur`, `description_educateur`) VALUES
 	(1, 'coco@gmail.com', 'coco', '["ROLE_SUPER_ADMIN"]', '$2y$13$EfjDykRYy8LuDUoIx/Fp.uKGENqPa6rH9AhUtuy.3EKR7.BZAhIvS', '2023-11-09 11:11:09', NULL, 0, NULL),
-	(4, 'coco2@gmail.com', 'coco2', '["ROLE_USER"]', '$2y$13$ViEr/QnTD1KxmHPOwaEni.PSITH6r6E2/YH1J5XWBa99SDyQ1QATy', '2023-11-14 08:15:50', NULL, 1, NULL),
+	(4, 'coco2@gmail.com', 'coco2', '["ROLE_USER"]', '$2y$13$ViEr/QnTD1KxmHPOwaEni.PSITH6r6E2/YH1J5XWBa99SDyQ1QATy', '2023-11-14 08:15:50', NULL, 1, 'best dog trainer world'),
 	(6, 'coco3@gmail.com', 'coco3', '[]', '$2y$13$HCE.A.5A8/qz6RPjHF.sieqcMr7Zf9WrMNFh7wqwqYjWst1VlWDFS', '2023-11-14 15:07:31', NULL, 1, NULL);
 
 -- Listage de la structure de table projet. post
@@ -185,14 +187,15 @@ CREATE TABLE IF NOT EXISTS `post` (
   CONSTRAINT `FK_5A8A6C8D60BB6FE6` FOREIGN KEY (`auteur_id`) REFERENCES `personne` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.post : ~2 rows (environ)
+-- Listage des données de la table projet.post : ~6 rows (environ)
 INSERT INTO `post` (`id`, `topic_id`, `auteur_id`, `contenu`, `date_creation`) VALUES
 	(1, 3, 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', '2023-11-09 18:01:55'),
 	(3, 4, NULL, 'hellololololololo', '2023-11-12 17:56:53'),
 	(4, 4, 1, 'hopla réchime Miss Dahlias quam, blottkopf, hoplageiss tristique baeckeoffe leo in, geïz gal hopla ftomi!', '2023-11-14 13:32:56'),
 	(5, 3, 4, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.', '2023-11-14 14:11:00'),
 	(6, 4, 4, 'Exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '2023-11-14 14:11:42'),
-	(7, 4, 6, 'idghizehiugsrdhfgsdf', '2023-11-14 15:14:05');
+	(7, 4, 6, 'idghizehiugsrdhfgsdf', '2023-11-14 15:14:05'),
+	(8, 3, 4, 'hahahahahahahahahahahahahhahaha', '2023-11-14 17:36:03');
 
 -- Listage de la structure de table projet. seance
 CREATE TABLE IF NOT EXISTS `seance` (
@@ -210,9 +213,10 @@ CREATE TABLE IF NOT EXISTS `seance` (
   CONSTRAINT `FK_DF7DFD0ED936B2FA` FOREIGN KEY (`organisateur_id`) REFERENCES `personne` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.seance : ~0 rows (environ)
+-- Listage des données de la table projet.seance : ~1 rows (environ)
 INSERT INTO `seance` (`id`, `organisateur_id`, `nom`, `date_heure_depart`, `ville`, `description`, `theme_id`) VALUES
-	(2, 4, 'seance du siècle', '2023-12-12 14:00:00', 'Strasbourg', 'Lorem Elsass ipsum Richard Schirmeck Kabinetpapier nullam leverwurscht Heineken und blottkopf, pellentesque tchao bissame merci vielmols dui salu libero. jetz gehts los sed gal baeckeoffe id, Huguette Miss Dahlias Spätzle wurscht messti de Bischheim sit schneck bredele ornare Racing. amet hopla vielmols, Oberschaeffolsheim Strasbourg dolor sit DNA, hoplageiss auctor, risus, s\'guelt geht\'s placerat habitant geïz senectus rossbolla non non sed nüdle elit hopla Salu bissame Chulien semper in, gravida id kartoffelsalad vulputate ac Verdammi quam. commodo ftomi!', NULL);
+	(2, 4, 'seance du siècle', '2023-12-12 14:00:00', 'Strasbourg', 'Lorem Elsass ipsum Richard Schirmeck Kabinetpapier nullam leverwurscht Heineken und blottkopf, pellentesque tchao bissame merci vielmols dui salu libero. jetz gehts los sed gal baeckeoffe id, Huguette Miss Dahlias Spätzle wurscht messti de Bischheim sit schneck bredele ornare Racing. amet hopla vielmols, Oberschaeffolsheim Strasbourg dolor sit DNA, hoplageiss auctor, risus, s\'guelt geht\'s placerat habitant geïz senectus rossbolla non non sed nüdle elit hopla Salu bissame Chulien semper in, gravida id kartoffelsalad vulputate ac Verdammi quam. commodo ftomi!', NULL),
+	(3, 4, 'Training session', '2023-11-20 18:30:00', 'London', NULL, 2);
 
 -- Listage de la structure de table projet. seance_personne
 CREATE TABLE IF NOT EXISTS `seance_personne` (
