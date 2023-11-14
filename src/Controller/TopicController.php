@@ -22,12 +22,10 @@ class TopicController extends AbstractController
 
 
     #[Route('/{categorie_id}/topic/new', name: 'new_topic')]
-    #[Route('/{categorie_id}/topic/{id}/edit', name: 'edit_topic')]
-    public function new_edit(Topic $topic = null, int $categorie_id, Request $request, EntityManagerInterface $entityManager): Response {
+    public function new(Topic $topic = null, int $categorie_id, Request $request, EntityManagerInterface $entityManager): Response {
 
-        if(!$topic) { //condition if no topic create new one otherwise it's an edit of the existing one
-            $topic = new Topic();
-        }
+        $topic = new Topic();
+
         $categorie = $entityManager->getRepository(Categorie::class)->findOneBy(['id'=>$categorie_id]);
 
         
@@ -62,6 +60,47 @@ class TopicController extends AbstractController
             'formAddTopic' => $form,
         ]);
 
+    }
+
+
+    #[Route('/{categorie_id}/topic/{id}/edit', name: 'edit_topic')]
+    public function edit(Topic $topic = null, int $categorie_id, Request $request, EntityManagerInterface $entityManager): Response {
+
+        //get topic author and current user
+        $auteur = $topic->getAuteur();
+        $user = $this->getUser();
+
+        //check that topic author and current user are the same person
+        if($auteur == $user ){
+
+            $categorie = $entityManager->getRepository(Categorie::class)->findOneBy(['id'=>$categorie_id]);
+        
+            $form = $this->createForm(TopicFormType::class, $topic);
+
+            $form->handleRequest($request); 
+            if ($form->isSubmitted() && $form->isValid()) { //if form submitted and valid
+
+                //get form data (titre)
+                $topic = $form->getData();                     
+
+                //get current datetime to set 'lastModified'
+                $now = new \DateTime();
+                $topic->setDateCreation($now);
+
+                $entityManager->persist($topic); //prepare
+                $entityManager->flush(); //execute
+
+                //redirect to edited topic
+                return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
+
+            }
+
+            return $this->render('topic/new.html.twig', [
+                'formAddTopic' => $form,
+            ]);
+        }
+
+        return $this->redirectToRoute('app_home');
     }
 
 

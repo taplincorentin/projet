@@ -83,10 +83,7 @@ class PostController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) { //if form submitted and valid
 
                 //get form data (contenu)
-                $post = $form->getData();
-                
-                //set post topic
-                $post->setTopic($topic);                
+                $post = $form->getData();               
 
                 //get current datetime to set 'lastModified'
                 $now = new \DateTime();
