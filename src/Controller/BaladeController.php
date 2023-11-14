@@ -32,14 +32,11 @@ class BaladeController extends AbstractController
         ]);
     }
 
-    //add/edit a walk
+    //add a walk
     #[Route('/balade/new', name: 'new_balade')]
-    #[Route('/balade/{id}/edit', name: 'edit_balade')]
-    public function new_edit(Balade $balade = null, Request $request, EntityManagerInterface $entityManager): Response {
+    public function new(Balade $balade = null, Request $request, EntityManagerInterface $entityManager): Response {
         
-        if(!$balade) {                                  //condition if no balade create new one otherwise it's an edit of the existing one
-            $balade = new Balade();
-        }
+        $balade = new Balade();
 
         $form = $this->createForm(BaladeFormType::class, $balade);
 
@@ -62,6 +59,41 @@ class BaladeController extends AbstractController
             'formAddBalade' => $form,
         ]);
 
+    }
+
+
+    #[Route('/balade/{id}/edit', name: 'edit_balade')]
+    public function edit(Balade $balade = null, Request $request, EntityManagerInterface $entityManager): Response {
+        
+        //get walk organiser
+        $organisateur = $balade->getOrganisateur();
+        //get user that is trying to edit walk
+        $personne = $this->getUser();                                          
+        
+        //check that user is the organiser
+        if($personne == $organisateur){  
+
+            $form = $this->createForm(BaladeFormType::class, $balade);
+
+
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                
+                $balade = $form->getData();                 //get submitted data
+
+                $entityManager->persist($balade);           //prepare
+                $entityManager->flush();                    //execute
+
+                return $this->redirectToRoute('show_balade', ['id' => $balade->getId()]);; //redirect walk info page
+
+            }
+            
+            return $this->render('balade/new.html.twig', [
+                'formAddBalade' => $form,
+            ]);
+        }
+
+        return $this->redirectToRoute('app_home');      //redirect homepage
     }
 
 
