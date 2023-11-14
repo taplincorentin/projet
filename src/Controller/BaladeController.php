@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Balade;
 use App\Entity\Personne;
 use App\Form\BaladeFormType;
+use App\Form\BaladeSearchFormType;
 use App\Repository\BaladeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -130,6 +131,35 @@ class BaladeController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
         
+    }
+
+    
+    //search by city
+    #[Route('/balade/search', name: 'search_balade')]
+    public function searchByCity(BaladeRepository $baladeRepository, Request $request) :Response {
+        
+        $form = $this->createForm(BaladeSearchFormType::class);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            
+            //get input ville 
+            $ville = $form->get('ville')->getData();
+
+
+            //get balades with same ville
+            $resultatsBalades = $baladeRepository->findBy(['ville' => $ville]);
+
+            return $this->render('balade/resultats.html.twig', [
+                'resultatsBalades' => $resultatsBalades,
+                'ville' => $ville
+            ]);
+        }
+        
+        return $this->render('balade/recherche.html.twig', [
+            'formSearchBalade' => $form->createView(),
+        ]);
     }
 
 

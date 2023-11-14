@@ -35,8 +35,10 @@
                     
                     {#if user is topic auteur, can edit/delete topic#}
                     {% if app.user == topic.auteur %}
-                        <a href="{{ path('edit_topic',  {'categorie_id': categorie.id, 'id': topic.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
-                        <a href="{{ path('delete_topic', {'id': topic.id}) }}" onclick="return confirm('delete topic ?')"><i class="fa-solid fa-trash fa-lg"></i></a>
+                        <td>
+                            <a href="{{ path('edit_topic',  {'categorie_id': categorie.id, 'id': topic.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
+                            <a href="{{ path('delete_topic', {'id': topic.id}) }}" onclick="return confirm('delete topic ?')"><i class="fa-solid fa-trash fa-lg"></i></a>
+                        </td>
                     {% endif %}
                     
                 </tr>

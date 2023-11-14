@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste balades{% endblock %}
+{% block title %}Walk search result{% endblock %}
 
 {% block body %}
-    <p><a href="{{ path('search_balade') }}">search walk by city</a></p>
-    <h1>Upcoming walks : </h1>
+
+    <h1>Upcoming walks in {{ville}}: </h1>
     <div class="future-walks">
 
-    {% for balade in baladesFutures %}
+    {% for balade in resultatsBalades %}
         
         <div class="walk-box">
             <div class='walk-title'>
@@ -15,9 +15,6 @@
             </div>
             <div class='walk-date'>
                 <p>{{balade.dateHeureDepart | date('d-m-Y H:i')}}</p>
-            </div>
-            <div class='walk-city'>
-                <p>{{balade.ville}}</p>
             </div>
         </div>
 

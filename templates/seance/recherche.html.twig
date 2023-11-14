@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Search session{% endblock %}
+
+{% block body %}
+
+    <div class="session-searchform-page">
+    
+        <h1> Search sessions by city </h1>
+
+        <hr>
+        <div class="session-form">
+            {{ form_start(formSearchSeance) }}
+            {{ form_end(formSearchSeance) }}
+        </div>
+
+
+        
+    </div>
+
+{% endblock %}

@@ -29,6 +29,7 @@ class PostController extends AbstractController
         if(!$post) { //condition if no post create new one otherwise it's an edit of the existing one
             $post = new Post();
         }
+        
         $topic = $entityManager->getRepository(Topic::class)->findOneBy(['id'=>$topic_id]);
 
         
