@@ -95,6 +95,27 @@ class BaladeController extends AbstractController
         
     }
 
+    #[Route('/balade/{balade_id}/{personne_id}/move', name: 'enlist_personne_balade')]
+    public function movePersonneToBalade(Balade $balade_id, int $personne_id, EntityManagerInterface $entityManager) {
+        
+        $personne = $entityManager->getRepository(Personne::class)->findOneBy(['id'=>$personne_id]);
+        $user = $this->getUser();
+
+        if( $personne == $user ) {                                  //check current user and person that is getting enlisted for walk are the same                                                               
+            $balade->addPersonne($personne);
+
+            $entityManager->persist($balade);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('show_balade', ['id' => $balade->getId()]);
+        }
+
+        else {
+            return $this->redirectToRoute('app_home');
+        }
+        
+    }
+
 
 
     #[Route('/balade/{id}', name: 'show_balade')]
