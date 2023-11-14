@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Topic;
 use App\Entity\Categorie;
 use App\Form\TopicFormType;
+use App\Service\VerificationRoleService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,20 +36,25 @@ class TopicController extends AbstractController
         $form->handleRequest($request); 
         if ($form->isSubmitted() && $form->isValid()) { //if form submitted and valid
 
-            $topic = $form->getData();              //get form data (titre)
-            $topic->setCategorie($categorie);       //add categorie to data
+            //get form data (titre)
+            $topic = $form->getData();              
+            
+            //set topic category
+            $topic->setCategorie($categorie);       
 
-            //ajout de la date et heure de la modification du topic
+            //get current datetime to set 'lastModified'
             $now = new \DateTime();
             $topic->setDateCreation($now);
 
+            //set current user as topic creator
             $auteur = $this->getUser();
             $topic->setAuteur($auteur);
 
             $entityManager->persist($topic); //prepare
             $entityManager->flush(); //execute
 
-            return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);; //redirection page topic créé/édité
+            //redirect to created topic
+            return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
 
         }
 
@@ -61,14 +67,28 @@ class TopicController extends AbstractController
 
     #[Route('/topic/{id}/delete', name: 'delete_topic')]
 
-    public function delete(Topic $topic, EntityManagerInterface $entityManager) {
-
-        $categorie=$topic->getCategorie();      //récupération de la catégorie pour la redirection
+    public function delete(Topic $topic, EntityManagerInterface $entityManager, VerificationRoleService $verficationRole) {
         
-        $entityManager->remove($topic);
-        $entityManager->flush();
+        //get current user and topic creator
+        $user = $this->getUser();
+        $personne = $topic->getAuteur();
 
-        return $this->redirectToRoute('show_categorie', ['id' => $categorie->getId()]);; //redirection page categorie du topic supprimé
+        //check that the current user is the topic's creator or an admin
+        if ($personne == $user || $verficationRole->verificationAdmin() ){
+            
+            //get category for redirection
+            $categorie=$topic->getCategorie();      
+        
+            //prepare execute
+            $entityManager->remove($topic);
+            $entityManager->flush();
+
+            //redirect to topic's category
+            return $this->redirectToRoute('show_categorie', ['id' => $categorie->getId()]); 
+        }
+        
+        return $this->redirectToRoute('app_home');
+        
     }
 
 

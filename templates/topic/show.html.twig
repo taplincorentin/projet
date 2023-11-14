@@ -21,8 +21,13 @@
                     
                     {{post}}
                     {{post.dateCreation | date('d-m-Y H:i:s')}}
-                    <a href="{{ path('edit_post',  {'topic_id': topic.id, 'id': post.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
-                    <a href="{{ path('delete_post', {'id': post.id}) }}" onclick="return confirm('delete post ?')"><i class="fa-solid fa-trash fa-lg"></i></a>
+                    
+                    {#if user is post auteur, can edit/delete post#}
+                    {% if app.user == post.auteur %}
+                        <a href="{{ path('edit_post',  {'topic_id': topic.id, 'id': post.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
+                        <a href="{{ path('delete_post', {'id': post.id}) }}" onclick="return confirm('delete post ?')"><i class="fa-solid fa-trash fa-lg"></i></a>
+                    {% endif %}
+                    
                 </td>
             </div>
         {% endfor %}

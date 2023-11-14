@@ -36,19 +36,25 @@ class PostController extends AbstractController
         $form->handleRequest($request); 
         if ($form->isSubmitted() && $form->isValid()) { //if form submitted and valid
 
-            $post = $form->getData();              //get form data (contenu)
-            $post->setTopic($topic);                //add topic to data
+            //get form data (contenu)
+            $post = $form->getData();
+            
+            //set post topic
+            $post->setTopic($topic);                
 
-            //ajout de la date et heure de la modification du post
+            //get current datetime to set 'lastModified'
             $now = new \DateTime();
             $post->setDateCreation($now);
 
+            //set current user as post creator
             $auteur = $this->getUser();
             $post->setAuteur($auteur);
+            
+            //prepare execute
+            $entityManager->persist($post);
+            $entityManager->flush();
 
-            $entityManager->persist($post); //prepare
-            $entityManager->flush(); //execute
-
+            //redirect to created post's topic
             return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);; //redirection topic du post créé/édité
 
         }
@@ -64,12 +70,24 @@ class PostController extends AbstractController
 
     public function delete(Post $post, EntityManagerInterface $entityManager) {
 
-        $topic=$post->getTopic();      //récupération du topic pour la redirection
-        
-        $entityManager->remove($post);
-        $entityManager->flush();
+        //get current user and post creator
+        $user = $this->getUser();
+        $personne = $post->getAuteur();
 
-        return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);; //redirection page topic du post supprimé
+        //check that the current user is the post's creator or an admin
+        if ($personne == $user || $verficationRole->verificationAdmin() ){
+            //get topic for redirection
+            $topic=$post->getTopic();
+        
+            //prepare execute
+            $entityManager->remove($post);
+            $entityManager->flush();
+
+            //redirect to post's topic
+            return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
+        }
+        
+        return $this->redirectToRoute('app_home');
     }
 
 }
