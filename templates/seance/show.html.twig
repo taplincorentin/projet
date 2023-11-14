@@ -4,13 +4,29 @@
 
 {% block body %}
 
-    <a href="{{ path('edit_seance', {'id': seance.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
-    <a href="{{ path('delete_seance', {'id': seance.id}) }}" onclick="return confirm('delete seance ?')"><i class="fa-solid fa-trash fa-lg"></i></a>
+    {#if user is organiser, can edit/delete session#}
+    {% if app.user == seance.organisateur %}
+        <a href="{{ path('edit_seance', {'id': seance.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
+        <a href="{{ path('delete_seance', {'id': seance.id}) }}" onclick="return confirm('delete seance ?')"><i class="fa-solid fa-trash fa-lg"></i></a>
+    {% endif %}
+
+    {#if user is one of this session's participants can unlist#}
+    {% if app.user in seance.participants %} 
+        <a href="{{ path('remove_personne_seance', {'seance_id': seance.id , 'personne_id': app.user.id}) }}">unlist</a>
+    {% endif %}
+
+
+    {#if user is not one of this session's participants and isn't the organiser can enlist#}
+    {% if (app.user not in seance.participants) and (app.user != seance.organisateur) %}
+        <a href="{{ path('enlist_personne_seance', {'seance_id': seance.id , 'personne_id': app.user.id}) }}">enlist</a>
+    {% endif %}
+
+    {#show session info#}
     <div>
         <h2>{{seance.nom}} by <a href="{{ path('show_personne', {'id': seance.organisateur.id}) }}">{{ seance.organisateur }}</a></h2>
         {{seance.ville}}
         {{seance.dateHeureDepart | date('d-m-Y H:i')}}
-        {{seance.description}}
+        <p>{{seance.description}}</p>
 
 
         <h3>Participants</h3>

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Seance;
+use App\Entity\Personne;
 use App\Form\SeanceFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -73,6 +74,51 @@ class SeanceController extends AbstractController
         return $this->redirectToRoute('app_home');      //redirection page d'accueil
     }
 
+    //se désinscrire d'une seance
+    #[Route('/seance/{seance_id}/{personne_id}/remove', name: 'remove_personne_seance')]
+    public function removePersonneFromSeance(Seance $seance_id, int $personne_id, EntityManagerInterface $entityManager) {
+        
+        $seance = $entityManager->getRepository(Seance::class)->findOneBy(['id'=>$seance_id]);          //get seance
+        $personne = $entityManager->getRepository(Personne::class)->findOneBy(['id'=>$personne_id]);    //get person that is going to be removed
+        $user = $this->getUser();                                                                       //get current user
+
+        if ($personne == $user){                                                                        //check that the user and the removed person are the same
+            
+            $seance->removeParticipant($personne);
+            
+            $entityManager->persist($seance);
+            $entityManager->flush();
+            
+
+            return $this->redirectToRoute('show_seance', ['id' => $seance->getId()]);
+        }                                                                        
+        
+    }
+
+    //s'inscrire à une seance
+    #[Route('/seance/{seance_id}/{personne_id}/move', name: 'enlist_personne_seance')]
+    public function movePersonneToseance(Seance $seance_id, int $personne_id, EntityManagerInterface $entityManager) {
+        
+        $seance = $entityManager->getRepository(Seance::class)->findOneBy(['id'=>$seance_id]);          //get seance
+        $personne = $entityManager->getRepository(Personne::class)->findOneBy(['id'=>$personne_id]);    //get person that is enlisting
+        $user = $this->getUser();                                                                       //get current user
+        $organisateur = $seance->getOrganisateur();                                                     //get seance organiser
+
+        if( $personne == $user && $personne != $organisateur ) {                                        //check current user and person that is getting enlisted for walk are the same and that the person isn't the walk's organiser                                                            
+            
+            $seance->addParticipant($personne);
+
+            $entityManager->persist($seance);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('show_seance', ['id' => $seance->getId()]);
+        }
+
+        else {
+            return $this->redirectToRoute('app_home');
+        }
+        
+    }
 
 
     #[Route('/seance/{id}', name: 'show_seance')]

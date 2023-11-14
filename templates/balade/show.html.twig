@@ -4,24 +4,29 @@
 
 {% block body %}
     
+    {#if user is organiser, can edit/delete walk#}
     {% if app.user == balade.organisateur %}
         <a href="{{ path('edit_balade', {'id': balade.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
         <a href="{{ path('delete_balade', {'id': balade.id}) }}" onclick="return confirm('delete balade ?')"><i class="fa-solid fa-trash fa-lg"></i></a>
     {% endif %}
    
+    {#if user is one of this walk's participants can unlist#}
     {% if app.user in balade.personnes %}
-        <a href="{{ path('remove_personne_balade', {'balade_id': balade.id , 'personne_id': app.user.id}) }}">se désinscrire</a>
+        <a href="{{ path('remove_personne_balade', {'balade_id': balade.id , 'personne_id': app.user.id}) }}">unlist</a>
     {% endif %}
 
+
+    {#if user is not one of this walk's participants and isn't the organiser can enlist#}
     {% if (app.user not in balade.personnes) and (app.user != balade.organisateur) %}
-        <a href="{{ path('enlist_personne_balade', {'balade_id': balade.id , 'personne_id': app.user.id}) }}">s'inscrire</a>
+        <a href="{{ path('enlist_personne_balade', {'balade_id': balade.id , 'personne_id': app.user.id}) }}">enlist</a>
     {% endif %}
     
+    {#show walk info#}
     <div>
         <h2>{{balade.nom}} by <a href="{{ path('show_personne', {'id': balade.organisateur.id}) }}">{{ balade.organisateur }}</a></h2>
         {{balade.ville}}
         {{balade.dateHeureDepart | date('d-m-Y H:i')}}
-        {{balade.description}}
+        <p>{{balade.description}}</p>
 
         <h3>Participants</h3>
         {% for personne in balade.personnes|sort((a, b) => a.pseudo <=> b.pseudo) %}
