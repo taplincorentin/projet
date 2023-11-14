@@ -21,14 +21,12 @@ class ChienController extends AbstractController
     //         'controller_name' => 'ChienController',
     //     ]);
     // }
-
+    
+    //create new dog
     #[Route('/chien/new', name: 'new_chien')]
-    #[Route('/chien/{id}/edit', name: 'edit_chien')]
-    public function new_edit(Chien $chien = null, Request $request, EntityManagerInterface $entityManager, CallApiService $callApiService): Response {
+    public function new(Chien $chien = null, Request $request, EntityManagerInterface $entityManager, CallApiService $callApiService): Response {
         
-        if(!$chien) { //condition if no chien create new one otherwise it's an edit of the existing one
-            $chien = new Chien();
-        }
+        $chien = new Chien();
 
         //create dog form with breedList from API to build select input
         $form = $this->createForm(ChienFormType::class, $chien, ['breedList' => $callApiService->getBreedList()]);
@@ -77,6 +75,63 @@ class ChienController extends AbstractController
 
     }
 
+
+    //edit dog info
+    #[Route('/chien/{id}/edit', name: 'edit_chien')]
+    public function edit(Chien $chien = null, Request $request, EntityManagerInterface $entityManager, CallApiService $callApiService): Response {
+
+        $personne = $this->getUser();
+        $proprietaire = $chien->getPersonne();
+
+        //check current user is the dog's owner
+        if($personne == $proprietaire){
+            //create dog form with breedList from API to build select input
+            $form = $this->createForm(ChienFormType::class, $chien, ['breedList' => $callApiService->getBreedList()]);
+
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+            
+                //get form data
+                $chien = $form->getData();
+
+                //get current datetime to set 'lastModified'
+                $now = new \DateTime();
+                $chien->setDateActualisation($now);
+
+                //prepare execute
+                $entityManager->persist($chien); 
+                $entityManager->flush();
+
+
+                //get races form data
+                $races = $form->get('races')->getData(); 
+            
+                foreach($races as $race) {
+                    $chienRace = new ChienRace();       //new Chien/Race
+
+                    //link race to dog
+                    $chienRace->setNomRace($race);
+                    $chienRace->setChien($chien);
+
+                    //prepare execute
+                    $entityManager->persist($chienRace); 
+                    $entityManager->flush();
+                }
+
+                return $this->redirectToRoute('show_personne', ['id' => $personne->getId()]);; //redirection profil de l'utilisateur
+
+            }
+
+            return $this->render('chien/new.html.twig', [
+                'formAddChien' => $form,
+            ]);
+
+            }
+
+            return $this->redirectToRoute('app_home');        
+
+    }
+
     #[Route('/chien/{id}/delete', name: 'delete_chien')]
     public function delete(Chien $chien, EntityManagerInterface $entityManager) {
 
@@ -97,8 +152,6 @@ class ChienController extends AbstractController
         }
 
         return $this->redirectToRoute('app_home');
-        
-        
         
     }
 }

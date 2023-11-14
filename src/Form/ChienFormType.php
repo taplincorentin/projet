@@ -40,7 +40,8 @@ class ChienFormType extends AbstractType
                 'multiple' => true,
                 'attr' => [
                     'class' => 'select-breeds'
-                ]
+                ],
+                'required' => false
             ])
 
             ->add('submit', SubmitType::class, [
