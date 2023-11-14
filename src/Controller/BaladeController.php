@@ -100,8 +100,9 @@ class BaladeController extends AbstractController
         
         $personne = $entityManager->getRepository(Personne::class)->findOneBy(['id'=>$personne_id]);
         $user = $this->getUser();
+        $organisateur = $balade->getOrganisateur();
 
-        if( $personne == $user ) {                                  //check current user and person that is getting enlisted for walk are the same                                                               
+        if( $personne == $user && $personne != $organisateur ) {                         //check current user and person that is getting enlisted for walk are the same and that the person isn't the walk's organiser                                                            
             $balade->addPersonne($personne);
 
             $entityManager->persist($balade);

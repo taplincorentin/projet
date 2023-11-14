@@ -13,7 +13,7 @@
         <a href="{{ path('remove_personne_balade', {'balade_id': balade.id , 'personne_id': app.user.id}) }}">se désinscrire</a>
     {% endif %}
 
-    {% if app.user not in balade.personnes %}
+    {% if (app.user not in balade.personnes) and (app.user != balade.organisateur) %}
         <a href="{{ path('enlist_personne_balade', {'balade_id': balade.id , 'personne_id': app.user.id}) }}">s'inscrire</a>
     {% endif %}
     
