@@ -2,9 +2,11 @@
 
 namespace App\Form;
 
+use App\Entity\Theme;
 use App\Entity\Seance;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -21,6 +23,12 @@ class SeanceFormType extends AbstractType
                 'label' => 'When?'
             ])
             ->add('ville', TextType::class)
+            ->add('theme', EntityType::class,[
+                'class' => Theme::class,
+                'required' => false,
+                'placeholder' => 'You can choose a theme for your session',
+                'empty_data' => null
+                ])
             ->add('description')
             ->add('submit', SubmitType::class, [
                 'label' => "Add session",

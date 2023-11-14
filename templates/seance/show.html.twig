@@ -27,6 +27,9 @@
         {{seance.ville}}
         {{seance.dateHeureDepart | date('d-m-Y H:i')}}
         <p>{{seance.description}}</p>
+        {% if seance.theme is not empty %}
+            <p>Theme : {{seance.theme}}</p>
+        {% endif %}
 
 
         <h3>Participants</h3>
