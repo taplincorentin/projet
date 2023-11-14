@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BaladeController extends AbstractController
 {
+    //voir la liste des balades
     #[Route('/balade', name: 'app_balade')]
     public function index(): Response
     {
@@ -22,6 +23,7 @@ class BaladeController extends AbstractController
         ]);
     }
 
+    //ajouter/modifier une balade
     #[Route('/balade/new', name: 'new_balade')]
     #[Route('/balade/{id}/edit', name: 'edit_balade')]
     public function new_edit(Balade $balade = null, Request $request, EntityManagerInterface $entityManager): Response {
@@ -54,6 +56,7 @@ class BaladeController extends AbstractController
     }
 
 
+    //supprimer une balade
     #[Route('/balade/{id}/delete', name: 'delete_balade')]
 
     public function delete(Balade $balade, EntityManagerInterface $entityManager) {
@@ -73,6 +76,7 @@ class BaladeController extends AbstractController
         
     }
 
+    //se désinscrire d'une balade
     #[Route('/balade/{balade_id}/{personne_id}/remove', name: 'remove_personne_balade')]
     public function removePersonneFromBalade(Balade $balade_id, int $personne_id, EntityManagerInterface $entityManager) {
         
@@ -96,6 +100,7 @@ class BaladeController extends AbstractController
         
     }
 
+    //s'inscrire à une balade
     #[Route('/balade/{balade_id}/{personne_id}/move', name: 'enlist_personne_balade')]
     public function movePersonneToBalade(Balade $balade_id, int $personne_id, EntityManagerInterface $entityManager) {
         
@@ -104,7 +109,8 @@ class BaladeController extends AbstractController
         $user = $this->getUser();
         $organisateur = $balade->getOrganisateur();
 
-        if( $personne == $user && $personne != $organisateur ) {                         //check current user and person that is getting enlisted for walk are the same and that the person isn't the walk's organiser                                                            
+        if( $personne == $user && $personne != $organisateur ) {                                        //check current user and person that is getting enlisted for walk are the same and that the person isn't the walk's organiser                                                            
+            
             $balade->addPersonne($personne);
 
             $entityManager->persist($balade);
@@ -120,7 +126,7 @@ class BaladeController extends AbstractController
     }
 
 
-
+    //aller à la page d'info d'une balade
     #[Route('/balade/{id}', name: 'show_balade')]
     public function show(Balade $balade = null): Response {
         if($balade){
