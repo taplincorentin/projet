@@ -16,7 +16,7 @@
                     {% if post.auteur is empty %}
                         {{ 'deleted' }}
                     {% else %}
-                        {{post.auteur}}
+                        <a href="{{ path('show_personne', {'id': post.auteur.id}) }}">{{post.auteur}}</a>
                     {% endif %}
                     
                     {{post}}

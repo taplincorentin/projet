@@ -16,7 +16,7 @@
                     {% if topic.auteur is empty %}
                         {{ 'deleted' }}
                     {% else %}
-                        {{topic.auteur}}
+                        <a href="{{ path('show_personne', {'id': topic.auteur.id}) }}">{{topic.auteur}}</a>
                     {% endif %}
                     <a href="{{ path('show_topic', {'id': topic.id}) }}">{{topic}} {{topic.dateCreation | date('d-m-Y H:i:s')}}</a>
                     
