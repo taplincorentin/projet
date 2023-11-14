@@ -6,14 +6,6 @@ use App\Entity\Balade;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<Balade>
- *
- * @method Balade|null find($id, $lockMode = null, $lockVersion = null)
- * @method Balade|null findOneBy(array $criteria, array $orderBy = null)
- * @method Balade[]    findAll()
- * @method Balade[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
 class BaladeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -21,28 +13,17 @@ class BaladeRepository extends ServiceEntityRepository
         parent::__construct($registry, Balade::class);
     }
 
-//    /**
-//     * @return Balade[] Returns an array of Balade objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('b')
-//            ->andWhere('b.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('b.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function getBaladesFutures(){
+        
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
 
-//    public function findOneBySomeField($value): ?Balade
-//    {
-//        return $this->createQueryBuilder('b')
-//            ->andWhere('b.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
-}
+        $qb->select('b')
+            ->from('App\Entity\Balade', 'b')
+            ->where('b.dateHeureDepart > CURRENT_TIMESTAMP()')   //select all walks with a start datetime that hasn't passed yet
+            ->orderBy('b.dateHeureDepart');                      //order by start date (closer ones first)
+        
+        $query = $qb->getQuery();
+        return $query->getResult();
+    }
+}    

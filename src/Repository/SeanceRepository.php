@@ -6,14 +6,7 @@ use App\Entity\Seance;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<Seance>
- *
- * @method Seance|null find($id, $lockMode = null, $lockVersion = null)
- * @method Seance|null findOneBy(array $criteria, array $orderBy = null)
- * @method Seance[]    findAll()
- * @method Seance[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
+
 class SeanceRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -21,28 +14,19 @@ class SeanceRepository extends ServiceEntityRepository
         parent::__construct($registry, Seance::class);
     }
 
-//    /**
-//     * @return Seance[] Returns an array of Seance objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function getSeancesFutures(){
+        
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
 
-//    public function findOneBySomeField($value): ?Seance
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $qb->select('s')
+            ->from('App\Entity\Seance', 's')
+            ->where('s.dateHeureDepart > CURRENT_TIMESTAMP()')   //select all sessions with a start datetime that hasn't passed yet
+            ->orderBy('s.dateHeureDepart');                      //order by start date (closer ones first)
+        
+        $query = $qb->getQuery();
+        return $query->getResult();
+    }
+
+
 }

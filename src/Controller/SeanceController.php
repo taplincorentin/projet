@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Seance;
 use App\Entity\Personne;
 use App\Form\SeanceFormType;
+use App\Repository\SeanceRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,11 +14,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SeanceController extends AbstractController
 {
+    //get session list
     #[Route('/seance', name: 'app_seance')]
-    public function index(): Response
+    public function index(SeanceRepository $seanceRepository, EntityManagerInterface $entityManager): Response
     {
+        //get all sessions sorted by startDateTime
+        $seances = $seanceRepository->findBy([], ["dateHeureDepart" => "ASC"]); 
+        
+
+        //Before returning session list get list of future sessions
+        $seancesFutures = $entityManager->getRepository(Seance::class)->getSeancesFutures();      
+
         return $this->render('seance/index.html.twig', [
-            'controller_name' => 'SeanceController',
+            'seances' => $seances,
+            'seancesFutures' => $seancesFutures
         ]);
     }
 

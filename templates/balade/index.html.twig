@@ -4,9 +4,24 @@
 
 {% block body %}
 
+    <h1>Upcoming walks : </h1>
+    <div class="future-walks">
 
-<div>
-    
-    
+    {% for balade in baladesFutures %}
+        
+        <div class="walk-box">
+            <div class='walk-title'>
+                <p><a href="{{ path('show_balade', {'id': balade.id}) }}">{{ balade }}</a></p>
+            </div>
+            <div class='walk-date'>
+                <p>{{balade.dateHeureDepart | date('d-m-Y H:i')}}</p>
+            </div>
+            <div class='walk-city'>
+                <p>{{balade.ville}}</p>
+            </div>
+        </div>
+
+    {% endfor %}
 </div>
+
 {% endblock %}

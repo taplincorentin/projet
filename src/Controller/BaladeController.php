@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Balade;
 use App\Entity\Personne;
 use App\Form\BaladeFormType;
+use App\Repository\BaladeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,13 +14,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BaladeController extends AbstractController
 {
-    //voir la liste des balades
+    //get walk list
     #[Route('/balade', name: 'app_balade')]
-    public function index(): Response
+    public function index(BaladeRepository $baladeRepository, EntityManagerInterface $entityManager): Response
     {
+        //get all walks sorted by startDateTime
+        $balades = $baladeRepository->findBy([], ["dateHeureDepart" => "ASC"]); 
+
+        
+        //Before returning walk list get list of future walks
+        $baladesFutures = $entityManager->getRepository(Balade::class)->getBaladesFutures();      
 
         return $this->render('balade/index.html.twig', [
-            'controller_name' => 'BaladeController',
+            'balades' => $balades,
+            'baladesFutures' => $baladesFutures
         ]);
     }
 
