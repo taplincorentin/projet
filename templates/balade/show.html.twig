@@ -18,7 +18,7 @@
     {% endif %}
     
     <div>
-        <h2>{{balade.nom}}</h2>
+        <h2>{{balade.nom}} by <a href="{{ path('show_personne', {'id': balade.organisateur.id}) }}">{{ balade.organisateur }}</a></h2>
         {{balade.ville}}
         {{balade.dateHeureDepart | date('d-m-Y H:i')}}
         {{balade.description}}

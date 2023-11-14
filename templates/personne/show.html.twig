@@ -37,7 +37,7 @@
         <h3>walks (as organiser)</h3>
         {% for balade in personne.baladesOrganisees %}
             <tr>
-                <td><a href="{{ path('show_seance', {'id': balade.id}) }}">{{ balade }}</a></td>
+                <td><a href="{{ path('show_balade', {'id': balade.id}) }}">{{ balade }}</a></td>
             </tr>  
         {% endfor %}
     </div>

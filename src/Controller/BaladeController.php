@@ -76,12 +76,13 @@ class BaladeController extends AbstractController
     #[Route('/balade/{balade_id}/{personne_id}/remove', name: 'remove_personne_balade')]
     public function removePersonneFromBalade(Balade $balade_id, int $personne_id, EntityManagerInterface $entityManager) {
         
+        $balade = $entityManager->getRepository(Balade::class)->findOneBy(['id'=>$balade_id]);          //get balade
         $personne = $entityManager->getRepository(Personne::class)->findOneBy(['id'=>$personne_id]);    //get person that is going to be removed
         $user = $this->getUser();                                                                       //get current user
 
         if ($personne == $user){                                                                        //check that the user and the removed person are the same
             
-            $balade->removeStagiaire($personne);
+            $balade->removePersonne($personne);
             
             $entityManager->persist($balade);
             $entityManager->flush();
@@ -98,6 +99,7 @@ class BaladeController extends AbstractController
     #[Route('/balade/{balade_id}/{personne_id}/move', name: 'enlist_personne_balade')]
     public function movePersonneToBalade(Balade $balade_id, int $personne_id, EntityManagerInterface $entityManager) {
         
+        $balade = $entityManager->getRepository(Balade::class)->findOneBy(['id'=>$balade_id]);          //get balade
         $personne = $entityManager->getRepository(Personne::class)->findOneBy(['id'=>$personne_id]);
         $user = $this->getUser();
         $organisateur = $balade->getOrganisateur();
