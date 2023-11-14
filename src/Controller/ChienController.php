@@ -30,20 +30,20 @@ class ChienController extends AbstractController
             $chien = new Chien();
         }
 
+        //create dog form with breedList from API to build select input
         $form = $this->createForm(ChienFormType::class, $chien, ['breedList' => $callApiService->getBreedList()]);
-
-        //dd($callApiService->getBreedList());
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             
-            
-            
+            //get form data
             $chien = $form->getData();
 
+            //get current datetime to set 'lastModified'
             $now = new \DateTime();
             $chien->setDateActualisation($now);
 
+            //set current user as dog owner
             $personne = $this->getUser();
             $chien->setPersonne($personne);
 
@@ -52,13 +52,16 @@ class ChienController extends AbstractController
 
 
 
-            $races = $form->get('races')->getData(); //get races data
+            $races = $form->get('races')->getData(); //get races form data
             
             foreach($races as $race) {
-                $chienRace = new ChienRace();      //new Chien/Race 
+                $chienRace = new ChienRace();       //new Chien/Race
+
+                //link race to dog
                 $chienRace->setNomRace($race);
                 $chienRace->setChien($chien);
 
+                //prepare execute
                 $entityManager->persist($chienRace); 
                 $entityManager->flush();
             }
@@ -66,6 +69,7 @@ class ChienController extends AbstractController
             return $this->redirectToRoute('show_personne', ['id' => $personne->getId()]);; //redirection profil de l'utilisateur
 
         }
+
         return $this->render('chien/new.html.twig', [
             'formAddChien' => $form,
         ]);
