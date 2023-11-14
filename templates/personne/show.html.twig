@@ -4,7 +4,8 @@
 
 {% block body %}
     
-    {% if (app.user == personne) or (is_granted('ROLE_SUPER_ADMIN')) %}
+    {#if user is a super admin can change person's role#}
+    {% if is_granted('ROLE_SUPER_ADMIN') %}
         <div class="roles">
             <a href="{{ path('make_user', {'id': personne.id}) }}">make user</a>
             <a href="{{ path('make_admin', {'id': personne.id}) }}">make admin</a>

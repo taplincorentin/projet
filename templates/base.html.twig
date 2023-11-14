@@ -18,6 +18,7 @@
         <div class='navbar'>
             <ul>
                 <li><a href="{{ path('app_categorie') }}">Forum</a></li>
+                <li><a href="{{ path('new_chien') }}">Add dog</a></li>
                 <li><a href="{{ path('new_balade') }}">New walk</a></li>
                 {% if app.user.isEducateur %}        
                     <li><a href="{{ path('new_seance') }}">New session</a></li>
