@@ -32,6 +32,11 @@
         {% for personne in balade.personnes|sort((a, b) => a.pseudo <=> b.pseudo) %}
             <tr>
                 <td><a href="{{ path('show_personne', {'id': personne.id}) }}">{{ personne }}</a></td>
+                
+                {#if user is the organiser, option to remove participants#}
+                {% if app.user == balade.organisateur %} 
+                    <td><a href="{{ path('remove_personne_balade', {'balade_id': balade.id , 'personne_id': personne.id}) }}"><i class="fa-regular fa-square-minus"></i></a></td>
+                {% endif %}
             </tr>  
         {% endfor %}
     </div>

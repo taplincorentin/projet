@@ -31,7 +31,7 @@ class BaladeController extends AbstractController
         ]);
     }
 
-    //ajouter/modifier une balade
+    //add/edit a walk
     #[Route('/balade/new', name: 'new_balade')]
     #[Route('/balade/{id}/edit', name: 'edit_balade')]
     public function new_edit(Balade $balade = null, Request $request, EntityManagerInterface $entityManager): Response {
@@ -64,7 +64,7 @@ class BaladeController extends AbstractController
     }
 
 
-    //supprimer une balade
+    //delete a walk
     #[Route('/balade/{id}/delete', name: 'delete_balade')]
 
     public function delete(Balade $balade, EntityManagerInterface $entityManager) {
@@ -84,15 +84,17 @@ class BaladeController extends AbstractController
         
     }
 
-    //se désinscrire d'une balade
+    //remove person from walk
     #[Route('/balade/{balade_id}/{personne_id}/remove', name: 'remove_personne_balade')]
     public function removePersonneFromBalade(Balade $balade_id, int $personne_id, EntityManagerInterface $entityManager) {
         
-        $balade = $entityManager->getRepository(Balade::class)->findOneBy(['id'=>$balade_id]);          //get balade
+        $balade = $entityManager->getRepository(Balade::class)->findOneBy(['id'=>$balade_id]);          //get walk
         $personne = $entityManager->getRepository(Personne::class)->findOneBy(['id'=>$personne_id]);    //get person that is going to be removed
         $user = $this->getUser();                                                                       //get current user
+        $organisateur = $balade->getOrganisateur();                                                     //get walk organiser
 
-        if ($personne == $user){                                                                        //check that the user and the removed person are the same
+        //check that the user and the removed person are the same or that user is walk organiser
+        if ($personne == $user || $user == $organisateur){                                                                        
             
             $balade->removePersonne($personne);
             
@@ -105,7 +107,7 @@ class BaladeController extends AbstractController
         
     }
 
-    //s'inscrire à une balade
+    //enlist to walk
     #[Route('/balade/{balade_id}/{personne_id}/move', name: 'enlist_personne_balade')]
     public function movePersonneToBalade(Balade $balade_id, int $personne_id, EntityManagerInterface $entityManager) {
         
@@ -131,7 +133,7 @@ class BaladeController extends AbstractController
     }
 
 
-    //aller à la page d'info d'une balade
+    //go to walk info page
     #[Route('/balade/{id}', name: 'show_balade')]
     public function show(Balade $balade = null): Response {
         if($balade){

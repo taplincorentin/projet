@@ -84,15 +84,17 @@ class SeanceController extends AbstractController
         return $this->redirectToRoute('app_home');      //redirection page d'accueil
     }
 
-    //se désinscrire d'une seance
+    //remove person from session
     #[Route('/seance/{seance_id}/{personne_id}/remove', name: 'remove_personne_seance')]
     public function removePersonneFromSeance(Seance $seance_id, int $personne_id, EntityManagerInterface $entityManager) {
         
         $seance = $entityManager->getRepository(Seance::class)->findOneBy(['id'=>$seance_id]);          //get seance
         $personne = $entityManager->getRepository(Personne::class)->findOneBy(['id'=>$personne_id]);    //get person that is going to be removed
         $user = $this->getUser();                                                                       //get current user
+        $organisateur = $seance->getOrganisateur();                                                     //get session creator
 
-        if ($personne == $user){                                                                        //check that the user and the removed person are the same
+         //check that the user and the removed person are the same or that user is the session organiser
+        if ($personne == $user || $user == $organisateur){                                                                       
             
             $seance->removeParticipant($personne);
             
@@ -105,7 +107,7 @@ class SeanceController extends AbstractController
         
     }
 
-    //s'inscrire à une seance
+    //enlist to session
     #[Route('/seance/{seance_id}/{personne_id}/move', name: 'enlist_personne_seance')]
     public function movePersonneToseance(Seance $seance_id, int $personne_id, EntityManagerInterface $entityManager) {
         

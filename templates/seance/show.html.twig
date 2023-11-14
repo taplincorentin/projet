@@ -33,6 +33,11 @@
         {% for personne in seance.participants|sort((a, b) => a.pseudo <=> b.pseudo) %}
             <tr>
                 <td><a href="{{ path('show_personne', {'id': personne.id}) }}">{{ personne }}</a></td>
+                
+                {#if user is the organiser, option to remove participants#}
+                {% if app.user == seance.organisateur %} 
+                    <td><a href="{{ path('remove_personne_seance', {'seance_id': seance.id , 'personne_id': personne.id}) }}"><i class="fa-regular fa-square-minus"></i></a></td>
+                {% endif %}
             </tr>  
         {% endfor %}
     </div>
