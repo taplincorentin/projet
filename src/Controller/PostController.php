@@ -23,15 +23,12 @@ class PostController extends AbstractController
     // }
 
     #[Route('/{topic_id}/post/new', name: 'new_post')]
-    #[Route('/{topic_id}/post/{id}/edit', name: 'edit_post')]
-    public function new_edit(Post $post = null, int $topic_id, Request $request, EntityManagerInterface $entityManager): Response {
+    public function new(Post $post = null, int $topic_id, Request $request, EntityManagerInterface $entityManager): Response {
 
-        if(!$post) { //condition if no post create new one otherwise it's an edit of the existing one
-            $post = new Post();
-        }
-        
+
+        $post = new Post();
+
         $topic = $entityManager->getRepository(Topic::class)->findOneBy(['id'=>$topic_id]);
-
         
         $form = $this->createForm(PostFormType::class, $post);
 
@@ -57,7 +54,7 @@ class PostController extends AbstractController
             $entityManager->flush();
 
             //redirect to created post's topic
-            return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);; //redirection topic du post créé/édité
+            return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
 
         }
 
@@ -65,6 +62,52 @@ class PostController extends AbstractController
             'formAddPost' => $form,
         ]);
 
+    }
+
+
+    #[Route('/{topic_id}/post/{id}/edit', name: 'edit_post')]
+    public function edit(Post $post = null, int $topic_id, Request $request, EntityManagerInterface $entityManager): Response {
+        
+        //get post author and current user
+        $auteur = $post->getAuteur();
+        $user = $this->getUser();
+
+        //check that post author and current user are the same person
+        if($auteur == $user ){
+
+            $topic = $entityManager->getRepository(Topic::class)->findOneBy(['id'=>$topic_id]);
+        
+            $form = $this->createForm(PostFormType::class, $post);
+
+            $form->handleRequest($request); 
+            if ($form->isSubmitted() && $form->isValid()) { //if form submitted and valid
+
+                //get form data (contenu)
+                $post = $form->getData();
+                
+                //set post topic
+                $post->setTopic($topic);                
+
+                //get current datetime to set 'lastModified'
+                $now = new \DateTime();
+                $post->setDateCreation($now);
+                
+                //prepare execute
+                $entityManager->persist($post);
+                $entityManager->flush();
+
+                //redirect to edited post's topic
+                return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
+
+            }
+
+            return $this->render('post/new.html.twig', [
+                'formAddPost' => $form,
+            ]);
+
+        }
+        
+        return $this->redirectToRoute('app_home');
     }
 
 
