@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Balade;
+use App\Entity\Personne;
 use App\Form\BaladeFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,7 +30,7 @@ class BaladeController extends AbstractController
             $balade = new Balade();
         }
 
-    $form = $this->createForm(BaladeFormType::class, $balade);
+        $form = $this->createForm(BaladeFormType::class, $balade);
 
 
         $form->handleRequest($request);
@@ -38,7 +39,7 @@ class BaladeController extends AbstractController
             $balade = $form->getData();                 //get submitted data
 
             $personne = $this->getUser();               //get user that is creating balade
-            $balade->addPersonne($personne);            //add user to participants balade
+            $balade->setOrganisateur($personne);        //add user as balade organiser
 
             $entityManager->persist($balade);           //prepare
             $entityManager->flush();                    //execute
@@ -57,10 +58,41 @@ class BaladeController extends AbstractController
 
     public function delete(Balade $balade, EntityManagerInterface $entityManager) {
         
-        $entityManager->remove($balade);
-        $entityManager->flush();
+        $personne = $this->getUser();                   //get user that is deleting balade
+        $organiser = $balade->getOrganisateur();        //get walk organiser
 
-        return $this->redirectToRoute('app_home');      //redirection page d'accueil
+        if ($personne == $organiser){                   //check organiser and current user are the same    
+
+            $entityManager->remove($balade);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_home');  //redirect homepage
+        }
+
+        return $this->redirectToRoute('app_home');      //redirect homepage
+        
+    }
+
+    #[Route('/balade/{balade_id}/{personne_id}/remove', name: 'remove_personne_balade')]
+    public function removePersonneFromBalade(Balade $balade_id, int $personne_id, EntityManagerInterface $entityManager) {
+        
+        $personne = $entityManager->getRepository(Personne::class)->findOneBy(['id'=>$personne_id]);    //get person that is going to be removed
+        $user = $this->getUser();                                                                       //get current user
+
+        if ($personne == $user){                                                                        //check that the user and the removed person are the same
+            
+            $balade->removeStagiaire($personne);
+            
+            $entityManager->persist($balade);
+            $entityManager->flush();
+            
+            if(empty($balade->getPersonnes())){                                                         //check if walk still as participants
+                return $this->redirectToRoute('delete_balade', ['id' => $balade->getId()]);             //if not, delete walk
+            }
+
+            return $this->redirectToRoute('show_balade', ['id' => $balade->getId()]);
+        }                                                                        
+        
     }
 
 

@@ -66,6 +66,9 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Seance::class, mappedBy: 'participants')]
     private Collection $seancesParticipees;
 
+    #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Balade::class, orphanRemoval: true)]
+    private Collection $baladesOrganisees;
+
     
 
     public function __construct()
@@ -76,6 +79,7 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
         $this->balades = new ArrayCollection();
         $this->seancesOrganisees = new ArrayCollection();
         $this->seancesParticipees = new ArrayCollection();
+        $this->baladesOrganisees = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -381,6 +385,36 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->seancesParticipees->removeElement($seancesParticipee)) {
             $seancesParticipee->removeParticipant($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Balade>
+     */
+    public function getBaladesOrganisees(): Collection
+    {
+        return $this->baladesOrganisees;
+    }
+
+    public function addBaladesOrganisee(Balade $baladesOrganisee): static
+    {
+        if (!$this->baladesOrganisees->contains($baladesOrganisee)) {
+            $this->baladesOrganisees->add($baladesOrganisee);
+            $baladesOrganisee->setOrganisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBaladesOrganisee(Balade $baladesOrganisee): static
+    {
+        if ($this->baladesOrganisees->removeElement($baladesOrganisee)) {
+            // set the owning side to null (unless already changed)
+            if ($baladesOrganisee->getOrganisateur() === $this) {
+                $baladesOrganisee->setOrganisateur(null);
+            }
         }
 
         return $this;

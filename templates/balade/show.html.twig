@@ -3,9 +3,20 @@
 {% block title %}Balade page{% endblock %}
 
 {% block body %}
-
-    <a href="{{ path('edit_balade', {'id': balade.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
-    <a href="{{ path('delete_balade', {'id': balade.id}) }}" onclick="return confirm('delete balade ?')"><i class="fa-solid fa-trash fa-lg"></i></a>
+    
+    {% if app.user == balade.organisateur %}
+        <a href="{{ path('edit_balade', {'id': balade.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
+        <a href="{{ path('delete_balade', {'id': balade.id}) }}" onclick="return confirm('delete balade ?')"><i class="fa-solid fa-trash fa-lg"></i></a>
+    {% endif %}
+   
+    {% if app.user in balade.personnes %}
+        <a href="{{ path('remove_personne_balade', {'balade_id': balade.id , 'personne_id': app.user.id}) }}">se désinscrire</a>
+    {% endif %}
+    
+    {% if app.user in balade.personnes %}
+        <a href="{{ path('remove_personne_balade', {'balade_id': balade.id , 'personne_id': app.user.id}) }}">se désinscrire</a>
+    {% endif %}
+    
     <div>
         <h2>{{balade.nom}}</h2>
         {{balade.ville}}

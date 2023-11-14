@@ -31,6 +31,10 @@ class Balade
     #[ORM\ManyToMany(targetEntity: Personne::class, inversedBy: 'balades')]
     private Collection $personnes;
 
+    #[ORM\ManyToOne(inversedBy: 'baladesOrganisees')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Personne $organisateur = null;
+
     public function __construct()
     {
         $this->personnes = new ArrayCollection();
@@ -115,5 +119,17 @@ class Balade
 
     public function __toString(){
         return $this->nom;
+    }
+
+    public function getOrganisateur(): ?Personne
+    {
+        return $this->organisateur;
+    }
+
+    public function setOrganisateur(?Personne $organisateur): static
+    {
+        $this->organisateur = $organisateur;
+
+        return $this;
     }
 }
