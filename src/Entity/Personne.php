@@ -60,6 +60,12 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Balade::class, mappedBy: 'personnes')]
     private Collection $balades;
 
+    #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Seance::class, orphanRemoval: true)]
+    private Collection $seancesOrganisees;
+
+    #[ORM\ManyToMany(targetEntity: Seance::class, mappedBy: 'participants')]
+    private Collection $seancesParticipees;
+
     
 
     public function __construct()
@@ -68,6 +74,8 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
         $this->topics = new ArrayCollection();
         $this->posts = new ArrayCollection();
         $this->balades = new ArrayCollection();
+        $this->seancesOrganisees = new ArrayCollection();
+        $this->seancesParticipees = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -316,6 +324,63 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->balades->removeElement($balade)) {
             $balade->removePersonne($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Seance>
+     */
+    public function getSeancesOrganisees(): Collection
+    {
+        return $this->seancesOrganisees;
+    }
+
+    public function addSeancesOrganisee(Seance $seancesOrganisee): static
+    {
+        if (!$this->seancesOrganisees->contains($seancesOrganisee)) {
+            $this->seancesOrganisees->add($seancesOrganisee);
+            $seancesOrganisee->setOrganisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSeancesOrganisee(Seance $seancesOrganisee): static
+    {
+        if ($this->seancesOrganisees->removeElement($seancesOrganisee)) {
+            // set the owning side to null (unless already changed)
+            if ($seancesOrganisee->getOrganisateur() === $this) {
+                $seancesOrganisee->setOrganisateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Seance>
+     */
+    public function getSeancesParticipees(): Collection
+    {
+        return $this->seancesParticipees;
+    }
+
+    public function addSeancesParticipee(Seance $seancesParticipee): static
+    {
+        if (!$this->seancesParticipees->contains($seancesParticipee)) {
+            $this->seancesParticipees->add($seancesParticipee);
+            $seancesParticipee->addParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSeancesParticipee(Seance $seancesParticipee): static
+    {
+        if ($this->seancesParticipees->removeElement($seancesParticipee)) {
+            $seancesParticipee->removeParticipant($this);
         }
 
         return $this;
