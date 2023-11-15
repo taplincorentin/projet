@@ -72,6 +72,7 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $lastLogin = null;
 
+
     
 
     public function __construct()
@@ -423,19 +424,21 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
 
     
 
-    public function getLastLogin() 
+
+    
+    public function __toString(){
+        return $this->pseudo;
+    }
+
+    public function getLastLogin(): ?\DateTimeInterface
     {
         return $this->lastLogin;
     }
 
-    public function setLastLogin(?\DateTime $lastLogin): static
+    public function setLastLogin(?\DateTimeInterface $lastLogin): static
     {
         $this->lastLogin = $lastLogin;
 
         return $this;
-    }
-    
-    public function __toString(){
-        return $this->pseudo;
     }
 }
