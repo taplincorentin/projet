@@ -40,12 +40,17 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
-    {
+    {   
+        //get user and dateTime to set last login activity
+        $now = new \DateTime();
+        $user = $token->getUser();
+        $user->setLastLogin($now);
+
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
 
-        // For example:
+        
         return new RedirectResponse($this->urlGenerator->generate('app_home'));
         
     }

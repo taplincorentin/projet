@@ -423,12 +423,12 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
 
     
 
-    public function getLastLogin(): ?\DateTimeInterface
+    public function getLastLogin() 
     {
         return $this->lastLogin;
     }
 
-    public function setLastLogin(?\DateTimeInterface $lastLogin): static
+    public function setLastLogin(?\DateTime $lastLogin): static
     {
         $this->lastLogin = $lastLogin;
 
