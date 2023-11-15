@@ -69,6 +69,9 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'organisateur', targetEntity: Balade::class, orphanRemoval: true)]
     private Collection $baladesOrganisees;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $lastLogin = null;
+
     
 
     public function __construct()
@@ -418,8 +421,21 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    
+
+    public function getLastLogin(): ?\DateTimeInterface
+    {
+        return $this->lastLogin;
+    }
+
+    public function setLastLogin(?\DateTimeInterface $lastLogin): static
+    {
+        $this->lastLogin = $lastLogin;
+
+        return $this;
+    }
+    
     public function __toString(){
         return $this->pseudo;
     }
-
 }
