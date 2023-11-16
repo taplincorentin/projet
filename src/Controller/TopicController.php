@@ -28,38 +28,43 @@ class TopicController extends AbstractController
 
         $categorie = $entityManager->getRepository(Categorie::class)->findOneBy(['id'=>$categorie_id]);
 
-        
-        $form = $this->createForm(TopicFormType::class, $topic);
-
-        $form->handleRequest($request); 
-        if ($form->isSubmitted() && $form->isValid()) { //if form submitted and valid
-
-            //get form data (titre)
-            $topic = $form->getData();              
+        //security check that the categorie isn't the walk or session categorie (can't create a topic in it this way only by creating a walk/session)
+        if($categorie->getNom() != 'Walks' && $categorie->getNom() != 'Sessions'){
             
-            //set topic category
-            $topic->setCategorie($categorie);       
+            $form = $this->createForm(TopicFormType::class, $topic);
 
-            //get current datetime to set 'lastModified'
-            $now = new \DateTime();
-            $topic->setDateCreation($now);
-
-            //set current user as topic creator
-            $auteur = $this->getUser();
-            $topic->setAuteur($auteur);
-
-            $entityManager->persist($topic); //prepare
-            $entityManager->flush(); //execute
-
-            //redirect to created topic
-            return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
-
+            $form->handleRequest($request); 
+            if ($form->isSubmitted() && $form->isValid()) { //if form submitted and valid
+    
+                //get form data (titre)
+                $topic = $form->getData();              
+                
+                //set topic category
+                $topic->setCategorie($categorie);       
+    
+                //get current datetime to set 'lastModified'
+                $now = new \DateTime();
+                $topic->setDateCreation($now);
+    
+                //set current user as topic creator
+                $auteur = $this->getUser();
+                $topic->setAuteur($auteur);
+    
+                $entityManager->persist($topic); //prepare
+                $entityManager->flush(); //execute
+    
+                //redirect to created topic
+                return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
+    
+            }
+            
+            return $this->render('topic/new.html.twig', [
+                'formAddTopic' => $form,
+            ]);
+        
         }
 
-        return $this->render('topic/new.html.twig', [
-            'formAddTopic' => $form,
-        ]);
-
+        return $this->redirectToRoute('app_home'); 
     }
 
 

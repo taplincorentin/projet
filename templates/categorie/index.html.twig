@@ -15,7 +15,9 @@
         <tbody>
             {% for categorie in categories %}
                 <tr>
-                    <td><a href="{{ path('show_categorie', {'id': categorie.id}) }}">{{ categorie }}</a></td>
+                    {% if (categorie.nom != 'Walks') and (categorie.nom != 'Sessions') %}
+                        <td><a href="{{ path('show_categorie', {'id': categorie.id}) }}">{{ categorie }}</a></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </tbody>

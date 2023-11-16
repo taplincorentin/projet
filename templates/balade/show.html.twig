@@ -23,16 +23,24 @@
     
     {#show walk info#}
     <div>
+        {# title #}
         <h2>{{balade.nom}} by <a href="{{ path('show_personne', {'id': balade.organisateur.id}) }}">{{ balade.organisateur }}</a></h2>
-        {{balade.ville}}
-        {{balade.dateHeureDepart | date('d-m-Y H:i')}}
+        
+        {# link to associated topic #}
+        {% if (app.user in balade.personnes) or (app.user == balade.organisateur) %}
+            <a href="{{ path('show_topic', {'id': balade.topic.id}) }}">Go to forum topic</a>
+        {% endif %}
+
+        <p>When? : {{balade.dateHeureDepart | date('d-m-Y H:i')}}</p>
+
         <p>{{balade.description}}</p>
 
-        {# display balade location on map #}
+            {# display balade location on map #}
+            <div id="map_show" style="height: 400px;"
+                data-latitude ="{{ balade.pointLatitude }}"
+                data-longitude ="{{ balade.pointLongitude }}"></div>
 
-        <div id="map_show" style="height: 400px;"
-            data-latitude ="{{ balade.pointLatitude }}"
-            data-longitude ="{{ balade.pointLongitude }}"></div>
+
 
         <h3>Participants</h3>
         {% for personne in balade.personnes|sort((a, b) => a.pseudo <=> b.pseudo) %}
