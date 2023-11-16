@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Seance;
 use App\Entity\Personne;
+use App\Entity\Categorie;
 use App\Form\SeanceFormType;
 use App\Form\SeanceSearchFormType;
 use App\Repository\SeanceRepository;
@@ -56,6 +57,27 @@ class SeanceController extends AbstractController
     
                 $entityManager->persist($seance);           //prepare
                 $entityManager->flush();                    //execute
+
+
+
+                //ASSOCIATED TOPIC CREATION
+                    $seance->createAssociatedTopic();
+                    $topic = $seance->getTopic();
+
+                    //set topic category
+                    $categorie = $entityManager->getRepository(Categorie::class)->findOneBy(['id'=>7]);
+                    $topic->setCategorie($categorie);
+                
+                    //get current datetime to set 'lastModified'
+                    $now = new \DateTime();
+                    $topic->setDateCreation($now);
+
+                    //set current user as topic creator
+                    $topic->setAuteur($this->getUser());
+
+                    $entityManager->flush();
+
+
     
                 return $this->redirectToRoute('show_seance', ['id' => $seance->getId()]);; //redirection page d'info de la seance
     

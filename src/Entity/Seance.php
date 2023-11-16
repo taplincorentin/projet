@@ -16,7 +16,7 @@ class Seance
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 100)]
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -43,6 +43,9 @@ class Seance
 
     #[ORM\Column(type: Types::DECIMAL, precision: 15, scale: 12, nullable: true)]
     private ?string $pointLongitude = null;
+
+    #[ORM\OneToOne(inversedBy: 'seance', cascade: ['persist', 'remove'])]
+    private ?Topic $topic = null;
 
     public function __construct()
     {
@@ -138,9 +141,6 @@ class Seance
         return $this;
     }
 
-    public function __toString(){
-        return $this->nom;
-    }
 
     public function getTheme(): ?Theme
     {
@@ -177,4 +177,35 @@ class Seance
 
         return $this;
     }
+
+    public function getTopic(): ?Topic
+    {
+        return $this->topic;
+    }
+
+    public function setTopic(?Topic $topic): static
+    {
+        $this->topic = $topic;
+
+        return $this;
+    }
+
+    public function createAssociatedTopic(){
+        
+        //create Topic
+        $topic = new Topic();
+
+        
+        //create and set topic title
+        $title = "[DISCUSSION] ".($this->getNom());
+        $topic->SetTitre($title);
+
+        //set topic as the walk's topic
+        $this->setTopic($topic);
+    }
+
+    public function __toString(){
+        return $this->nom;
+    }
+
 }

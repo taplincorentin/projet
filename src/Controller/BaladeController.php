@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Balade;
 use App\Entity\Personne;
+use App\Entity\Categorie;
 use App\Form\BaladeFormType;
 use App\Form\BaladeSearchFormType;
 use App\Repository\BaladeRepository;
@@ -51,6 +52,26 @@ class BaladeController extends AbstractController
 
             $entityManager->persist($balade);           //prepare
             $entityManager->flush();                    //execute
+
+            
+            //ASSOCIATED TOPIC CREATION
+                $balade->createAssociatedTopic();
+                $topic = $balade->getTopic();
+
+                //set topic category
+                $categorie = $entityManager->getRepository(Categorie::class)->findOneBy(['id'=>6]);
+                $topic->setCategorie($categorie);
+            
+                //get current datetime to set 'lastModified'
+                $now = new \DateTime();
+                $topic->setDateCreation($now);
+
+                //set current user as topic creator
+                $topic->setAuteur($this->getUser());
+
+                $entityManager->flush();
+
+
 
             return $this->redirectToRoute('show_balade', ['id' => $balade->getId()]);; //redirection page d'info de la balade
 

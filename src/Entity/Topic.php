@@ -16,7 +16,7 @@ class Topic
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 30)]
+    #[ORM\Column(length: 255)]
     private ?string $titre = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -32,6 +32,12 @@ class Topic
     #[ORM\ManyToOne(inversedBy: 'topics')]
     #[ORM\JoinColumn(nullable: true)]
     private ?Personne $auteur = null;
+
+    #[ORM\OneToOne(mappedBy: 'topic', cascade: ['persist', 'remove'])]
+    private ?Balade $balade = null;
+
+    #[ORM\OneToOne(mappedBy: 'topic', cascade: ['persist', 'remove'])]
+    private ?Seance $seance = null;
 
     public function __construct()
     {
@@ -123,5 +129,49 @@ class Topic
 
     public function __toString(){
         return $this->titre;
+    }
+
+    public function getBalade(): ?Balade
+    {
+        return $this->balade;
+    }
+
+    public function setBalade(?Balade $balade): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($balade === null && $this->balade !== null) {
+            $this->balade->setTopic(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($balade !== null && $balade->getTopic() !== $this) {
+            $balade->setTopic($this);
+        }
+
+        $this->balade = $balade;
+
+        return $this;
+    }
+
+    public function getSeance(): ?Seance
+    {
+        return $this->seance;
+    }
+
+    public function setSeance(?Seance $seance): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($seance === null && $this->seance !== null) {
+            $this->seance->setTopic(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($seance !== null && $seance->getTopic() !== $this) {
+            $seance->setTopic($this);
+        }
+
+        $this->seance = $seance;
+
+        return $this;
     }
 }
