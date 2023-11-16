@@ -116,23 +116,27 @@ class TopicController extends AbstractController
         //get current user and topic creator
         $user = $this->getUser();
         $personne = $topic->getAuteur();
-
-        //check that the current user is the topic's creator or an admin
-        if ($personne == $user || $verficationRole->verificationAdmin() ){
+        //get category for redirection an check
+        $categorie=$topic->getCategorie(); 
+        
+        //security check that the categorie isn't the walk or session categorie (can't cdelete a topic in it this way only by deleting a walk/session)
+        if($categorie->getNom() != 'Walks' && $categorie->getNom() != 'Sessions'){
             
-            //get category for redirection
-            $categorie=$topic->getCategorie();      
-        
-            //prepare execute
-            $entityManager->remove($topic);
-            $entityManager->flush();
+            
+            //check that the current user is the topic's creator or an admin
+            if ($personne == $user || $verficationRole->verificationAdmin() ){
+            
+                //prepare execute
+                $entityManager->remove($topic);
+                $entityManager->flush();
 
-            //redirect to topic's category
-            return $this->redirectToRoute('show_categorie', ['id' => $categorie->getId()]); 
+                //redirect to topic's category
+                return $this->redirectToRoute('show_categorie', ['id' => $categorie->getId()]); 
+            }
+            
         }
-        
+        //redirect to home if misses a test
         return $this->redirectToRoute('app_home');
-        
     }
 
 
