@@ -10,12 +10,38 @@
         <h1> Add/Edit session info </h1>
 
         <hr>
-        <div class="walk-form">
+        <div class="session-form">
             {{ form_start(formAddSeance) }}
+
+                {{ form_row(formAddSeance.nom) }}
+                {{ form_row(formAddSeance.dateHeureDepart) }}
+                {{ form_row(formAddSeance.ville) }}
+                {{ form_row(formAddSeance.description) }}
+                {{ form_row(formAddSeance.theme) }}
+
+            <div id="map" style="height: 200px;"></div>
+                {{ form_row(formAddSeance.pointLatitude) }}
+                {{ form_row(formAddSeance.pointLongitude) }}
             {{ form_end(formAddSeance) }}
         </div>
 
-
+        <!-- Leaflet Script -->
+        <script>
+            var map = L.map('map').setView([51.505, -0.09], 13);
+        
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+        
+            var marker = L.marker([51.5, -0.09]).addTo(map);
+        
+            map.on('click', function(e) {
+                marker.setLatLng(e.latlng);
+                // Update hidden input fields with latitude and longitude
+                document.getElementById('seance_form_pointLatitude').value = e.latlng.lat;
+                document.getElementById('seance_form_pointLongitude').value = e.latlng.lng;
+            });
+        </script>
         
     </div>
 

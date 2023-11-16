@@ -12,10 +12,36 @@
         <hr>
         <div class="walk-form">
             {{ form_start(formAddBalade) }}
+
+                {{ form_row(formAddBalade.nom) }}
+                {{ form_row(formAddBalade.dateHeureDepart) }}
+                {{ form_row(formAddBalade.ville) }}
+                {{ form_row(formAddBalade.description) }}
+
+            <div id="map" style="height: 200px;"></div>
+                {{ form_row(formAddBalade.pointLatitude) }}
+                {{ form_row(formAddBalade.pointLongitude) }}
             {{ form_end(formAddBalade) }}
         </div>
 
 
+        <!-- Leaflet Script -->
+        <script>
+            var map = L.map('map').setView([51.505, -0.09], 13);
+        
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+        
+            var marker = L.marker([51.5, -0.09]).addTo(map);
+        
+            map.on('click', function(e) {
+                marker.setLatLng(e.latlng);
+                // Update hidden input fields with latitude and longitude
+                document.getElementById('balade_form_pointLatitude').value = e.latlng.lat;
+                document.getElementById('balade_form_pointLongitude').value = e.latlng.lng;
+            });
+        </script>
         
     </div>
 

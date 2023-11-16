@@ -9,6 +9,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
@@ -30,6 +31,12 @@ class SeanceFormType extends AbstractType
                 'empty_data' => null
                 ])
             ->add('description')
+            ->add('pointLatitude', NumberType::class, [
+                'required' => false,
+            ])
+            ->add('pointLongitude', NumberType::class, [
+                'required' => false,
+            ])
             ->add('submit', SubmitType::class, [
                 'label' => "Add session",
             ]);

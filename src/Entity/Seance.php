@@ -38,6 +38,12 @@ class Seance
     #[ORM\ManyToOne(inversedBy: 'seances')]
     private ?Theme $theme = null;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 15, scale: 12, nullable: true)]
+    private ?string $pointLatitude = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 15, scale: 12, nullable: true)]
+    private ?string $pointLongitude = null;
+
     public function __construct()
     {
         $this->participants = new ArrayCollection();
@@ -144,6 +150,30 @@ class Seance
     public function setTheme(?Theme $theme): static
     {
         $this->theme = $theme;
+
+        return $this;
+    }
+
+    public function getPointLatitude(): ?string
+    {
+        return $this->pointLatitude;
+    }
+
+    public function setPointLatitude(?string $pointLatitude): static
+    {
+        $this->pointLatitude = $pointLatitude;
+
+        return $this;
+    }
+
+    public function getPointLongitude(): ?string
+    {
+        return $this->pointLongitude;
+    }
+
+    public function setPointLongitude(?string $pointLongitude): static
+    {
+        $this->pointLongitude = $pointLongitude;
 
         return $this;
     }

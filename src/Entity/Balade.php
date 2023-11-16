@@ -35,6 +35,13 @@ class Balade
     #[ORM\JoinColumn(nullable: false)]
     private ?Personne $organisateur = null;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 15, scale: 12, nullable: true)]
+    private ?string $pointLongitude = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 15, scale: 12, nullable: true)]
+    private ?string $pointLatitude = null;
+
+
     public function __construct()
     {
         $this->personnes = new ArrayCollection();
@@ -117,9 +124,6 @@ class Balade
         return $this;
     }
 
-    public function __toString(){
-        return $this->nom;
-    }
 
     public function getOrganisateur(): ?Personne
     {
@@ -131,5 +135,34 @@ class Balade
         $this->organisateur = $organisateur;
 
         return $this;
+    }
+
+
+    public function getPointLongitude(): ?string
+    {
+        return $this->pointLongitude;
+    }
+
+    public function setPointLongitude(?string $pointLongitude): static
+    {
+        $this->pointLongitude = $pointLongitude;
+
+        return $this;
+    }
+
+    public function getPointLatitude(): ?string
+    {
+        return $this->pointLatitude;
+    }
+
+    public function setPointLatitude(?string $pointLatitude): static
+    {
+        $this->pointLatitude = $pointLatitude;
+
+        return $this;
+    }
+
+    public function __toString(){
+        return $this->nom;
     }
 }
