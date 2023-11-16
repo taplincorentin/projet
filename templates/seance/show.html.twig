@@ -31,6 +31,11 @@
             <p>Theme : {{seance.theme}}</p>
         {% endif %}
 
+        {# display balade location on map #}
+
+        <div id="map_show" style="height: 400px;"
+            data-latitude ="{{ seance.pointLatitude }}"
+            data-longitude ="{{ seance.pointLongitude }}"></div>
 
         <h3>Participants</h3>
         {% for personne in seance.participants|sort((a, b) => a.pseudo <=> b.pseudo) %}

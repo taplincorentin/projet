@@ -28,6 +28,12 @@
         {{balade.dateHeureDepart | date('d-m-Y H:i')}}
         <p>{{balade.description}}</p>
 
+        {# display balade location on map #}
+
+        <div id="map_show" style="height: 400px;"
+            data-latitude ="{{ balade.pointLatitude }}"
+            data-longitude ="{{ balade.pointLongitude }}"></div>
+
         <h3>Participants</h3>
         {% for personne in balade.personnes|sort((a, b) => a.pseudo <=> b.pseudo) %}
             <tr>
