@@ -11,9 +11,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+
 #[ORM\Entity(repositoryClass: PersonneRepository::class)]
 #[UniqueEntity(fields: ['pseudo'], message: 'username already used')] //check pseudo est unique
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')] //check email est unique
+
 class Personne implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -26,6 +28,10 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 180, unique: true)] 
     private ?string $pseudo = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private $nomImageProfil;
+
 
     #[ORM\Column]
     private array $roles = [];
@@ -103,6 +109,20 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+
+    public function getNomImageProfil(): ?string
+    {
+        return $this->nomImageProfil;
+    }
+
+    public function setNomImageProfil(?string $nomImageProfil): self
+    {
+        $this->nomImageProfil = $nomImageProfil;
+
+        return $this;
+    }
+
+
     /**
      * A visual identifier that represents this user.
      *
@@ -112,6 +132,7 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return (string) $this->pseudo;
     }
+
 
     /**
      * @see UserInterface
@@ -422,23 +443,20 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    
 
-
-    
-    public function __toString(){
-        return $this->pseudo;
-    }
-
-    public function getLastLogin(): ?\DateTimeInterface
+    public function getLastLogin(): ?\DateTime
     {
         return $this->lastLogin;
     }
 
-    public function setLastLogin(?\DateTimeInterface $lastLogin): static
+    public function setLastLogin(?\DateTime $lastLogin): static
     {
         $this->lastLogin = $lastLogin;
 
         return $this;
+    }
+
+    public function __toString(){
+        return $this->pseudo;
     }
 }

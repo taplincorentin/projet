@@ -14,14 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PersonneController extends AbstractController
 {
-    // #[Route('/personne', name: 'app_personne')]
-    // public function index(): Response
-    // {
-    //     return $this->render('personne/index.html.twig', [
-    //         'controller_name' => 'PersonneController',
-    //     ]);
-    // }
-    
 
     #[Route('/personne/{id}/edit', name: 'edit_personne')]
     public function edit(Personne $personne = null, Request $request, EntityManagerInterface $entityManager): Response {
@@ -34,11 +26,43 @@ class PersonneController extends AbstractController
 
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
-            
+                
                 $personne = $form->getData();
 
                 $entityManager->persist($personne); //prepare
                 $entityManager->flush(); //execute
+
+
+                //Take care of profile picture
+                
+                $fichierImageProfil = $form->get('imageProfil')->getData();
+
+                //If a new profile picture file was added to form
+                if ($fichierImageProfil) {
+
+                    //Delete old profile picture if it exists
+                    //get old profile picture name
+                    $ancienneImageProfil = $user->getNomImageProfil();
+                    if ($ancienneImageProfil) {
+                        unlink($this->getParameter('profile_picture_directory') . '/' .$ancienneImageProfil);
+
+                    }
+                        
+                    //create unique picture name
+                    $nouveauNomFichier = 'profile_picture_' . uniqid() . '.' . $fichierImageProfil->guessExtension();
+
+
+
+                    // Move the uploaded file to directory (see parameters services.yaml)
+                    $fichierImageProfil->move(
+                        $this->getParameter('profile_picture_directory'), $nouveauNomFichier);
+                    
+                    
+                    
+                    //set picture name to current user (current user == $personne)
+                    $user->setNomImageProfil($nouveauNomFichier);
+                    $entityManager->flush(); //execute
+                }
 
                 return $this->redirectToRoute('show_personne', ['id' => $personne->getId()]); //redirection profil de l'utilisateur
 

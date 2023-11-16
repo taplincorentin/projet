@@ -23,6 +23,11 @@
 
     {#Person info#}
     <div>
+        {% if personne.nomImageProfil %}
+            <img src="{{ asset('/images/users/' ~ personne.nomImageProfil) }}" alt="{{ personne ~ "'s profile picture" }}">
+        {% else %}
+            <p>No profile picture uploaded</p>
+        {% endif %}
         <h2>{{personne.pseudo}}'s page</h2>
         <p>{{personne.description}}</p>
     </div>
