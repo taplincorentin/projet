@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Entity\ChienRace;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ChienRepository;
@@ -42,8 +41,6 @@ class Chien
     #[ORM\JoinColumn(nullable: false)]
     private ?Personne $personne = null;
 
-    #[ORM\OneToMany(mappedBy: 'chien', targetEntity: ChienRace::class, orphanRemoval: true)]
-    private Collection $chienRace;
 
     #[ORM\Column(nullable: true)]
     private ?array $races = null;
@@ -135,6 +132,18 @@ class Chien
         return $this;
     }
 
+
+    public function getPersonne(): ?Personne
+    {
+        return $this->personne;
+    }
+
+    public function setPersonne(?Personne $personne): static
+    {
+        $this->personne = $personne;
+
+        return $this;
+    }
 
 
     public function getRaces(): ?array

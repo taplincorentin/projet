@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Chien;
-use App\Entity\ChienRace;
 use App\Form\ChienFormType;
 use App\Service\CallApiService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,13 +13,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ChienController extends AbstractController
 {
-    // #[Route('/chien', name: 'app_chien')]
-    // public function index(): Response
-    // {
-    //     return $this->render('chien/index.html.twig', [
-    //         'controller_name' => 'ChienController',
-    //     ]);
-    // }
     
     //create new dog
     #[Route('/chien/new', name: 'new_chien')]
@@ -37,6 +29,7 @@ class ChienController extends AbstractController
             //get form data
             $chien = $form->getData();
 
+
             //get current datetime to set 'lastModified'
             $now = new \DateTime();
             $chien->setDateActualisation($now);
@@ -49,23 +42,8 @@ class ChienController extends AbstractController
             $entityManager->persist($chien); 
             $entityManager->flush();
 
-
-            //get races form data
-            $races = $form->get('races')->getData(); 
-            
-            foreach($races as $race) {
-                $chienRace = new ChienRace();       //new Chien/Race
-
-                //link race to dog
-                $chienRace->setNomRace($race);
-                $chienRace->setChien($chien);
-
-                //prepare execute
-                $entityManager->persist($chienRace); 
-                $entityManager->flush();
-            }
-
-            return $this->redirectToRoute('show_personne', ['id' => $personne->getId()]);; //redirection profil de l'utilisateur
+            //redirection profil de l'utilisateur
+            return $this->redirectToRoute('show_personne', ['id' => $personne->getId()]);
 
         }
 
@@ -103,22 +81,8 @@ class ChienController extends AbstractController
                 $entityManager->flush();
 
 
-                //get races form data
-                $races = $form->get('races')->getData(); 
-            
-                foreach($races as $race) {
-                    $chienRace = new ChienRace();       //new Chien/Race
-
-                    //link race to dog
-                    $chienRace->setNomRace($race);
-                    $chienRace->setChien($chien);
-
-                    //prepare execute
-                    $entityManager->persist($chienRace); 
-                    $entityManager->flush();
-                }
-
-                return $this->redirectToRoute('show_personne', ['id' => $personne->getId()]);; //redirection profil de l'utilisateur
+                //redirection profil de l'utilisateur
+                return $this->redirectToRoute('show_personne', ['id' => $personne->getId()]);
 
             }
 

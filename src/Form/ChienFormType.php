@@ -34,7 +34,7 @@ class ChienFormType extends AbstractType
                 ])
             
             ->add('races', ChoiceType::class, [
-                'mapped' => false,
+                'mapped' => true,
                 'choices'  => $options['breedList'],
                 'expanded' => false,
                 'multiple' => true,
