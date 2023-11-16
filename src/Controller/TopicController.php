@@ -14,13 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TopicController extends AbstractController
 {
-    // #[Route('/topic', name: 'app_topic')]
-    // public function index(): Response
-    // {
-    //     return $this->redirectToRoute('app_home');
-    // }
-
-
     #[Route('/{categorie_id}/topic/new', name: 'new_topic')]
     public function new(Topic $topic = null, int $categorie_id, Request $request, EntityManagerInterface $entityManager): Response {
 
@@ -143,13 +136,87 @@ class TopicController extends AbstractController
 
     #[Route('/topic/{id}', name: 'show_topic')]
     public function show(Topic $topic = null): Response {
+
+        //check topic exists
         if($topic){
-            return $this->render('topic/show.html.twig', [
-                'topic' => $topic
-            ]);
+
+            //get current user for check
+            $user = $this->getUser();
+
+            //if it's a walk's topic
+            if(!empty($topic->getBalade())){
+                
+                //check user is walk organiser
+                if ($user == $topic->getSeance()->getOrganisateur()){
+                    
+                    //return topic view if it's the case
+                    return $this->render('topic/show.html.twig', [
+                    'topic' => $topic
+                    ]);
+                }
+
+                //get walk participants
+                $participants = $topic->getBalade()->getPersonnes();
+                //check that the user is a participant
+                foreach ($participants as $participant) {
+                    if ($user == $participant){
+                        
+                        //return topic view if it's the case
+                        return $this->render('topic/show.html.twig', [
+                            'topic' => $topic
+                        ]);
+                    }
+                }
+
+                //if not organiser or participant redirect to home
+                return $this->redirectToRoute('app_home');
+
+            }
+
+            //else if it's a session's topic
+            elseif (!empty($topic->getSeance())){
+                
+                
+                //check user is session organiser
+                if ($user == $topic->getSeance()->getOrganisateur()){
+                    
+                    //return topic view if it's the case
+                    return $this->render('topic/show.html.twig', [
+                        'topic' => $topic
+                    ]);
+                }
+                
+                //get session participants
+                $participants = $topic->getSeance()->getParticipants();
+                //check that the user is a participant
+                foreach ($participants as $participant) {
+                    if ($user == $participant){
+                        
+                        //return topic view if it's the case
+                        return $this->render('topic/show.html.twig', [
+                            'topic' => $topic
+                        ]);
+                    }
+                    
+                }
+
+                //if not organiser or participant redirect to home
+                return $this->redirectToRoute('app_home');
+            }
+
+            //if topic exist and isn't a session or walk associated topic go to topic view
+            else{
+
+                return $this->render('topic/show.html.twig', [
+                    'topic' => $topic
+                ]);
+            }
+     
         }
-        else {
-            return $this->redirectToRoute('app_home');
-        }
+
+        //if topic doesn't exist back to homepage
+        return $this->redirectToRoute('app_home');
     }
+
+
 }

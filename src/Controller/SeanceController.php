@@ -218,6 +218,8 @@ class SeanceController extends AbstractController
             'formSearchSeance' => $form->createView(),
         ]);
     }
+
+    
     #[Route('/seance/{id}', name: 'show_seance')]
     public function show(seance $seance = null): Response {
         if($seance){

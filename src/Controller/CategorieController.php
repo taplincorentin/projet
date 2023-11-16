@@ -23,14 +23,16 @@ class CategorieController extends AbstractController
 
     #[Route('/categorie/{id}', name: 'show_categorie')]
     public function show(Categorie $categorie = null): Response {
-        if($categorie->getNom() != 'Walks' && $categorie->getNom() != 'Sessions'){ //check that categorie isn't walk or session category (aren't accessible this way)
+
+        //check that categorie isn't walk or session category (aren't accessible this way)
+        if($categorie->getNom() != 'Walks' && $categorie->getNom() != 'Sessions'){ 
+
             return $this->render('categorie/show.html.twig', [
                 'categorie' => $categorie
             ]);
         }
-        else {
-            return $this->redirectToRoute('app_categorie');
-        }
+        
+        return $this->redirectToRoute('app_categorie');
     }
 
 }
