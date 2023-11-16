@@ -15,7 +15,7 @@ class BaladeSearchFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('ville', TextType::class)
+            ->add('ville', TextType::class, ['label' => 'City/Town Name'])
             ->add('search', SubmitType::class, ['label' => 'Search']);
     }
 
