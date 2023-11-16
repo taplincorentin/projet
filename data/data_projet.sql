@@ -22,19 +22,22 @@ USE `projet`;
 -- Listage de la structure de table projet. balade
 CREATE TABLE IF NOT EXISTS `balade` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nom` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci,
-  `ville` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nom` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `ville` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `date_heure_depart` datetime NOT NULL,
   `organisateur_id` int NOT NULL,
+  `point_longitude` decimal(15,12) DEFAULT NULL,
+  `point_latitude` decimal(15,12) DEFAULT NULL,
+  `topic_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_540083D71F55203D` (`topic_id`),
   KEY `IDX_540083D7D936B2FA` (`organisateur_id`),
+  CONSTRAINT `FK_540083D71F55203D` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id`),
   CONSTRAINT `FK_540083D7D936B2FA` FOREIGN KEY (`organisateur_id`) REFERENCES `personne` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.balade : ~1 rows (environ)
-INSERT INTO `balade` (`id`, `nom`, `description`, `ville`, `date_heure_depart`, `organisateur_id`) VALUES
-	(6, 'balade du siècle', 'Lorem Elsass ipsum Richard Schirmeck Kabinetpapier nullam leverwurscht Heineken und blottkopf, pellentesque tchao bissame merci vielmols dui salu libero. jetz gehts los sed gal baeckeoffe id, Huguette Miss Dahlias Spätzle wurscht messti de Bischheim sit schneck bredele ornare Racing. amet hopla vielmols, Oberschaeffolsheim Strasbourg dolor sit DNA, hoplageiss auctor, risus, s\'guelt geht\'s placerat habitant geïz senectus rossbolla non non sed nüdle elit hopla Salu bissame Chulien semper in, gravida id kartoffelsalad vulputate ac Verdammi quam. commodo ftomi!', 'Oberhausbergen', '2023-12-22 19:30:00', 1);
+-- Listage des données de la table projet.balade : ~0 rows (environ)
 
 -- Listage de la structure de table projet. balade_personne
 CREATE TABLE IF NOT EXISTS `balade_personne` (
@@ -47,16 +50,14 @@ CREATE TABLE IF NOT EXISTS `balade_personne` (
   CONSTRAINT `FK_1BC368A7FE292D59` FOREIGN KEY (`balade_id`) REFERENCES `balade` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.balade_personne : ~1 rows (environ)
-INSERT INTO `balade_personne` (`balade_id`, `personne_id`) VALUES
-	(6, 4);
+-- Listage des données de la table projet.balade_personne : ~0 rows (environ)
 
 -- Listage de la structure de table projet. categorie
 CREATE TABLE IF NOT EXISTS `categorie` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nom` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nom` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table projet.categorie : ~5 rows (environ)
 INSERT INTO `categorie` (`id`, `nom`) VALUES
@@ -64,59 +65,37 @@ INSERT INTO `categorie` (`id`, `nom`) VALUES
 	(2, 'Behaviour'),
 	(3, 'Food'),
 	(4, 'News'),
-	(5, 'Site');
+	(5, 'Site'),
+	(6, 'Walks'),
+	(7, 'Sessions');
 
 -- Listage de la structure de table projet. chien
 CREATE TABLE IF NOT EXISTS `chien` (
   `id` int NOT NULL AUTO_INCREMENT,
   `personne_id` int NOT NULL,
-  `nom` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `image_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nom` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `image_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `date_naissance` date NOT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci,
+  `description` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `date_actualisation` datetime NOT NULL,
+  `races` json DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_13A4067EA21BD112` (`personne_id`),
   CONSTRAINT `FK_13A4067EA21BD112` FOREIGN KEY (`personne_id`) REFERENCES `personne` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Listage des données de la table projet.chien : ~6 rows (environ)
-INSERT INTO `chien` (`id`, `personne_id`, `nom`, `image_name`, `date_naissance`, `description`, `date_actualisation`) VALUES
-	(2, 1, 'harlem', 'img-20220724-100308-654cd877e51d8679592298.jpg', '2016-02-12', NULL, '2023-11-11 18:58:54'),
-	(3, 1, 'boomer', 'img-20220828-180548-654cdb1b7b442503021540.jpg', '2016-04-01', NULL, '2023-11-11 18:59:09'),
-	(4, 1, 'lilas', 'img-20221228-163206-654cdb3b0a5ae901954140.jpg', '2019-02-14', NULL, '2023-11-11 19:15:55'),
-	(8, 1, 'Rex', 'dash-dachshund-with-hat-654fd5f1f1a3c306932782.jpg', '2014-12-20', NULL, '2023-11-11 19:30:03'),
-	(9, 4, 'Burtono', 'mastiff-english-65535721a08d3904027177.jpg', '2018-05-12', NULL, '2023-11-14 17:13:18'),
-	(10, 6, 'Trevor', 'beagle-adult-65538deff26f5295072921.jpg', '2019-02-12', NULL, '2023-11-14 15:10:39'),
-	(11, 4, 'Joy', 'setter-gordon-6553ab19d4669759752159.jpg', '2023-05-18', NULL, '2023-11-14 17:15:05');
-
--- Listage de la structure de table projet. chien_race
-CREATE TABLE IF NOT EXISTS `chien_race` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `chien_id` int DEFAULT NULL,
-  `nom_race` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `IDX_5B5D7EE8BFCF400E` (`chien_id`),
-  CONSTRAINT `FK_B584F83FBFCF400E` FOREIGN KEY (`chien_id`) REFERENCES `chien` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.chien_race : ~10 rows (environ)
-INSERT INTO `chien_race` (`id`, `chien_id`, `nom_race`) VALUES
-	(6, 2, 'bouvier'),
-	(7, 2, 'collie border'),
-	(8, 3, 'collie border'),
-	(9, 4, 'malinois'),
-	(10, 8, 'dachshund'),
-	(11, 8, 'dhole'),
-	(12, 8, 'dachshund'),
-	(13, 9, 'mastiff english'),
-	(14, 10, 'beagle'),
-	(15, 10, 'beagle'),
-	(16, 11, 'setter gordon');
+-- Listage des données de la table projet.chien : ~7 rows (environ)
+INSERT INTO `chien` (`id`, `personne_id`, `nom`, `image_name`, `date_naissance`, `description`, `date_actualisation`, `races`) VALUES
+	(2, 1, 'Harlem', 'img-20220724-100308-655631eb82b47611926708.jpg', '2016-02-12', NULL, '2023-11-16 15:14:51', '["bouvier", "collie border"]'),
+	(3, 1, 'Boomer', 'img-20220828-180548-655632b47f2e0061526150.jpg', '2016-04-01', NULL, '2023-11-16 15:18:12', '["collie border"]'),
+	(4, 1, 'Lilas', 'microsoftteams-image-6555d3e81b514633237082.png', '2019-02-14', NULL, '2023-11-16 08:34:18', '["malinois"]'),
+	(9, 4, 'Burtono', 'mastiff-english-65535721a08d3904027177.jpg', '2018-05-12', NULL, '2023-11-14 17:13:18', NULL),
+	(10, 6, 'Trevor', 'beagle-adult-65538deff26f5295072921.jpg', '2019-02-12', NULL, '2023-11-14 15:10:39', NULL),
+	(11, 4, 'Joy', 'setter-gordon-6553ab19d4669759752159.jpg', '2023-05-18', NULL, '2023-11-14 17:15:05', NULL);
 
 -- Listage de la structure de table projet. doctrine_migration_versions
 CREATE TABLE IF NOT EXISTS `doctrine_migration_versions` (
-  `version` varchar(191) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `version` varchar(191) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `executed_at` datetime DEFAULT NULL,
   `execution_time` int DEFAULT NULL,
   PRIMARY KEY (`version`)
@@ -124,22 +103,25 @@ CREATE TABLE IF NOT EXISTS `doctrine_migration_versions` (
 
 -- Listage des données de la table projet.doctrine_migration_versions : ~9 rows (environ)
 INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_time`) VALUES
-	('DoctrineMigrations\\Version20231109110955', '2023-11-09 11:10:02', 289),
-	('DoctrineMigrations\\Version20231111181119', '2023-11-11 18:11:34', 157),
-	('DoctrineMigrations\\Version20231112181427', '2023-11-12 18:14:44', 161),
-	('DoctrineMigrations\\Version20231113163344', '2023-11-13 16:33:53', 59),
-	('DoctrineMigrations\\Version20231113193513', '2023-11-13 19:35:21', 136),
-	('DoctrineMigrations\\Version20231114075130', '2023-11-14 07:51:39', 188),
-	('DoctrineMigrations\\Version20231114081716', '2023-11-14 08:17:22', 19),
-	('DoctrineMigrations\\Version20231114085335', '2023-11-14 08:53:39', 75),
-	('DoctrineMigrations\\Version20231114162421', '2023-11-14 16:24:26', 140);
+	('DoctrineMigrations\\Version20231116080020', '2023-11-16 08:00:30', 38),
+	('DoctrineMigrations\\Version20231116082144', '2023-11-16 08:21:49', 18),
+	('DoctrineMigrations\\Version20231116084522', '2023-11-16 08:45:29', 21),
+	('DoctrineMigrations\\Version20231116084936', '2023-11-16 08:49:39', 52),
+	('DoctrineMigrations\\Version20231116091003', '2023-11-16 09:10:08', 42),
+	('DoctrineMigrations\\Version20231116124734', '2023-11-16 12:47:45', 240),
+	('DoctrineMigrations\\Version20231116131823', '2023-11-16 13:18:28', 128),
+	('DoctrineMigrations\\Version20231116150714', '2023-11-16 15:07:19', 40),
+	('DoctrineMigrations\\Version20231116155300', '2023-11-16 15:53:03', 104),
+	('DoctrineMigrations\\Version20231116161347', '2023-11-16 16:13:50', 38),
+	('DoctrineMigrations\\Version20231116162508', '2023-11-16 16:25:10', 29),
+	('DoctrineMigrations\\Version20231116171238', '2023-11-16 17:12:41', 31);
 
 -- Listage de la structure de table projet. messenger_messages
 CREATE TABLE IF NOT EXISTS `messenger_messages` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `body` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `headers` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue_name` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `body` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `headers` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue_name` varchar(190) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
   `available_at` datetime NOT NULL COMMENT '(DC2Type:datetime_immutable)',
   `delivered_at` datetime DEFAULT NULL COMMENT '(DC2Type:datetime_immutable)',
@@ -154,40 +136,42 @@ CREATE TABLE IF NOT EXISTS `messenger_messages` (
 -- Listage de la structure de table projet. personne
 CREATE TABLE IF NOT EXISTS `personne` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `pseudo` varchar(180) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pseudo` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `roles` json NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `date_creation` datetime NOT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci,
+  `description` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `is_educateur` tinyint(1) DEFAULT NULL,
-  `description_educateur` longtext COLLATE utf8mb4_unicode_ci,
+  `description_educateur` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `last_login` datetime DEFAULT NULL,
+  `nom_image_profil` longtext COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_FCEC9EFE7927C74` (`email`),
   UNIQUE KEY `UNIQ_FCEC9EF86CC499D` (`pseudo`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table projet.personne : ~3 rows (environ)
-INSERT INTO `personne` (`id`, `email`, `pseudo`, `roles`, `password`, `date_creation`, `description`, `is_educateur`, `description_educateur`) VALUES
-	(1, 'coco@gmail.com', 'coco', '["ROLE_SUPER_ADMIN"]', '$2y$13$EfjDykRYy8LuDUoIx/Fp.uKGENqPa6rH9AhUtuy.3EKR7.BZAhIvS', '2023-11-09 11:11:09', NULL, 0, NULL),
-	(4, 'coco2@gmail.com', 'coco2', '["ROLE_USER"]', '$2y$13$ViEr/QnTD1KxmHPOwaEni.PSITH6r6E2/YH1J5XWBa99SDyQ1QATy', '2023-11-14 08:15:50', NULL, 1, 'best dog trainer world'),
-	(6, 'coco3@gmail.com', 'coco3', '[]', '$2y$13$HCE.A.5A8/qz6RPjHF.sieqcMr7Zf9WrMNFh7wqwqYjWst1VlWDFS', '2023-11-14 15:07:31', NULL, 1, NULL);
+INSERT INTO `personne` (`id`, `email`, `pseudo`, `roles`, `password`, `date_creation`, `description`, `is_educateur`, `description_educateur`, `last_login`, `nom_image_profil`) VALUES
+	(1, 'coco@gmail.com', 'coco', '["ROLE_SUPER_ADMIN"]', '$2y$13$EfjDykRYy8LuDUoIx/Fp.uKGENqPa6rH9AhUtuy.3EKR7.BZAhIvS', '2023-11-09 11:11:09', NULL, 0, NULL, '2023-11-16 17:13:01', 'profile_picture_65564df36f900.jpg'),
+	(4, 'coco2@gmail.com', 'coco2', '["ROLE_USER"]', '$2y$13$ViEr/QnTD1KxmHPOwaEni.PSITH6r6E2/YH1J5XWBa99SDyQ1QATy', '2023-11-14 08:15:50', NULL, 1, 'best dog trainer world', '2023-11-16 13:51:54', NULL),
+	(6, 'coco3@gmail.com', 'coco3', '[]', '$2y$13$HCE.A.5A8/qz6RPjHF.sieqcMr7Zf9WrMNFh7wqwqYjWst1VlWDFS', '2023-11-14 15:07:31', NULL, 1, NULL, NULL, NULL);
 
 -- Listage de la structure de table projet. post
 CREATE TABLE IF NOT EXISTS `post` (
   `id` int NOT NULL AUTO_INCREMENT,
   `topic_id` int NOT NULL,
   `auteur_id` int DEFAULT NULL,
-  `contenu` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `contenu` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `date_creation` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_5A8A6C8D1F55203D` (`topic_id`),
   KEY `IDX_5A8A6C8D60BB6FE6` (`auteur_id`),
   CONSTRAINT `FK_5A8A6C8D1F55203D` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id`),
   CONSTRAINT `FK_5A8A6C8D60BB6FE6` FOREIGN KEY (`auteur_id`) REFERENCES `personne` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.post : ~6 rows (environ)
+-- Listage des données de la table projet.post : ~7 rows (environ)
 INSERT INTO `post` (`id`, `topic_id`, `auteur_id`, `contenu`, `date_creation`) VALUES
 	(1, 3, 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', '2023-11-09 18:01:55'),
 	(3, 4, NULL, 'hellololololololo', '2023-11-12 17:56:53'),
@@ -201,22 +185,26 @@ INSERT INTO `post` (`id`, `topic_id`, `auteur_id`, `contenu`, `date_creation`) V
 CREATE TABLE IF NOT EXISTS `seance` (
   `id` int NOT NULL AUTO_INCREMENT,
   `organisateur_id` int NOT NULL,
-  `nom` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nom` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `date_heure_depart` datetime NOT NULL,
-  `ville` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci,
+  `ville` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `theme_id` int DEFAULT NULL,
+  `point_latitude` decimal(15,12) DEFAULT NULL,
+  `point_longitude` decimal(15,12) DEFAULT NULL,
+  `topic_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_DF7DFD0E1F55203D` (`topic_id`),
   KEY `IDX_DF7DFD0ED936B2FA` (`organisateur_id`),
   KEY `IDX_DF7DFD0E59027487` (`theme_id`),
+  CONSTRAINT `FK_DF7DFD0E1F55203D` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id`),
   CONSTRAINT `FK_DF7DFD0E59027487` FOREIGN KEY (`theme_id`) REFERENCES `theme` (`id`),
   CONSTRAINT `FK_DF7DFD0ED936B2FA` FOREIGN KEY (`organisateur_id`) REFERENCES `personne` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table projet.seance : ~1 rows (environ)
-INSERT INTO `seance` (`id`, `organisateur_id`, `nom`, `date_heure_depart`, `ville`, `description`, `theme_id`) VALUES
-	(2, 4, 'seance du siècle', '2023-12-12 14:00:00', 'Strasbourg', 'Lorem Elsass ipsum Richard Schirmeck Kabinetpapier nullam leverwurscht Heineken und blottkopf, pellentesque tchao bissame merci vielmols dui salu libero. jetz gehts los sed gal baeckeoffe id, Huguette Miss Dahlias Spätzle wurscht messti de Bischheim sit schneck bredele ornare Racing. amet hopla vielmols, Oberschaeffolsheim Strasbourg dolor sit DNA, hoplageiss auctor, risus, s\'guelt geht\'s placerat habitant geïz senectus rossbolla non non sed nüdle elit hopla Salu bissame Chulien semper in, gravida id kartoffelsalad vulputate ac Verdammi quam. commodo ftomi!', NULL),
-	(3, 4, 'Training session', '2023-11-20 18:30:00', 'London', NULL, 2);
+INSERT INTO `seance` (`id`, `organisateur_id`, `nom`, `date_heure_depart`, `ville`, `description`, `theme_id`, `point_latitude`, `point_longitude`, `topic_id`) VALUES
+	(5, 4, 'Central Park Medical Training', '2024-01-10 18:00:00', 'New York', NULL, 1, 40.789475261829, -73.957573954182, 6);
 
 -- Listage de la structure de table projet. seance_personne
 CREATE TABLE IF NOT EXISTS `seance_personne` (
@@ -230,15 +218,17 @@ CREATE TABLE IF NOT EXISTS `seance_personne` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table projet.seance_personne : ~0 rows (environ)
+INSERT INTO `seance_personne` (`seance_id`, `personne_id`) VALUES
+	(5, 1);
 
 -- Listage de la structure de table projet. theme
 CREATE TABLE IF NOT EXISTS `theme` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nom` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nom` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.theme : ~7 rows (environ)
+-- Listage des données de la table projet.theme : ~0 rows (environ)
 INSERT INTO `theme` (`id`, `nom`) VALUES
 	(1, 'Medical Training'),
 	(2, 'Socializing'),
@@ -253,20 +243,21 @@ CREATE TABLE IF NOT EXISTS `topic` (
   `id` int NOT NULL AUTO_INCREMENT,
   `categorie_id` int NOT NULL,
   `auteur_id` int DEFAULT NULL,
-  `titre` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `titre` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `date_creation` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_9D40DE1BBCF5E72D` (`categorie_id`),
   KEY `IDX_9D40DE1B60BB6FE6` (`auteur_id`),
   CONSTRAINT `FK_9D40DE1B60BB6FE6` FOREIGN KEY (`auteur_id`) REFERENCES `personne` (`id`),
   CONSTRAINT `FK_9D40DE1BBCF5E72D` FOREIGN KEY (`categorie_id`) REFERENCES `categorie` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table projet.topic : ~3 rows (environ)
 INSERT INTO `topic` (`id`, `categorie_id`, `auteur_id`, `titre`, `date_creation`) VALUES
 	(1, 2, 1, 'my dog eats my shoes', '2023-11-09 17:50:28'),
 	(3, 2, 1, 'my dog eats my food ', '2023-11-09 17:51:18'),
-	(4, 2, NULL, 'hello', '2023-11-12 17:56:44');
+	(4, 2, NULL, 'hello', '2023-11-12 17:56:44'),
+	(6, 7, 4, '[DISCUSSION] Central Park Medical Training', '2023-11-16 13:20:58');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
