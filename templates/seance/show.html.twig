@@ -10,25 +10,26 @@
         <a href="{{ path('delete_seance', {'id': seance.id}) }}" onclick="return confirm('delete seance ?')"><i class="fa-solid fa-trash fa-lg"></i></a>
     {% endif %}
 
-    {#if user is one of this session's participants can unlist#}
-    {% if app.user in seance.participants %} 
-        <a href="{{ path('remove_personne_seance', {'seance_id': seance.id , 'personne_id': app.user.id}) }}">unlist</a>
-    {% endif %}
-
-
-    {#if user is not one of this session's participants and isn't the organiser can enlist#}
-    {% if (app.user not in seance.participants) and (app.user != seance.organisateur) %}
-        <a href="{{ path('enlist_personne_seance', {'seance_id': seance.id , 'personne_id': app.user.id}) }}">enlist</a>
-    {% endif %}
-
     {#show session info#}
     <div>
         {# title #}
         <h2>{{seance.nom}} by <a href="{{ path('show_personne', {'id': seance.organisateur.id}) }}">{{ seance.organisateur }}</a></h2>
 
+        {#if user is one of this session's participants can unlist#}
+        {% if app.user in seance.participants %} 
+            <a href="{{ path('remove_personne_seance', {'seance_id': seance.id , 'personne_id': app.user.id}) }}" class="button">unlist</a>
+        {% endif %}
+
+
+        {#if user is not one of this session's participants and isn't the organiser can enlist#}
+        {% if (app.user not in seance.participants) and (app.user != seance.organisateur) %}
+            <a href="{{ path('enlist_personne_seance', {'seance_id': seance.id , 'personne_id': app.user.id}) }}" class="button">enlist</a>
+        {% endif %}
+
+
         {# link to associated topic #}
         {% if (app.user in seance.participants) or (app.user == seance.organisateur) %}
-            <a href="{{ path('show_topic', {'id': seance.topic.id}) }}">Go to forum topic</a>
+            <a href="{{ path('show_topic', {'id': seance.topic.id}) }}" class="button">Go to forum topic</a>
         {% endif %}
 
         {# info #}
@@ -46,17 +47,28 @@
 
 
                 
-        <h3>Participants</h3>
-        {% for personne in seance.participants|sort((a, b) => a.pseudo <=> b.pseudo) %}
-            <tr>
-                <td><a href="{{ path('show_personne', {'id': personne.id}) }}">{{ personne }}</a></td>
+        <div class="participant-line">Participants</div>
+        <div class="participants">
+            {% for personne in seance.participants|sort((a, b) => a.pseudo <=> b.pseudo) %}
+                <a href="{{ path('show_personne', {'id': personne.id}) }}">
+                    <div class="user-box">
+                        {% if personne.nomImageProfil %}
+                            <img src="{{ asset('/images/users/' ~ personne.nomImageProfil) }}" alt="{{ personne ~ "'s profile picture" }}">
+                        {% endif %}
+
+                        {#if user is the organiser, option to remove participants#}
+                        {% if app.user == seance.organisateur %}
+                            <div class="remove-participant">
+                                <a href="{{ path('remove_personne_seance', {'seance_id': seance.id , 'personne_id': personne.id}) }}"><i class="fa-regular fa-square-minus"></i></a>
+                            </div> 
+                        {% endif %}
+                    </div>
+                </a>
+                    
                 
-                {#if user is the organiser, option to remove participants#}
-                {% if app.user == seance.organisateur %} 
-                    <td><a href="{{ path('remove_personne_seance', {'seance_id': seance.id , 'personne_id': personne.id}) }}"><i class="fa-regular fa-square-minus"></i></a></td>
-                {% endif %}
-            </tr>  
-        {% endfor %}
+            {% endfor %}
+        </div>
+        
     </div>
    
 

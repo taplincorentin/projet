@@ -9,26 +9,26 @@
         <a href="{{ path('edit_balade', {'id': balade.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
         <a href="{{ path('delete_balade', {'id': balade.id}) }}" onclick="return confirm('delete balade ?')"><i class="fa-solid fa-trash fa-lg"></i></a>
     {% endif %}
-   
-    {#if user is one of this walk's participants can unlist#}
-    {% if app.user in balade.personnes %}
-        <a href="{{ path('remove_personne_balade', {'balade_id': balade.id , 'personne_id': app.user.id}) }}">unlist</a>
-    {% endif %}
-
-
-    {#if user is not one of this walk's participants and isn't the organiser can enlist#}
-    {% if (app.user not in balade.personnes) and (app.user != balade.organisateur) %}
-        <a href="{{ path('enlist_personne_balade', {'balade_id': balade.id , 'personne_id': app.user.id}) }}">enlist</a>
-    {% endif %}
     
     {#show walk info#}
     <div>
         {# title #}
         <h2>{{balade.nom}} by <a href="{{ path('show_personne', {'id': balade.organisateur.id}) }}">{{ balade.organisateur }}</a></h2>
         
+        {#if user is one of this walk's participants can unlist#}
+        {% if app.user in balade.personnes %}
+            <a href="{{ path('remove_personne_balade', {'balade_id': balade.id , 'personne_id': app.user.id}) }}" class="button">unlist</a>
+        {% endif %}
+
+
+        {#if user is not one of this walk's participants and isn't the organiser can enlist#}
+        {% if (app.user not in balade.personnes) and (app.user != balade.organisateur) %}
+            <a href="{{ path('enlist_personne_balade', {'balade_id': balade.id , 'personne_id': app.user.id})}} " class="button">enlist</a>
+        {% endif %}
+
         {# link to associated topic #}
         {% if (app.user in balade.personnes) or (app.user == balade.organisateur) %}
-            <a href="{{ path('show_topic', {'id': balade.topic.id}) }}">Go to forum topic</a>
+            <a href="{{ path('show_topic', {'id': balade.topic.id}) }}" class="button">Go to forum topic</a>
         {% endif %}
 
         <p>When? : {{balade.dateHeureDepart | date('d-m-Y H:i')}}</p>
@@ -42,17 +42,29 @@
 
 
 
-        <h3>Participants</h3>
-        {% for personne in balade.personnes|sort((a, b) => a.pseudo <=> b.pseudo) %}
-            <tr>
-                <td><a href="{{ path('show_personne', {'id': personne.id}) }}">{{ personne }}</a></td>
+        <div class="participant-line">Participants</div>
+        <div class="participants">
+            {% for personne in balade.personnes|sort((a, b) => a.pseudo <=> b.pseudo) %}
+                <a href="{{ path('show_personne', {'id': personne.id}) }}">
+                    <div class="user-box">
+                        {% if personne.nomImageProfil %}
+                            <img src="{{ asset('/images/users/' ~ personne.nomImageProfil) }}" alt="{{ personne ~ "'s profile picture" }}">
+                        {% endif %}
+                    </div>
+                </a> 
+               
                 
                 {#if user is the organiser, option to remove participants#}
-                {% if app.user == balade.organisateur %} 
-                    <td><a href="{{ path('remove_personne_balade', {'balade_id': balade.id , 'personne_id': personne.id}) }}"><i class="fa-regular fa-square-minus"></i></a></td>
+                {% if app.user == balade.organisateur %}
+                    <div class="remove-participant"></div>
+                        <a href="{{ path('remove_personne_balade', {'balade_id': balade.id , 'personne_id': personne.id}) }}"><i class="fa-regular fa-square-minus"></i></a>
+                    </div>
                 {% endif %}
-            </tr>  
-        {% endfor %}
+                
+
+            {% endfor %}
+        </div>
+        
     </div>
    
 

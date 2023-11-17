@@ -1,3 +1,5 @@
+/*ENTIRE SITE*/
+
 img {
     max-width: 200px;
 }
@@ -14,16 +16,15 @@ img {
 
 * {
     font-family: 'Raleway', sans-serif;
-    background-color: var(--aliceBlue);
+    
 }
-
-/*ON CREATE WALK/SESSION PAGE!!*/
-.hidden {
-    display: none;
+.button {
+  text-decoration: none;
+  background-color: var(--darkBlue);
+  color: white;
+  padding: 2px 6px 2px 6px;
+  border-radius: 30px;
 }
-
-
-
 
 /*NAVBAR*/
 .navbar ul {
@@ -76,15 +77,36 @@ img {
   
 
 /*LOGIN PAGE*/
-.login-container {
+.login-page{
+  display: flex;
+  justify-content: center;
+}
+.login-container{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background-color: var(--aliceBlue);
+  border: 1px solid #888;
+  width: 75%;
+}
+
+
+.form-container{
     display: flex;
     flex-direction: column;
-    background-color: #fefefe;
-    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
-    border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
-    justify-content: center;
+}
 
+
+.login-child {
+    display: inline-block;
+    margin: 10px auto 10px auto;
+    background-color: var(--aliceBlue);
+    width: 75%;
+}
+input[type=email], input[type=password] {
+  width: 95%;
+  display: inline-block;
+  box-sizing: border-box;
 }
 .login-button {
     background-color: var(--darkBlue);
@@ -93,8 +115,49 @@ img {
     margin: 8px 0;
     border: none;
     cursor: pointer;
+    width: 95%;
 }
 
 .login-button:hover {
     opacity: 0.8;
-  }
+}
+
+.login-foot{
+  display: flex;
+  justify-content: center;
+  width: 75%;
+}
+
+.login-foot-container{
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8em;
+  width: 75%;
+}
+
+.login-foot-child{
+  padding:10px;
+}
+
+
+/*User display on walk session views*/
+.participant-line{
+  width: 100%;
+  color: white;
+  background-color: var(--darkBlue);
+  font-size: 1.2em;
+  margin: 10px 0px 10px 0px;
+}
+.participants{
+  display: flex;
+  flex-direction: row;
+}
+
+.user-box{
+  display: flex;
+  flex-direction: column;
+}
+
+#map_show {
+  border:solid 3px var(--darkBlue);
+}

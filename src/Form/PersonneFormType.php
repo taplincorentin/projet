@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class PersonneFormType extends AbstractType
 {
@@ -22,7 +23,9 @@ class PersonneFormType extends AbstractType
                 'mapped' => false, // This field is not directly mapped to an entity property
                 'required' => false, //the picture isn't mandatory
             ])
-            ->add('isEducateur')
+            ->add('isEducateur', CheckboxType::class, [
+                'label' => "I am a dog trainer",
+            ])
             ->add('descriptionEducateur')
             ->add('submit', SubmitType::class, [
                 'label' => "edit my info",
