@@ -2,9 +2,7 @@ img {
     max-width: 200px;
 }
 
-* {
-    font-family: 'Raleway', sans-serif;
-}
+
 
 :root {
     --darkBlue: #006D77;
@@ -12,11 +10,20 @@ img {
     --aliceBlue: #EDF6F9;
     --beige: #FFDDD2;
     --tangerine: #E29578;
-  }
+}
 
+* {
+    font-family: 'Raleway', sans-serif;
+    background-color: var(--aliceBlue);
+}
+
+/*ON CREATE WALK/SESSION PAGE!!*/
 .hidden {
     display: none;
 }
+
+
+
 
 /*NAVBAR*/
 .navbar ul {
@@ -67,3 +74,27 @@ img {
     display: block;
   }
   
+
+/*LOGIN PAGE*/
+.login-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #fefefe;
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    justify-content: center;
+
+}
+.login-button {
+    background-color: var(--darkBlue);
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+}
+
+.login-button:hover {
+    opacity: 0.8;
+  }
