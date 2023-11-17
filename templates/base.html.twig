@@ -18,19 +18,31 @@
         {% endblock %}
         
         {% if app.user %}
-        <div class='navbar'>
+
+        <div class="navbar">
             <ul>
-                <li><a href="{{ path('app_categorie') }}">Forum</a></li>
-                <li><a href="{{ path('app_balade') }}">Walk list</a></li>
-                <li><a href="{{ path('search_balade') }}">Search Walk</a></li>
-                <li><a href="{{ path('app_seance') }}">Session list</a></li>
-                <li><a href="{{ path('search_seance') }}">Search session</a></li>
-                <li><a href="{{ path('new_balade') }}">New walk</a></li>
-                {% if app.user.isEducateur %}        
-                    <li><a href="{{ path('new_seance') }}">New session</a></li>
-                {% endif %}
-                <li><a href="{{ path('show_personne', {'id': app.user.id}) }}">Profile</a></li>  
-                <li><a href="{{ path('app_logout') }}">Logout</a></li> 
+                <li class="nav-home"><a href="{{ path('app_home') }}"><i class="fa-solid fa-paw fa-xl"></i></a></li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)" class="dropbtn"><i class="fa-solid fa-plus"></i></a>
+                    <div class="dropdown-elements">
+                        <a href="{{ path('new_balade') }}"><i class="fa-solid fa-shoe-prints"></i> +walk</a>
+                        {% if app.user.isEducateur %}        
+                            <a href="{{ path('new_seance') }}"><i class="fa-solid fa-graduation-cap"></i> +session</a>
+                        {% endif %}
+                    </div>
+                </li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)" class="dropbtn"><i class="fa-solid fa-magnifying-glass"></i></a>
+                    <div class="dropdown-elements">
+                        <a href="{{ path('search_balade') }}"><i class="fa-solid fa-shoe-prints"></i> walk</a>        
+                        <a href="{{ path('search_seance') }}"><i class="fa-solid fa-graduation-cap"></i> session</a>  
+                    </div>
+                </li>
+
+                <li style="float:right"><a href="{{ path('app_logout') }}" onclick="return confirm('Êtes-vous sûr(e) de vouloir vous déconnecter?')"><i class="fa-solid fa-right-from-bracket"></i></a></li>
+                <li style="float:right"><a href="{{ path('show_personne', {'id': app.user.id}) }}"><i class="fa-solid fa-user"></i></a></li>
+                <li class="nav-forum" style="float:right"><a href="{{ path('app_categorie') }}">FORUM</a></li>
+                
             </ul>
         </div>
         {% endif %}

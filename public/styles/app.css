@@ -6,6 +6,64 @@ img {
     font-family: 'Raleway', sans-serif;
 }
 
+:root {
+    --darkBlue: #006D77;
+    --lightBlue: #83C5BE;
+    --aliceBlue: #EDF6F9;
+    --beige: #FFDDD2;
+    --tangerine: #E29578;
+  }
+
 .hidden {
     display: none;
 }
+
+/*NAVBAR*/
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: var(--darkBlue);
+  }
+  
+  .navbar li {
+    float: left;
+    border-right: 1px solid #bbb;
+  }
+  
+  .navbar li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  .navbar li:last-child {
+    border-right: none;
+  }
+  
+  
+  .navbar li a:hover {
+    background-color: var(--lightBlue); /* Change the link color to #111 (black) on hover */
+  }
+  
+  
+  .dropdown-elements {
+    display: none;
+    position: absolute;
+    background-color: var(--darkBlue);
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  
+  
+  .dropdown-elements a:hover {background-color: #f1f1f1;}
+  
+  .dropdown:hover .dropdown-elements {
+    display: block;
+  }
+  
