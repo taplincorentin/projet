@@ -33,6 +33,7 @@ security:
     access_control:
         - { path: ^/login, role: PUBLIC_ACCESS }
         - { path: ^/register, role: PUBLIC_ACCESS }
+        - { path: ^/reset-password, role: PUBLIC_ACCESS }
         - { path: ^/admin, role: ROLE_ADMIN }
         - { path: ^/, role: ROLE_USER }
         

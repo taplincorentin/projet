@@ -22,7 +22,7 @@ class Seance
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateHeureDepart = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 100)]
     private ?string $ville = null;
 
     #[ORM\ManyToOne(inversedBy: 'seancesOrganisees')]

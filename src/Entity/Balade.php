@@ -23,7 +23,7 @@ class Balade
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 100)]
     private ?string $ville = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
