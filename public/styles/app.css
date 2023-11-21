@@ -173,6 +173,51 @@ input[type=email], input[type=password] {
   margin-top: 3px;
 }
 
+/*RESET PASSWORD PAGE*/
+.reset-password-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: var(--lightBlue);
+}
+
+.reset-password-form-container {
+  width: 50%;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px var(--tangerine);
+  background-color: var(--aliceBlue);
+  
+}
+
+.reset-password-form-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.reset-password-form-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.reset-password-form-container input,
+.reset-password-form-container button {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.reset-password-form-container button {
+  background-color: var(--tangerine);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 3px;
+}
 
 
 /*User display on walk session views*/

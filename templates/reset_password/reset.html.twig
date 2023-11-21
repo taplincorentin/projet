@@ -1,12 +1,37 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Reset your password{% endblock %}
+{% block title %}Choose a new password{% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="This is the page users land on clicking the link in the email to choose a new password">
+{% endblock %}
 
 {% block body %}
-    <h1>Reset your password</h1>
 
-    {{ form_start(resetForm) }}
-        {{ form_row(resetForm.plainPassword) }}
-        <button class="btn btn-primary">Reset password</button>
-    {{ form_end(resetForm) }}
+    <div class="reset-password-container">
+        
+        <div class="reset-password-form-container">
+          
+            <h1>Choose your new password <i class="fa-solid fa-paw"></i></h1>
+          
+            <form method="post" class="reset-password-form">
+
+                {{ form_start(resetForm) }}
+
+                {{ form_label(resetForm.plainPassword.first) }}
+                {{ form_widget(resetForm.plainPassword.first) }}
+
+                {{ form_label(resetForm.plainPassword.second) }}
+                {{ form_widget(resetForm.plainPassword.second) }}
+
+
+                <button>Reset Password</button>
+
+                {{ form_end(resetForm) }}
+                
+                
+            </form>    
+
+        </div>    
+    </div>
 {% endblock %}
