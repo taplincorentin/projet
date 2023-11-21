@@ -145,10 +145,9 @@ class BaladeController extends AbstractController
         $balade = $entityManager->getRepository(Balade::class)->findOneBy(['id'=>$balade_id]);          //get walk
         $personne = $entityManager->getRepository(Personne::class)->findOneBy(['id'=>$personne_id]);    //get person that is going to be removed
         $user = $this->getUser();                                                                       //get current user
-        $organisateur = $balade->getOrganisateur();                                                     //get walk organiser
 
-        //check that the user and the removed person are the same or that user is walk organiser
-        if ($personne == $user || $user == $organisateur){                                                                        
+        //check that the user and the removed person are the same
+        if ($personne == $user){                                                                        
             
             $balade->removePersonne($personne);
             

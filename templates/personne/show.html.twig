@@ -1,6 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User account{% endblock %}
+{% block title %} {{personne}}'s profile {% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="here we can see {{personne}}'s profile information, dogs and organised walks and training sessions">
+{% endblock %}
 
 {% block body %}
     
@@ -24,11 +28,9 @@
 
     {#Person info#}
     <div>
-        {% if personne.nomImageProfil %}
+
             <img src="{{ asset('/images/users/' ~ personne.nomImageProfil) }}" alt="{{ personne ~ "'s profile picture" }}">
-        {% else %}
-            <p>No profile picture uploaded</p>
-        {% endif %}
+
         <h2>{{personne.pseudo}}'s page</h2>
         <p>{{personne.description}}</p>
     </div>
@@ -38,7 +40,7 @@
         <h3>{{personne.pseudo}}'s dog(s)</h3>
         {% for chien in personne.chiens %}
             <div class="personne-chien">
-                <img style="max-width: 200px;" src="{{ vich_uploader_asset(chien, 'imageFile') }}">
+                <img style="max-width: 200px;" src="{{ vich_uploader_asset(chien, 'imageFile') }}" alt="{{ "picture of " ~ chien ~ ", " ~ personne ~ "'s dog" }}">
                 {{chien.nom}}
                 {{chien.dateNaissance | date('d-m-Y')}}
                 {{chien.description}}

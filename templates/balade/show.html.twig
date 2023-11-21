@@ -51,16 +51,7 @@
                             <img src="{{ asset('/images/users/' ~ personne.nomImageProfil) }}" alt="{{ personne ~ "'s profile picture" }}">
                         {% endif %}
                     </div>
-                </a> 
-               
-                
-                {#if user is the organiser, option to remove participants#}
-                {% if app.user == balade.organisateur %}
-                    <div class="remove-participant"></div>
-                        <a href="{{ path('remove_personne_balade', {'balade_id': balade.id , 'personne_id': personne.id}) }}"><i class="fa-regular fa-square-minus"></i></a>
-                    </div>
-                {% endif %}
-                
+                </a>      
 
             {% endfor %}
         </div>
