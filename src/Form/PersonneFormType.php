@@ -25,6 +25,7 @@ class PersonneFormType extends AbstractType
             ])
             ->add('isEducateur', CheckboxType::class, [
                 'label' => "I am a dog trainer",
+                'required' => false,
             ])
             ->add('descriptionEducateur')
             ->add('submit', SubmitType::class, [

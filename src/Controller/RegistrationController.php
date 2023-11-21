@@ -36,7 +36,10 @@ class RegistrationController extends AbstractController
             //ajout de la date et heure de la création du compte utilisateur
             $now = new \DateTime();
             $user->setDateCreation($now);
-
+            
+            //set default profile picture
+            $user->setNomImageProfil('profile_picture_default.jpg');
+            
             $entityManager->persist($user);
             $entityManager->flush();
             
