@@ -1,53 +1,58 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
-
+{% block title %}Log in !{% endblock %}
+{% block meta_description %}
+<meta name="description" content="This site's login page. One can also get to the register or reset passoword pages">
+{% endblock %}
 {% block body %}
-<div class="login-page">
-<div class="login-container">
-    <form method="post">
-        <div class="form-container">
-            {% if error %}
-                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-            {% endif %}
-        
-            {% if app.user %}
-                <div class="mb-3">
-                    You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-                </div>
-            {% endif %}
+
+    <center> <h1> LOGIN PAGE </h1>
+
+
+        <form method="post" class="login-form">
+            <div class="login-container">
             
-            <div class="login-child">
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+            
+                {% if app.user %}
+                    <div class="mb-3">
+                        You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                    </div>
+                {% endif %}
+                
+                
                 <label for="inputEmail"><b>Email : </b></label>
                 <input type="email" value="{{ last_username }}" name="email" id="inputEmail" placeholder="Enter email" class="form-control" autocomplete="username" required autofocus>
-            </div>
+            
 
-            <div class="login-child">
+                
                 <label for="inputPassword"><b>Password : </b></label>
                 <input type="password" name="password" id="inputPassword" placeholder="Enter password" class="form-control" autocomplete="current-password" required>
-            </div>
             
-            <input type="hidden" name="_csrf_token"
-                value="{{ csrf_token('authenticate') }}"
-            >
-        
-            <div class="login-child">
+                
+                <input type="hidden" name="_csrf_token"
+                    value="{{ csrf_token('authenticate') }}"
+                >
+            
+                
                 <button class="login-button" type="submit">Login</button>
             </div>
-        </div>
-       
-    </form>    
 
-<div class="login-foot-container">
-    <div class="login-foot-child">
-        <p><a href="{{ path('app_forgot_password_request') }}">forgot password?</a></p>
-    </div>
-    <div class="login-foot-child">
-        <p>no account?<a href="{{ path('app_register')}}">sign up!</a></p>
-    </div>
-</div>
-</div>
-</div>
+            <div class="login-foot-container">
+
+                <p><a href="{{ path('app_forgot_password_request') }}">forgot password?</a></p>
+
+                <p>no account? <a href="{{ path('app_register')}}">sign up!</a></p>
+                
+            </div>
+           
+        </form>
+    </center>  
+
+
+
 
 
 

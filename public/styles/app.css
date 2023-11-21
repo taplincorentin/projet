@@ -4,8 +4,6 @@ img {
     max-width: 200px;
 }
 
-
-
 :root {
     --darkBlue: #006D77;
     --lightBlue: #83C5BE;
@@ -77,67 +75,43 @@ img {
   
 
 /*LOGIN PAGE*/
-.login-page{
-  display: flex;
-  justify-content: center;
+.login-form{
+  border: 3px solid #f1f1f1;
+  background-color: var(--aliceBlue);
+  width: 80%;
 }
 .login-container{
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  background-color: var(--aliceBlue);
-  border: 1px solid #888;
-  width: 75%;
+  padding: 25px;   
+ 
 }
 
-
-.form-container{
-    display: flex;
-    flex-direction: column;
-}
-
-
-.login-child {
-    display: inline-block;
-    margin: 10px auto 10px auto;
-    background-color: var(--aliceBlue);
-    width: 75%;
-}
 input[type=email], input[type=password] {
-  width: 95%;
-  display: inline-block;
-  box-sizing: border-box;
+  width: 100%;   
+  margin: 8px 0;  
+  padding: 12px 20px;   
+  display: inline-block;   
+  border: 2px solid var(--darkBlue);   
+  box-sizing: border-box;  
 }
 .login-button {
-    background-color: var(--darkBlue);
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    width: 95%;
+  background-color: var(--darkBlue);   
+  width: 100%;  
+  color: white;   
+  padding: 15px;   
+  margin: 10px 0px;   
+  border: none;   
+  cursor: pointer;   
 }
 
 .login-button:hover {
     opacity: 0.8;
 }
 
-.login-foot{
-  display: flex;
-  justify-content: center;
-  width: 75%;
-}
 
 .login-foot-container{
-  display: flex;
-  justify-content: space-between;
   font-size: 0.8em;
-  width: 75%;
 }
 
-.login-foot-child{
-  padding:10px;
-}
 
 
 /*User display on walk session views*/
@@ -160,4 +134,9 @@ input[type=email], input[type=password] {
 
 #map_show {
   border:solid 3px var(--darkBlue);
+}
+
+/* MAP/SESSION CREATE PAGE */
+.hidden {
+  display: none;
 }
