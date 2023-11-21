@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Log in !{% endblock %}
+
 {% block meta_description %}
-<meta name="description" content="This site's login page. One can also get to the register or reset passoword pages">
+<meta name="description" content="This site's login page. One can also get to the register or reset password pages">
 {% endblock %}
 
 {% block body %}
@@ -43,7 +44,7 @@
 
             <div class="login-foot-container">
 
-                <p style="float : right;"><a href="{{ path('app_forgot_password_request') }}">forgot password?</a></p>
+                <p><a href="{{ path('app_forgot_password_request') }}">forgot password?</a></p>
 
                 <p>no account? <a href="{{ path('app_register')}}">sign up!</a></p>
                     

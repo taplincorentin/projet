@@ -1,17 +1,63 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}S'inscrire{% endblock %}
+{% block title %}Sign up{% endblock %}
+{% block meta_description %}
+<meta name="description" content="This site's registration page">
+{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
 
-    
-
-    {{ form_start(registrationForm) }}
+    <div class="register-container">
         
-    {{ form_end(registrationForm) }}
-    
-    {{ form_errors(registrationForm) }}
+        <div class="register-form-container">
+          
+            <h1>Sign Up <i class="fa-solid fa-paw"></i></h1>
+          
+            <form method="post" class="register-form">
 
-    
+                {{ form_start(registrationForm) }}
+
+                    {{ form_label(registrationForm.email) }}
+                    {{ form_widget(registrationForm.email) }}
+
+                    {{ form_label(registrationForm.pseudo) }}
+                    {{ form_widget(registrationForm.pseudo) }}
+
+                    {{ form_label(registrationForm.plainPassword.first) }}
+                    {{ form_widget(registrationForm.plainPassword.first) }}
+
+                    {{ form_label(registrationForm.plainPassword.second) }}
+                    {{ form_widget(registrationForm.plainPassword.second) }}
+
+            
+                   <div class="row">
+                        {{ form_widget(registrationForm.isEducateur) }} 
+                        {{ form_label(registrationForm.isEducateur) }} 
+                    </div> 
+                    
+                    <div class="row">
+                        {{ form_widget(registrationForm.agreeTerms) }} 
+                        {{ form_label(registrationForm.agreeTerms) }} 
+                    </div> 
+                
+
+                    {{ form_widget(registrationForm.submit) }}
+
+                {{ form_end(registrationForm) }}
+                
+                
+            </form>
+
+            <div class="register-foot-container">
+
+                <p>Already have an account? Go to <a href="{{ path('app_login')}}">login page</a></p>
+                    
+            </div>
+
+            
+
+        </div>
+
+        
+    </div>
 {% endblock %}

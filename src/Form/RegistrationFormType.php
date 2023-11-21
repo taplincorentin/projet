@@ -22,35 +22,36 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email', EmailType::class, ['label' => 'Adresse e-mail :'])
-            ->add('pseudo', TextType::class, ['label' => 'Pseudo : '])
+            ->add('email', EmailType::class, ['label' => 'Email :'])
+            ->add('pseudo', TextType::class, ['label' => 'Username : '])
             ->add('plainPassword', RepeatedType::class, [
                 'mapped' => false,
                 'type' => PasswordType::class,
-                'invalid_message' => 'Les mots de passe doivent être identiques',
+                'invalid_message' => 'passwords need to be the same',
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
-                'first_options'  => ['label' => 'Mot de passe : '],
-                'second_options' => ['label' => 'Confirmer le mot de passe : '],
+                'first_options'  => ['label' => 'Password : '],
+                'second_options' => ['label' => 'Confirm password : '],
                 'constraints' => [
                     new RegexMdp(),
                 ]
             ])
             ->add("isEducateur", CheckboxType::class, [
                 'required' => false,                                                                                // Permet à la checkbox de ne pas forcément être cochée pour valider le formulaire
-                'label' => "Voulez-vous vous inscrire en tant qu'éducateur?"
+                'label' => "Sign up as a dog trainer"
             ])
             ->add("agreeTerms", CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
-                        'message' => "Vous ne pouvez pas vous inscrire sans accepter les conditions d'utilisations",
+                        'message' => "can't sign up without accepting the conditions of use",
                     ]),
                 ],
-                'label' => "J'accepte les conditions d'utilisation",
+                'label' => "Agree to terms and condition of use"
+                
             ])
             ->add('submit', SubmitType::class, [
-                'label' => "S'inscrire",
+                'label' => "Sign up",
             ]);
             
         ;
