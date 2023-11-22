@@ -90,7 +90,6 @@ input[type=email], input[type=password] {
 .form-container {
   width: 50%;
   padding: 20px;
-  background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 0 10px var(--tangerine);
   background-color: var(--aliceBlue);
@@ -139,7 +138,7 @@ input[type=email], input[type=password] {
 .register-form-container {
   width: 50%;
   padding: 20px;
-  background-color: #fff;
+
   border-radius: 5px;
   box-shadow: 0 0 10px var(--tangerine);
   background-color: var(--aliceBlue);
@@ -185,7 +184,6 @@ input[type=email], input[type=password] {
 .reset-password-form-container {
   width: 50%;
   padding: 20px;
-  background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 0 10px var(--tangerine);
   background-color: var(--aliceBlue);
@@ -211,6 +209,51 @@ input[type=email], input[type=password] {
 }
 
 .reset-password-form-container button {
+  background-color: var(--tangerine);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 3px;
+}
+
+/*SEARCH PAGE*/
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: var(--lightBlue);
+}
+
+.search-form-container {
+  width: 70%;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px var(--tangerine);
+  background-color: var(--aliceBlue);
+  
+}
+
+.search-form-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.search-form-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-form-container input,
+.search-form-container button {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.search-form-container button {
   background-color: var(--tangerine);
   color: #fff;
   border: none;

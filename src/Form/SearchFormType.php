@@ -25,7 +25,8 @@ class SearchFormType extends AbstractType
                 ],
                 'expanded' => true,
                 'multiple' => false,
-                'mapped' => false
+                'mapped' => false,
+                'required' => true
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Search',
