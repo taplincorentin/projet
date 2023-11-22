@@ -34,10 +34,10 @@ class RegistrationFormType extends AbstractType
                 'second_options' => ['label' => 'Confirm password : '],
                 'constraints' => [
                     new RegexMdp(),
-                ]
+                ],
             ])
             ->add("isEducateur", CheckboxType::class, [
-                'required' => false,                                                                                // Permet à la checkbox de ne pas forcément être cochée pour valider le formulaire
+                'required' => false,                                                                                
                 'label' => "Sign up as a dog trainer"
             ])
             ->add("agreeTerms", CheckboxType::class, [
