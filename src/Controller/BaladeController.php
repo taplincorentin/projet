@@ -186,35 +186,6 @@ class BaladeController extends AbstractController
     }
 
     
-    //search by city
-    #[Route('/balade/search', name: 'search_balade')]
-    public function searchByCity(BaladeRepository $baladeRepository, Request $request) :Response {
-        
-        $form = $this->createForm(BaladeSearchFormType::class);
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            
-            //get input ville 
-            $ville = $form->get('ville')->getData();
-
-
-            //get balades with same ville
-            $resultatsBalades = $baladeRepository->findBy(['ville' => $ville]);
-
-            return $this->render('balade/resultats.html.twig', [
-                'resultatsBalades' => $resultatsBalades,
-                'ville' => $ville
-            ]);
-        }
-        
-        return $this->render('balade/recherche.html.twig', [
-            'formSearchBalade' => $form->createView(),
-        ]);
-    }
-
-
     //go to walk info page
     #[Route('/balade/{id}', name: 'show_balade')]
     public function show(Balade $balade = null): Response {

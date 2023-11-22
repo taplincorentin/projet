@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dog Project - Search Page{% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="Dog Project search page that lets user look for training sessions or walks by city or town">
+<meta name="keywords" content="dog project, dog, dog trainers near me, dog walks near me, dog owners community">
+{% endblock %}
+
+{% block body %}
+
+    <h1>Search</h1>
+    {{ form_start(searchForm) }}
+
+        {{ form_label(searchForm.ville) }}
+        {{ form_widget(searchForm.ville) }}
+
+        {{ form_label(searchForm.type) }}
+        {{ form_widget(searchForm.type) }}
+
+        {{ form_widget(searchForm.submit) }}
+
+    {{ form_end(searchForm) }}
+
+{% endblock %}

@@ -187,39 +187,9 @@ class SeanceController extends AbstractController
 
         else {
             return $this->redirectToRoute('app_home');
-        }
-        
+        }      
     }
-
-    //search by city
-    #[Route('/seance/search', name: 'search_seance')]
-    public function searchByCity(SeanceRepository $seanceRepository, Request $request) :Response {
-        
-        $form = $this->createForm(SeanceSearchFormType::class);
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            
-            //get input ville 
-            $ville = $form->get('ville')->getData();
-
-
-            //get seances with same ville
-            $resultatsSeances = $seanceRepository->findBy(['ville' => $ville]);
-
-            return $this->render('seance/resultats.html.twig', [
-                'resultatsSeances' => $resultatsSeances,
-                'ville' => $ville
-            ]);
-        }
-        
-        return $this->render('seance/recherche.html.twig', [
-            'formSearchSeance' => $form->createView(),
-        ]);
-    }
-
-    
+   
     #[Route('/seance/{id}', name: 'show_seance')]
     public function show(seance $seance = null): Response {
         if($seance){

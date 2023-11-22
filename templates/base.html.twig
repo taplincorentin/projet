@@ -33,12 +33,8 @@
                         {% endif %}
                     </div>
                 </li>
-                <li class="dropdown">
-                    <a href="javascript:void(0)" class="dropbtn"><i class="fa-solid fa-magnifying-glass"></i></a>
-                    <div class="dropdown-elements">
-                        <a href="{{ path('search_balade') }}"><i class="fa-solid fa-shoe-prints"></i> walk</a>        
-                        <a href="{{ path('search_seance') }}"><i class="fa-solid fa-graduation-cap"></i> session</a>  
-                    </div>
+                <li class="search">
+                    <a href="{{ path('app_recherche') }}"><i class="fa-solid fa-magnifying-glass"></i> Search for a walk or training session</a>
                 </li>
 
                 <li style="float:right"><a href="{{ path('app_logout') }}" onclick="return confirm('Êtes-vous sûr(e) de vouloir vous déconnecter?')"><i class="fa-solid fa-right-from-bracket"></i></a></li>
