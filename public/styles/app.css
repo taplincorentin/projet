@@ -265,30 +265,105 @@ input[type=email], input[type=password] {
 }
 
 /*Forum main page*/
+
 .category-head{
-  float: left;
   width: 100%;
-  padding: 0 20px;
   text-align: center;
+  background-color: var(--lightBlue);
+}
+
+.category-head h1 {
+  margin: 0%;
+  padding-top: 10px;
+  padding-bottom: 5px;
+}
+
+.category-head p {
+  margin: 0%;
+  padding-bottom: 10px;
+}
+
+.category-main{
+  display: flex;
+  border:solid 1px var(--darkBlue);
+  background-color: var(--beige);
 }
 
 .category-left{
-  float: left;
   width: 20%;
   text-align: center;
-  
+  overflow: hidden;
 }
 
 .category-left a {
   background-color: var(--darkBlue);
   padding: 8px;
-  margin-top: 7px;
+  margin-top: 5px;
+  margin-left: 5px;
   display: block;
   width: 100%;
   color: white;
   text-transform: uppercase;
   text-decoration: none;
 }
+
+.category-right {
+  width: 100%;
+  margin-left: 10px;
+  border-left:solid 1px var(--darkBlue);
+}
+
+.topic-date {
+  background-color: var(--darkBlue);
+  color: white;
+  padding: 2px;
+}
+
+.topic-date a {
+  float: inline-end;
+  text-decoration: none;
+  color: white;
+}
+
+.topic-body {
+  display: flex;
+}
+
+.topic-user {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin: 2px;
+  padding-right: 20px;
+  padding-left: 20px;
+  border-right: solid 1px var(--darkBlue); 
+}
+
+.topic-user a{
+  text-decoration: none;
+  color: black;
+}
+
+.topic-picture {
+  border-radius: 30%;  
+  height: 100px; 
+  width: 100px;
+  object-fit: cover;
+}
+
+.topic-content {
+  display: flex;
+  align-items: center;
+  padding-left: 60px;
+  flex-grow: 3;
+}
+
+.topic-nb-posts {
+  display: flex;
+  align-items: center;
+  padding : 10px;
+}
+
 
 /*User display on walk session views*/
 .participant-line{

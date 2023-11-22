@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Categorie;
+use App\Repository\PostRepository;
 use App\Repository\TopicRepository;
 use App\Repository\CategorieRepository;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,15 +13,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class CategorieController extends AbstractController
 {
     #[Route('/categorie', name: 'app_categorie')]
-    public function index(CategorieRepository $categorieRepository, TopicRepository $topicRepository): Response
+    public function index(CategorieRepository $categorieRepository, TopicRepository $topicRepository, PostRepository $postRepository): Response
     {
         $categories = $categorieRepository->findBy([], ['nom' => 'ASC']); //get all categories
 
         $latestTopics = $topicRepository->getLatestTopics();
+
+        $nbPostsParTopic = [];
+        foreach ($latestTopics as $topic) {
+            $nbPosts = $postRepository->nbPostsDansTopic($topic);
+            $nbPostsParTopic[$topic->getId()] = $nbPosts;
+        }
         
         return $this->render('categorie/index.html.twig', [
             'categories' => $categories,
             'latestTopics' => $latestTopics,
+            'nbPostsParTopic' => $nbPostsParTopic,
         ]);
     }
 

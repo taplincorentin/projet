@@ -1,6 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}CategoryList{% endblock %}
+{% block title %}Forum Homepage - Dog Project{% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="Welcome to the Dog Project Forum, a community for all dog lovers to discuss anything related to man's best friend">
+<meta name="keywords" content="dog project, dog, dog trainers near me, local dog trainers, dog walks near me, dog owners community, forum">
+{% endblock %}
 
 {% block body %}
 
@@ -12,7 +17,7 @@
 
 </div>
 
-<main>
+<main class="category-main">
 <div class='category-left'>
 
     <h2>CATEGORIES</h2>
@@ -27,34 +32,45 @@
 </div>
 
 <div class="category-right">
-    <h2>LATEST TOPICS</h2>
-    <table>
-    {% for topic in latestTopics %}
-    <tr>
-        {% if topic.auteur is empty %}
-            <td>
-                {{ 'deleted' }}
-                {{topic.dateCreation | date('d-m-Y H:i:s')}}
-            </td>
-        {% else %}
-            <td>
-                <a href="{{ path('show_personne', {'id': topic.auteur.id}) }}">{{topic.auteur}}</a>
-                {{topic.dateCreation | date('d-m-Y H:i:s')}}
-            </td>
-        {% endif %}
-        <td><a href="{{ path('show_topic', {'id': topic.id}) }}">{{topic}} </a></td>
+    <h2 style="text-align: center;">LATEST TOPICS</h2>
 
-        
-        {#if user is topic auteur, can edit/delete topic#}
-        {% if app.user == topic.auteur %}
-            <td>
-                <a href="{{ path('edit_topic',  {'categorie_id': topic.categorie.id, 'id': topic.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
-                <a href="{{ path('delete_topic', {'id': topic.id}) }}" onclick="return confirm('delete topic ?')"><i class="fa-solid fa-trash fa-lg"></i></a>
-            </td>
-        {% endif %} 
-    </tr>
+    {% for topic in latestTopics %}
+        <div class="topic">
+
+            <div class="topic-date">
+                {{topic.dateCreation | date('d-m-Y H:i:s')}}
+                <a href="{{ path('show_topic', {'id': topic.id}) }}">go to topic >></a>
+            </div>
+
+            <div class="topic-body">
+                {% if topic.auteur is empty %}
+                    <div class="topic-user">
+                        <img class="topic-picture" src="{{ asset('/images/users/profile_picture_default.jpg') }}" alt="picture of a dog, default picture for deleted users">
+                        {{ 'deleted' }}
+                    </div>    
+                {% else %}
+                    <div class="topic-user">
+                        <a href="{{ path('show_personne', {'id': topic.auteur.id}) }}">
+                            <img class="topic-picture" src="{{ asset('/images/users/' ~ topic.auteur.nomImageProfil) }}" alt="{{ topic.auteur ~ "'s profile picture" }}">
+                        </a>
+                        <a href="{{ path('show_personne', {'id': topic.auteur.id}) }}">
+                            {{topic.auteur}}
+                        </a>
+                    </div>
+                {% endif %}
+
+                <div class="topic-content">
+                    <p>{{topic}}</p>
+                </div>
+
+                <div class="topic-nb-posts" >
+                    <p>{{ nbPostsParTopic[topic.id] }} posts</p>
+                </div>
+
+            </div>
+        </div>
     {% endfor %}
-    </table>
+
 </div>
 </main>
 {% endblock %}
