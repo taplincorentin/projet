@@ -16,6 +16,25 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TopicRepository extends ServiceEntityRepository
 {
+    public function getLatestTopics(){
+        
+        $idCategoriesExclues = [6, 7];
+
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select('t')
+            ->from('App\Entity\Topic', 't')
+            ->leftJoin('t.categorie', 'c')
+            ->where('c.id NOT IN (:categoriesExclues)')
+            ->setParameter('categoriesExclues', $idCategoriesExclues)
+            ->orderBy('t.dateCreation', 'DESC')
+            ->setMaxResults(10);
+        
+        $query = $qb->getQuery();
+        return $query->getResult();
+    }
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Topic::class);

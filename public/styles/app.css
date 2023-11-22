@@ -67,7 +67,9 @@ img {
   
   
   
-  .dropdown-elements a:hover {background-color: #f1f1f1;}
+.dropdown-elements a:hover {
+    background-color: #f1f1f1;
+  }
   
   .dropdown:hover .dropdown-elements {
     display: block;
@@ -262,6 +264,31 @@ input[type=email], input[type=password] {
   margin-top: 3px;
 }
 
+/*Forum main page*/
+.category-head{
+  float: left;
+  width: 100%;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.category-left{
+  float: left;
+  width: 20%;
+  text-align: center;
+  
+}
+
+.category-left a {
+  background-color: var(--darkBlue);
+  padding: 8px;
+  margin-top: 7px;
+  display: block;
+  width: 100%;
+  color: white;
+  text-transform: uppercase;
+  text-decoration: none;
+}
 
 /*User display on walk session views*/
 .participant-line{
