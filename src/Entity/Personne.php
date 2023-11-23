@@ -51,9 +51,6 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column (nullable: true)]
     private ?bool $isEducateur = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $descriptionEducateur = null;
-
     #[ORM\OneToMany(mappedBy: 'personne', targetEntity: Chien::class, orphanRemoval: true)]
     private Collection $chiens;
 
@@ -213,17 +210,6 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getDescriptionEducateur(): ?string
-    {
-        return $this->descriptionEducateur;
-    }
-
-    public function setDescriptionEducateur(?string $descriptionEducateur): static
-    {
-        $this->descriptionEducateur = $descriptionEducateur;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Chien>

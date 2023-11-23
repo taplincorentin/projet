@@ -27,7 +27,6 @@ class PersonneFormType extends AbstractType
                 'label' => "I am a dog trainer",
                 'required' => false,
             ])
-            ->add('descriptionEducateur')
             ->add('submit', SubmitType::class, [
                 'label' => "edit my info",
             ])

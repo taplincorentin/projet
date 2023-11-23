@@ -4,17 +4,42 @@
 
 {% block body %}
 
-    <div class="personne-form-page">
-    
-        <h1> Edit personne</h1>
+    <div class="register-container">
+        
+        <div class="register-form-container">
+          
+            <h1>Edit your Info <i class="fa-solid fa-paw"></i></h1>
+          
+            <form method="post" class="register-form">
 
+                {{ form_start(formAddPersonne) }}
 
-        <hr>
-        <div class="personne-form">
-            {{ form_start(formAddPersonne) }}
-            {{ form_end(formAddPersonne) }}
+                    {{ form_label(formAddPersonne.email) }}
+                    {{ form_widget(formAddPersonne.email) }}
+
+                    {{ form_label(formAddPersonne.pseudo) }}
+                    {{ form_widget(formAddPersonne.pseudo) }}
+
+                    {{ form_label(formAddPersonne.description) }}
+                    {{ form_widget(formAddPersonne.description, {
+                        'id': 'text_post_edit'}) }}
+          
+                   <div class="row">
+                        {{ form_widget(formAddPersonne.isEducateur) }} 
+                        {{ form_label(formAddPersonne.isEducateur) }} 
+                    </div>
+                    
+                    {{ form_label(formAddPersonne.imageProfil) }}
+                    {{ form_widget(formAddPersonne.imageProfil) }}
+                
+                    {{ form_widget(formAddPersonne.submit) }}
+
+                {{ form_end(formAddPersonne) }}
+                
+                
+            </form>           
+
         </div>
-
 
         
     </div>
