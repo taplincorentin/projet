@@ -329,6 +329,7 @@ input[type=email], input[type=password] {
   float: inline-end;
   text-decoration: none;
   color: white;
+  margin-left: 5px;
 }
 
 .topic-body {
@@ -392,13 +393,29 @@ button#topic_form_submit{
   background-color: var(--darkBlue);
 }
 
-/* .topic-options{
-  position: absolute;
+/*FORUM SHOW TOPIC POSTS PAGE*/
+form#new-post-form{
+  justify-content: space-between;
 }
 
-.topic-options a{
-  color: var(--lightBlue);
-} */
+textarea#post_form_contenu{
+  width: 80%;
+  height: 50px;
+  margin: 10px;
+  padding: 10px;
+  resize: none;
+}
+
+button#post_form_submit{
+  width: 20%;
+  margin: 10px;
+  height: 50px;
+  padding: 10px;
+  color: white;
+  background-color: var(--darkBlue);
+}
+
+
 
 /*User display on walk session views*/
 .participant-line{

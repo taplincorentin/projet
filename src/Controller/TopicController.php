@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Post;
 use App\Entity\Topic;
 use App\Entity\Categorie;
+use App\Form\PostFormType;
 use App\Form\TopicFormType;
+use App\Repository\CategorieRepository;
 use App\Service\VerificationRoleService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -135,13 +138,43 @@ class TopicController extends AbstractController
 
 
     #[Route('/topic/{id}', name: 'show_topic')]
-    public function show(Topic $topic = null): Response {
+    public function show(Topic $topic = null, Post $post = null, Request $request, EntityManagerInterface $entityManager, CategorieRepository $categorieRepository): Response {
 
         //check topic exists
         if($topic){
 
+            //get all categories for menu 
+            $categories = $categorieRepository->findBy([], ['nom' => 'ASC']); 
+
             //get current user for check
             $user = $this->getUser();
+
+            //for post form and submission
+            $post = new Post();
+                    
+                $form = $this->createForm(PostFormType::class, $post);
+
+                $form->handleRequest($request); 
+                if ($form->isSubmitted() && $form->isValid()) { //if form submitted and valid
+
+                    //get form data (contenu)
+                    $post = $form->getData();
+                        
+                    //set post topic
+                    $post->setTopic($topic);                
+
+                    //get current datetime to set 'lastModified'
+                    $now = new \DateTime();
+                    $post->setDateCreation($now);
+
+                    //set current user as post creator
+                    $auteur = $this->getUser();
+                    $post->setAuteur($auteur);
+                        
+                    //prepare execute
+                    $entityManager->persist($post);
+                    $entityManager->flush();
+                }
 
             //if it's a walk's topic
             if(!empty($topic->getBalade())){
@@ -151,7 +184,9 @@ class TopicController extends AbstractController
                     
                     //return topic view if it's the case
                     return $this->render('topic/show.html.twig', [
-                    'topic' => $topic
+                    'topic' => $topic,
+                    'formAddPost' => $form,
+                    'categories' => $categories,
                     ]);
                 }
 
@@ -163,7 +198,9 @@ class TopicController extends AbstractController
                         
                         //return topic view if it's the case
                         return $this->render('topic/show.html.twig', [
-                            'topic' => $topic
+                            'topic' => $topic,
+                            'formAddPost' => $form,
+                            'categories' => $categories,
                         ]);
                     }
                 }
@@ -182,7 +219,9 @@ class TopicController extends AbstractController
                     
                     //return topic view if it's the case
                     return $this->render('topic/show.html.twig', [
-                        'topic' => $topic
+                        'topic' => $topic,
+                        'formAddPost' => $form,
+                        'categories' => $categories,
                     ]);
                 }
                 
@@ -194,7 +233,9 @@ class TopicController extends AbstractController
                         
                         //return topic view if it's the case
                         return $this->render('topic/show.html.twig', [
-                            'topic' => $topic
+                            'topic' => $topic,
+                            'formAddPost' => $form,
+                            'categories' => $categories,
                         ]);
                     }
                     
@@ -208,7 +249,9 @@ class TopicController extends AbstractController
             else{
 
                 return $this->render('topic/show.html.twig', [
-                    'topic' => $topic
+                    'topic' => $topic,
+                    'formAddPost' => $form,
+                    'categories' => $categories,
                 ]);
             }
      

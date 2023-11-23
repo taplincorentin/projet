@@ -9,7 +9,7 @@
 {% block body %}   
     <div class='category-head'>
 
-        <h1>{{categorie}} CATEGORY</h1>
+        <h1>{{categorie |upper }} CATEGORY</h1>
         <p>Welcome, if you cannot find what you are looking for, make your own topic!</p>
     
     </div>
@@ -78,7 +78,7 @@
                     <span>{{app.user}}</span> 
                 </div>
     
-                <form method="post" id="new-topic-form" class="topic-content">
+                <form method="post" id="new-post-form" class="topic-content">
                     {{ form_start(formAddTopic) }}
                         {{ form_widget(formAddTopic.titre, {'attr': {'placeholder': 'Topic Title'}}) }}
                         {{ form_widget(formAddTopic.submit) }}

@@ -1,53 +1,107 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Topic Posts{% endblock %}
+{% block title %}Topic Posts - Forum - Dog Project{% endblock %}
+
+{% block meta_description %}
+    <meta name="description" content="Welcome to the Dog Project Forum, a community for all dog lovers to discuss anything related to man's best friend. This is the topic's page where you can read and add comments">
+    <meta name="keywords" content="dog project, dog, dog trainers near me, local dog trainers, dog walks near me, dog owners community, forum">
+{% endblock %}
 
 {% block body %}
 
-    <div>
-        <p><a href="{{ path('show_categorie', {'id': topic.categorie.id}) }}">back to category</a></p>
-    </div>
-    <div>
-        <h2>{{topic}}</h2>
-    </div>
+    <div class='category-head'>
 
-    <div class="posts">
-        <h3>Posts</h3>
+        <h1>{{topic | upper }}</h1>
+        {% if topic.auteur is empty %}
+            <p>Topic created by a deleted user</a></p> 
+        {% else %}
+            <p>Topic created by <a href="{{ path('show_personne', {'id': topic.auteur.id}) }}" style=" color: black;">{{ topic.auteur }}</a></p>
+        {% endif %}
+
+        {% if app.user == topic.auteur %}
+            <span>
+                <a style="color: black;" href="{{ path('edit_topic',  {'categorie_id': topic.categorie.id, 'id': topic.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
+                <a style="color: black;" href="{{ path('delete_topic', {'id': topic.id}) }}" onclick="return confirm('delete topic ?')"><i class="fa-solid fa-trash fa-lg"></i></a>
+            </span>
+        {% endif %}
         
-        <table>
-        {% for post in topic.posts %}
-            <div class="topic-post">
-                <tr>
-                    {% if post.auteur is empty %}
-                        <td>
-                            {{ 'deleted' }}
-                            {{post.dateCreation | date('d-m-Y H:i:s')}}
-                        </td>
-                    {% else %}
-                        <td>
-                            <a href="{{ path('show_personne', {'id': post.auteur.id}) }}">{{post.auteur}}</a>
-                            {{post.dateCreation | date('d-m-Y H:i:s')}}
-                        </td>
-                    {% endif %}
-                    
-                    <td>{{post}}</td>
-                    
+    
+    </div>
+    
+    <main class="category-main">
+    <div class='category-left'>
+    
+        <h2>CATEGORIES</h2>
+    
+        {% for categorie in categories %}
+            {% if (categorie.nom != 'Walks') and (categorie.nom != 'Sessions') %}
+                <a href="{{ path('show_categorie', {'id': categorie.id}) }}">{{ categorie }}</a>
+            {% endif %}
+        {% endfor %}
+    
+    
+    </div>
+    
+    <div class="category-right">
+    
+        {% for post in topic.posts | sort((a, b) => a.dateCreation <=> b.dateCreation) %}
+            <div class="topic">
+    
+                <div class="topic-date">
+                    {{post.dateCreation | date('d-m-Y H:i:s')}}
                     {#if user is post auteur, can edit/delete post#}
                     {% if app.user == post.auteur %}
-                        <td>
-                            <a href="{{ path('edit_post',  {'topic_id': topic.id, 'id': post.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
+                        <span>
                             <a href="{{ path('delete_post', {'id': post.id}) }}" onclick="return confirm('delete post ?')"><i class="fa-solid fa-trash fa-lg"></i></a>
-                        </td>
+                            <a href="{{ path('edit_post',  {'topic_id': topic.id, 'id': post.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
+                        </span>
                     {% endif %}
-                    
-                </tr>
+                </div>
+    
+                <div class="topic-body">
+                    {% if post.auteur is empty %}
+                        <div class="topic-user">
+                            <img class="topic-picture" src="{{ asset('/images/users/profile_picture_default.jpg') }}" alt="picture of a dog, default picture for deleted users">
+                            {{ 'deleted' }}
+                        </div>    
+                    {% else %}
+                        <div class="topic-user">
+                            <a href="{{ path('show_personne', {'id': post.auteur.id}) }}">
+                                <img class="topic-picture" src="{{ asset('/images/users/' ~ post.auteur.nomImageProfil) }}" alt="{{ post.auteur ~ "'s profile picture" }}">
+                            </a>
+                            <a href="{{ path('show_personne', {'id': post.auteur.id}) }}">
+                                {{post.auteur}}
+                            </a>
+                        </div>
+                    {% endif %}
+    
+                    <div class="topic-content">
+                        <p>{{post}}</p>
+                    </div>
+    
+                </div>
             </div>
         {% endfor %}
-        </table>
-
-        <p><a href="{{ path('new_post', {'topic_id': topic.id}) }}">new post</a></p>
-        
-    </div>
+        <div class="topic">
+            <div class="topic-date">
+                <p></p>
+            </div>   
+            
+            <div class="topic-body">         
+                <div class="topic-user">
+                    <span><img class="topic-picture" src="{{ asset('/images/users/' ~ app.user.nomImageProfil) }}" alt="your profile picture"></span>
+                    <span>{{app.user}}</span> 
+                </div>
+    
+                <form method="post" id="new-topic-form" class="topic-content">
+                    {{ form_start(formAddPost) }}
+                        {{ form_widget(formAddPost.contenu, {'attr': {'placeholder': 'Type your comment here'}}) }}
+                        {{ form_widget(formAddPost.submit) }}
+                    {{ form_end(formAddPost) }}
+                </form>
+            </div>
+        </div>
+    </main>
     
 
 {% endblock %}
