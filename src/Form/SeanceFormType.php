@@ -12,25 +12,32 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class SeanceFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom')
+            ->add('nom', TextType::class, [
+                'label' => 'Title : '
+            ])
             ->add('dateHeureDepart', DateTimeType::class, [
                 'widget' => 'single_text',
-                'label' => 'When?'
+                'label' => 'Date and Time : '
             ])
-            ->add('ville', TextType::class)
+            ->add('ville', TextType::class, [
+                'label' => 'City/Town : '
+            ])
             ->add('theme', EntityType::class,[
                 'class' => Theme::class,
                 'required' => false,
-                'placeholder' => 'You can choose a theme for your session',
+                'placeholder' => 'You can choose a theme for your training session',
                 'empty_data' => null
                 ])
-            ->add('description')
+            ->add('description', TextareaType::class, [
+                'label' => 'Additional Information : '
+            ])
             ->add('pointLatitude', NumberType::class, [
                 'required' => false,
             ])
@@ -38,7 +45,7 @@ class SeanceFormType extends AbstractType
                 'required' => false,
             ])
             ->add('submit', SubmitType::class, [
-                'label' => "Add session",
+                'label' => "Confirm Training Session Information",
             ]);
         
     }

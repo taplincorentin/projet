@@ -518,7 +518,7 @@ button#chien_form_submit{
 .walk-form-container button {
   margin-bottom: 15px;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--aliceBluee);
   border-radius: 3px;
 }
 
@@ -531,18 +531,27 @@ button#chien_form_submit{
   margin-top: 3px;
 }
 
-button#balade_form_submit{
+button#balade_form_submit, button#seance_form_submit{
   width: 100%;
   color: white;
   background-color: var(--tangerine);
   margin-top: 20px;
 }
 
-#map_add_balade {
-  border:solid 3px var(--darkBlue);
+#map_add_balade, #map_add_seance {
+  border:solid 3px var(--lightBlue);
   width: 100%;
+  margin-top: 20px;
+  border-radius: 3px;
 }
 
+select#seance_form_theme{
+  width:100%;
+  margin-bottom: 30px;
+  background-color: white;
+  height: 35px;
+  border-radius: 3px;
+}
 
 .hidden {
   display: none;

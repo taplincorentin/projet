@@ -1,32 +1,60 @@
 {% extends 'base.html.twig' %}
 
 
-{% block title %}Add session{% endblock %}
+{% block title %}Your Training Session Information Page - Dog Project{% endblock %}
+
+{% block meta_description %}
+    <meta name="description" content="Welcome to the Dog Project, a community for all dog lovers to discuss anything related to man's best friend 
+                                    or to meet each other for dog walks or training sessions. This is the page for dog trainers to edit their session's information">
+    <meta name="keywords" content="dog project, dog, dog trainers near me, local dog trainers, dog walks near me, dog owners community, forum">
+{% endblock %}
 
 {% block body %}
 
-    <div class="session-form-page">
+        <div class="walk-container">
+        
+            <div class="walk-form-container">
+              
+                <h1>Training Session Information Page <i class="fa-solid fa-paw"></i></h1>
+              
+                <form method="post" class="walk-form">
     
-        <h1> Add/Edit session info </h1>
+                    {{ form_start(formAddSeance) }}
+    
+                        {{ form_label(formAddSeance.nom) }}
+                        {{ form_widget(formAddSeance.nom, {'attr': {'placeholder': 'Give your Training Session a Title'}}) }}
+    
+                        {{ form_label(formAddSeance.dateHeureDepart) }}
+                        {{ form_widget(formAddSeance.dateHeureDepart) }}
+    
+                        {{ form_label(formAddSeance.ville) }}
+                        {{ form_widget(formAddSeance.ville, {'attr': {'placeholder': 'In Which City/Town ?'}}) }}
 
-        <hr>
-        <div class="session-form">
-            {{ form_start(formAddSeance) }}
-
-                {{ form_row(formAddSeance.nom) }}
-                {{ form_row(formAddSeance.dateHeureDepart) }}
-                {{ form_row(formAddSeance.ville) }}
-                {{ form_row(formAddSeance.description) }}
-                {{ form_row(formAddSeance.theme) }}
-
-            <div id="map_add_seance" style="height: 300px;  width:300px;"></div>
-                <div class="hidden">
-                    {{ form_row(formAddSeance.pointLatitude) }}
-                    {{ form_row(formAddSeance.pointLongitude) }}
-                </div>
-            {{ form_end(formAddSeance) }}
+                        {{ form_label(formAddSeance.theme) }}
+                        {{ form_widget(formAddSeance.theme) }} 
+                        
+                        {{ form_label(formAddSeance.description) }}
+                        {{ form_widget(formAddSeance.description, {
+                            'id': 'text_post_edit'}) 
+                        }}
+                        
+                        <div id="map_add_seance" style="height: 300px;"></div>
+    
+                        <div class="hidden">
+                            {{ form_row(formAddSeance.pointLatitude) }}
+                            {{ form_row(formAddSeance.pointLongitude) }}
+                        </div>
+                    
+                        {{ form_widget(formAddSeance.submit) }}
+    
+                    {{ form_end(formAddSeance) }}
+                    
+                    
+                </form>           
+    
+            </div>
+    
+            
         </div>
-
-
 
 {% endblock %}

@@ -22,13 +22,13 @@
                 {{ form_start(formAddBalade) }}
 
                     {{ form_label(formAddBalade.nom) }}
-                    {{ form_widget(formAddBalade.nom) }}
+                    {{ form_widget(formAddBalade.nom, {'attr': {'placeholder': 'Give a Title to your Dog Walk'}}) }}
 
                     {{ form_label(formAddBalade.dateHeureDepart) }}
                     {{ form_widget(formAddBalade.dateHeureDepart) }}
 
                     {{ form_label(formAddBalade.ville) }}
-                    {{ form_widget(formAddBalade.ville) }} 
+                    {{ form_widget(formAddBalade.ville, {'attr': {'placeholder': 'In Which City/Town ?'}}) }} 
                      
                     {{ form_label(formAddBalade.description) }}
                     {{ form_widget(formAddBalade.description, {
