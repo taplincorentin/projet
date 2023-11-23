@@ -96,7 +96,8 @@
                 <form method="post" id="new-topic-form" class="topic-content">
                     {{ form_start(formAddPost) }}
                         {{ form_widget(formAddPost.contenu, {'attr': {'placeholder': 'Type your comment here'}}) }}
-                        {{ form_widget(formAddPost.submit) }}
+                        {{ form_widget(formAddPost.submit, {
+                            'label': 'add comment'}) }}
                     {{ form_end(formAddPost) }}
                 </form>
             </div>

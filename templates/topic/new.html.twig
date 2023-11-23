@@ -4,19 +4,24 @@
 
 {% block body %}
 
-    <div class="topic-form-page">
-    
-        <h1> Add/Edit topic</h1>
-
-
-        <hr>
-        <div class="topic-form">
+<div class="reset-password-container">
+    <div class="reset-password-form-container">
+      
+        <h1>Edit your topic's title <i class="fa-solid fa-paw"></i></h1>
+      
+        <form method="post" class="reset-password-form">
             {{ form_start(formAddTopic) }}
-            {{ form_end(formAddTopic) }}
-        </div>
+                {{ form_widget(formAddTopic.titre, {
+                    'id': 'text_post_edit'})
+                }}
+                {{ form_widget(formAddTopic.submit, {
+                    'label': 'Edit comment',
+                    'id': 'button_post_edit'}) 
+                }}
+            {{ form_end(formAddTopic) }}              
+        </form> 
 
-
-        
-    </div>
+    </div>     
+</div>
 
 {% endblock %}

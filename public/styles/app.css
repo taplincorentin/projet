@@ -416,6 +416,15 @@ button#post_form_submit{
 }
 
 
+textarea#text_post_edit{
+  height : 100px;
+  width: 100%;
+  resize: none;
+  margin: 0;
+  margin-bottom: 10px;
+  padding: 0;
+  border-radius: 5px;
+}
 
 /*User display on walk session views*/
 .participant-line{

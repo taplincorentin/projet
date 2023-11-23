@@ -14,9 +14,7 @@ class PostFormType extends AbstractType
     {
         $builder
             ->add('contenu')
-            ->add('submit', SubmitType::class, [
-                'label' => "add post",
-            ])
+            ->add('submit', SubmitType::class)
         ;
     }
 

@@ -1,22 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ajout post{% endblock %}
+{% block title %}Edit your post{% endblock %}
+
+{% block meta_description %}
+    <meta name="description" content="Welcome to the Dog Project Forum, a community for all dog lovers to discuss anything related to man's best friend. This is the page to edit a comment">
+    <meta name="keywords" content="dog project, dog, dog trainers near me, local dog trainers, dog walks near me, dog owners community, forum">
+{% endblock %}
 
 {% block body %}
 
-    <div class="post-form-page">
-    
-        <h1> Add/Edit post</h1>
 
+    <div class="reset-password-container">
+        <div class="reset-password-form-container">
+          
+            <h1>Edit your post's content <i class="fa-solid fa-paw"></i></h1>
+          
+            <form method="post" class="reset-password-form">
+                {{ form_start(formAddPost) }}
+                    {{ form_widget(formAddPost.contenu, {
+                        'id': 'text_post_edit'})
+                    }}
+                    {{ form_widget(formAddPost.submit, {
+                        'label': 'Edit comment',
+                        'id': 'button_post_edit'}) 
+                    }}
+                {{ form_end(formAddPost) }}              
+            </form> 
 
-        <hr>
-        <div class="post-form">
-            {{ form_start(formAddPost) }}
-            {{ form_end(formAddPost) }}
-        </div>
-
-
-        
+        </div>     
     </div>
 
 {% endblock %}
