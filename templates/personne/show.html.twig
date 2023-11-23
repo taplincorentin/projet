@@ -1,13 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {{personne}}'s profile {% endblock %}
+{% block title %} {{personne}}'s profile - Dog Project {% endblock %}
+
 
 {% block meta_description %}
-<meta name="description" content="{{personne}}'s profile information, dogs and organised walks and training sessions">
+    <meta name="description" content="Welcome to the Dog Project, a community for all dog lovers to discuss anything related to man's best friend 
+                                        or to meet each other for dog walks or training sessions. This is {{personne}}'s profile page, you can see 
+                                            their dogs, organised walks and training sessions">
+    <meta name="keywords" content="dog project, dog, dog trainers near me, local dog trainers, dog walks near me, dog owners community, profile page">
 {% endblock %}
 
+
 {% block body %}
-    
+
+    <div class='user-profile-head'>
+
+        <h1>{{personne |upper }}'S PROFILE</h1>
+        <p>Get to know {{personne}}, their dogs and upcoming events !</p>
+
+        {#if this is the current user's profile can edit his info or delete his profile#}
+        {% if (app.user == personne) %}
+            <span class="user-edit-delete">
+                <a href="{{ path('edit_personne', {'id': personne.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
+                <a href="{{ path('delete_personne', {'id': personne.id}) }}" onclick="return confirm('Are you sure?')"><i class="fa-solid fa-trash fa-lg"></i></a>
+            </span>
+            <a href="{{ path('new_chien') }}" class="new-dog-button"><i class="fa-solid fa-plus"></i> ADD A NEW DOG</a>
+        {% endif %}
+
+    </div>
     {#if user is a super admin can change person's role#}
     {% if is_granted('ROLE_SUPER_ADMIN') %}
         <div class="roles">
@@ -17,21 +37,12 @@
         </div>  
     {% endif %}
 
-    {#if this is the current user's profile can edit his info or delete his profile#}
-    {% if (app.user == personne) %}
-        <div class="edit-delete">
-            <a href="{{ path('edit_personne', {'id': personne.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
-            <a href="{{ path('delete_personne', {'id': personne.id}) }}" onclick="return confirm('Are you sure?')"><i class="fa-solid fa-trash fa-lg"></i></a>
-            <a href="{{ path('new_chien') }}">Add dog</a>
-        </div>
-    {% endif %}
 
     {#Person info#}
     <div>
 
             <img src="{{ asset('/images/users/' ~ personne.nomImageProfil) }}" alt="{{ personne ~ "'s profile picture" }}">
 
-        <h2>{{personne.pseudo}}'s page</h2>
         <p>{{personne.description}}</p>
     </div>
 
