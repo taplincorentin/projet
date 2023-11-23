@@ -13,7 +13,7 @@
 <div class='category-head'>
 
     <h1>WELCOME TO THE FORUM</h1>
-    <p>Welcome, if you cannot find what you are looking for, make your own post!</p>
+    <p>Welcome, if you cannot find what you are looking for, make your own topic!</p>
 
 </div>
 
@@ -39,6 +39,7 @@
 
             <div class="topic-date">
                 {{topic.dateCreation | date('d-m-Y H:i:s')}}
+                          in "{{topic.categorie}}" category
                 <a href="{{ path('show_topic', {'id': topic.id}) }}">go to topic >></a>
             </div>
 

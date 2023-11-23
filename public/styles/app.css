@@ -310,6 +310,12 @@ input[type=email], input[type=password] {
 .category-right {
   width: 100%;
   margin-left: 10px;
+}
+
+.topic{
+  border-radius: 25px;
+  margin-top: 6px;
+  border-bottom:solid 1px var(--darkBlue);
   border-left:solid 1px var(--darkBlue);
 }
 
@@ -364,6 +370,35 @@ input[type=email], input[type=password] {
   padding : 10px;
 }
 
+/*FORUM SHOW CATEGORY TOPICS PAGE*/
+
+form#new-topic-form{
+  justify-content: space-between;
+}
+
+input#topic_form_titre{
+  width: 80%;
+  height: 50px;
+  margin: 10px;
+  padding: 10px;
+}
+
+button#topic_form_submit{
+  width: 20%;
+  margin: 10px;
+  height: 50px;
+  padding: 10px;
+  color: white;
+  background-color: var(--darkBlue);
+}
+
+/* .topic-options{
+  position: absolute;
+}
+
+.topic-options a{
+  color: var(--lightBlue);
+} */
 
 /*User display on walk session views*/
 .participant-line{

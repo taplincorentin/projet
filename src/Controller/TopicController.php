@@ -14,51 +14,51 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TopicController extends AbstractController
 {
-    #[Route('/{categorie_id}/topic/new', name: 'new_topic')]
-    public function new(Topic $topic = null, int $categorie_id, Request $request, EntityManagerInterface $entityManager): Response {
+    // #[Route('/{categorie_id}/topic/new', name: 'new_topic')]
+    // public function new(Topic $topic = null, int $categorie_id, Request $request, EntityManagerInterface $entityManager): Response {
 
-        $topic = new Topic();
+    //     $topic = new Topic();
 
-        $categorie = $entityManager->getRepository(Categorie::class)->findOneBy(['id'=>$categorie_id]);
+    //     $categorie = $entityManager->getRepository(Categorie::class)->findOneBy(['id'=>$categorie_id]);
 
-        //security check that the categorie isn't the walk or session categorie (can't create a topic in it this way only by creating a walk/session)
-        if($categorie->getNom() != 'Walks' && $categorie->getNom() != 'Sessions'){
+    //     //security check that the categorie isn't the walk or session categorie (can't create a topic in it this way only by creating a walk/session)
+    //     if($categorie->getNom() != 'Walks' && $categorie->getNom() != 'Sessions'){
             
-            $form = $this->createForm(TopicFormType::class, $topic);
+    //         $form = $this->createForm(TopicFormType::class, $topic);
 
-            $form->handleRequest($request); 
-            if ($form->isSubmitted() && $form->isValid()) { //if form submitted and valid
+    //         $form->handleRequest($request); 
+    //         if ($form->isSubmitted() && $form->isValid()) { //if form submitted and valid
     
-                //get form data (titre)
-                $topic = $form->getData();              
+    //             //get form data (titre)
+    //             $topic = $form->getData();              
                 
-                //set topic category
-                $topic->setCategorie($categorie);       
+    //             //set topic category
+    //             $topic->setCategorie($categorie);       
     
-                //get current datetime to set 'lastModified'
-                $now = new \DateTime();
-                $topic->setDateCreation($now);
+    //             //get current datetime to set 'lastModified'
+    //             $now = new \DateTime();
+    //             $topic->setDateCreation($now);
     
-                //set current user as topic creator
-                $auteur = $this->getUser();
-                $topic->setAuteur($auteur);
+    //             //set current user as topic creator
+    //             $auteur = $this->getUser();
+    //             $topic->setAuteur($auteur);
     
-                $entityManager->persist($topic); //prepare
-                $entityManager->flush(); //execute
+    //             $entityManager->persist($topic); //prepare
+    //             $entityManager->flush(); //execute
     
-                //redirect to created topic
-                return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
+    //             //redirect to created topic
+    //             return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
     
-            }
+    //         }
             
-            return $this->render('topic/new.html.twig', [
-                'formAddTopic' => $form,
-            ]);
+    //         return $this->render('topic/new.html.twig', [
+    //             'formAddTopic' => $form,
+    //         ]);
         
-        }
+    //     }
 
-        return $this->redirectToRoute('app_home'); 
-    }
+    //     return $this->redirectToRoute('app_home'); 
+    // }
 
 
     #[Route('/{categorie_id}/topic/{id}/edit', name: 'edit_topic')]

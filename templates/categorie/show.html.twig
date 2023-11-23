@@ -1,53 +1,92 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Category Topics{% endblock %}
+{% block title %}{{categorie}} Topics - Forum - Dog Project{% endblock %}
+{% block meta_description %}
+    <meta name="description" content="Welcome to the Dog Project Forum, a community for all dog lovers to discuss anything related to man's best friend. This is the "{{categorie}}" category">
+    <meta name="keywords" content="dog project, dog, dog trainers near me, local dog trainers, dog walks near me, dog owners community, forum">
+{% endblock %}
 
 {% block body %}   
+    <div class='category-head'>
 
-    <div>
-        <p><a href="{{ path('app_categorie') }}">back to category list</a></p>
+        <h1>{{categorie}} CATEGORY</h1>
+        <p>Welcome, if you cannot find what you are looking for, make your own topic!</p>
+    
     </div>
-    <div>
-        <h2>{{categorie}}</h2>
+    
+    <main class="category-main">
+    <div class='category-left'>
+    
+        <h2>CATEGORIES</h2>
+    
+        {% for categorie in categories %}
+            {% if (categorie.nom != 'Walks') and (categorie.nom != 'Sessions') %}
+                <a href="{{ path('show_categorie', {'id': categorie.id}) }}">{{ categorie }}</a>
+            {% endif %}
+        {% endfor %}
+    
+    
     </div>
-
-    <div class="topics">
-        <h3>Topics</h3>
-        
-        
-        <table>
-        {% for topic in categorie.topics %}
-            <div class="categorie-topic">
-                <tr>
+    
+    <div class="category-right">
+        <h2 style="text-align: center;">LATEST TOPICS</h2>
+    
+        {% for topic in categorie.topics | sort((a, b) => b.dateCreation <=> a.dateCreation) %}
+            <div class="topic">
+    
+                <div class="topic-date">
+                    {{topic.dateCreation | date('d-m-Y H:i:s')}}
+                    <a href="{{ path('show_topic', {'id': topic.id}) }}">see comments >></a>
+                </div>
+    
+                <div class="topic-body">
                     {% if topic.auteur is empty %}
-                        <td>
+                        <div class="topic-user">
+                            <img class="topic-picture" src="{{ asset('/images/users/profile_picture_default.jpg') }}" alt="picture of a dog, default picture for deleted users">
                             {{ 'deleted' }}
-                            {{topic.dateCreation | date('d-m-Y H:i:s')}}
-                        </td>
+                        </div>    
                     {% else %}
-                        <td>
-                            <a href="{{ path('show_personne', {'id': topic.auteur.id}) }}">{{topic.auteur}}</a>
-                            {{topic.dateCreation | date('d-m-Y H:i:s')}}
-                        </td>
+                        <div class="topic-user">
+                            <a href="{{ path('show_personne', {'id': topic.auteur.id}) }}">
+                                <img class="topic-picture" src="{{ asset('/images/users/' ~ topic.auteur.nomImageProfil) }}" alt="{{ topic.auteur ~ "'s profile picture" }}">
+                            </a>
+                            <a href="{{ path('show_personne', {'id': topic.auteur.id}) }}">
+                                {{topic.auteur}}
+                            </a>
+                        </div>
                     {% endif %}
-                    <td><a href="{{ path('show_topic', {'id': topic.id}) }}">{{topic}} </a></td>
-
-                    
-                    {#if user is topic auteur, can edit/delete topic#}
-                    {% if app.user == topic.auteur %}
-                        <td>
-                            <a href="{{ path('edit_topic',  {'categorie_id': categorie.id, 'id': topic.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
-                            <a href="{{ path('delete_topic', {'id': topic.id}) }}" onclick="return confirm('delete topic ?')"><i class="fa-solid fa-trash fa-lg"></i></a>
-                        </td>
-                    {% endif %}
-                    
-                </tr>
+    
+                    <div class="topic-content">
+                        <p>{{topic}}</p>
+                    </div>
+    
+                    <div class="topic-nb-posts" >
+                        <p>{{ nbPostsParTopic[topic.id] }} posts</p>
+                    </div>
+    
+                </div>
             </div>
         {% endfor %}
-        </table>
-
-        <p><a href="{{ path('new_topic', {'categorie_id': categorie.id}) }}">new topic</a></p>
-    </div>
+        <div class="topic">
+            <div class="topic-date">
+                <p></p>
+            </div>   
+            
+            <div class="topic-body">         
+                <div class="topic-user">
+                    <span><img class="topic-picture" src="{{ asset('/images/users/' ~ app.user.nomImageProfil) }}" alt="your profile picture"></span>
+                    <span>{{app.user}}</span> 
+                </div>
+    
+                <form method="post" id="new-topic-form" class="topic-content">
+                    {{ form_start(formAddTopic) }}
+                        {{ form_widget(formAddTopic.titre, {'attr': {'placeholder': 'Topic Title'}}) }}
+                        {{ form_widget(formAddTopic.submit) }}
+                    {{ form_end(formAddTopic) }}
+                </form>
+            </div>
+        </div>
+    </main>
     
 
 {% endblock %}
