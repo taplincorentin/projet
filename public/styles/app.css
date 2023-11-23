@@ -426,6 +426,128 @@ textarea#text_post_edit{
   border-radius: 5px;
 }
 
+/*DOG FORM*/
+.dog-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--lightBlue);
+}
+
+.dog-form-container {
+  width: 50%;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px var(--tangerine);
+  background-color: var(--aliceBlue);
+  margin-bottom: 100px;
+  margin-top: 30px;
+  
+}
+
+.dog-form-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.dog-form-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.dog-form-container input,
+.dog-form-container button {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.dog-form-container button {
+  background-color: var(--tangerine);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 3px;
+}
+
+select#dog_races_edit {
+  width:100%;
+  margin-bottom: 30px;
+  overflow: hidden;
+}
+
+button#chien_form_submit{
+  width: 100%;
+  color: white;
+  background-color: var(--tangerine);
+  margin-top: 20px;
+}
+
+/*WALK FORM*/
+.walk-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--lightBlue);
+}
+
+.walk-form-container {
+  width: 50%;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px var(--tangerine);
+  background-color: var(--aliceBlue);
+  margin-bottom: 100px;
+  margin-top: 30px;
+  
+}
+
+.walk-form-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.walk-form-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.walk-form-container input,
+.walk-form-container button {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.walk-form-container button {
+  background-color: var(--tangerine);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 3px;
+}
+
+button#balade_form_submit{
+  width: 100%;
+  color: white;
+  background-color: var(--tangerine);
+  margin-top: 20px;
+}
+
+#map_add_balade {
+  border:solid 3px var(--darkBlue);
+  width: 100%;
+}
+
+
+.hidden {
+  display: none;
+}
+
 /*User display on walk session views*/
 .participant-line{
   width: 100%;
@@ -446,11 +568,6 @@ textarea#text_post_edit{
 
 #map_show {
   border:solid 3px var(--darkBlue);
-}
-
-/* MAP/SESSION CREATE PAGE */
-.hidden {
-  display: none;
 }
 
 

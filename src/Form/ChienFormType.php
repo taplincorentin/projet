@@ -26,7 +26,7 @@ class ChienFormType extends AbstractType
             ])
             ->add('imageFile', VichImageType::class, [
                 'required' => false,  
-                'label' => 'picture :'
+                'label' => 'Picture of your dog :'
                 ])
             ->add('description', TextareaType::class, [
                 'required' => false,
@@ -35,6 +35,7 @@ class ChienFormType extends AbstractType
             
             ->add('races', ChoiceType::class, [
                 'mapped' => true,
+                'label' => 'Race(s) :',
                 'choices'  => $options['breedList'],
                 'expanded' => false,
                 'multiple' => true,

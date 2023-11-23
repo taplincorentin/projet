@@ -1,34 +1,56 @@
 {% extends 'base.html.twig' %}
 
 
-{% block title %}Add walk{% endblock %}
+{% block title %}Your Walk Information Page - Dog Project{% endblock %}
+
+{% block meta_description %}
+    <meta name="description" content="Welcome to the Dog Project, a community for all dog lovers to discuss anything related to man's best friend 
+                                    or to meet each other for dog walks or training sessions. This is the page for users to edit their walk's information">
+    <meta name="keywords" content="dog project, dog, dog trainers near me, local dog trainers, dog walks near me, dog owners community, forum">
+{% endblock %}
 
 {% block body %}
 
-    <div class="walk-form-page">
-    
-        <h1> Add/Edit walk info </h1>
+    <div class="walk-container">
+        
+        <div class="walk-form-container">
+          
+            <h1>Walk Information Page <i class="fa-solid fa-paw"></i></h1>
+          
+            <form method="post" class="walk-form">
 
-        <hr>
-        <div class="walk-form">
-            {{ form_start(formAddBalade) }}
+                {{ form_start(formAddBalade) }}
 
-                {{ form_row(formAddBalade.nom) }}
-                {{ form_row(formAddBalade.dateHeureDepart) }}
-                {{ form_row(formAddBalade.ville) }}
-                {{ form_row(formAddBalade.description) }}
+                    {{ form_label(formAddBalade.nom) }}
+                    {{ form_widget(formAddBalade.nom) }}
 
-            <div id="map_add_balade" style="height: 300px;  width:300px;"></div>
-            
-            <div class="hidden">
-                {{ form_row(formAddBalade.pointLatitude) }}
-                {{ form_row(formAddBalade.pointLongitude) }}
-            </div>
+                    {{ form_label(formAddBalade.dateHeureDepart) }}
+                    {{ form_widget(formAddBalade.dateHeureDepart) }}
+
+                    {{ form_label(formAddBalade.ville) }}
+                    {{ form_widget(formAddBalade.ville) }} 
+                     
+                    {{ form_label(formAddBalade.description) }}
+                    {{ form_widget(formAddBalade.description, {
+                        'id': 'text_post_edit'}) 
+                    }}
+                    
+                    <div id="map_add_balade" style="height: 300px;"></div>
+
+                    <div class="hidden">
+                        {{ form_row(formAddBalade.pointLatitude) }}
+                        {{ form_row(formAddBalade.pointLongitude) }}
+                    </div>
                 
-            {{ form_end(formAddBalade) }}
+                    {{ form_widget(formAddBalade.submit) }}
+
+                {{ form_end(formAddBalade) }}
+                
+                
+            </form>           
+
         </div>
 
         
     </div>
-
 {% endblock %}

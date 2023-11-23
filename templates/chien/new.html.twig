@@ -1,20 +1,53 @@
 {% extends 'base.html.twig' %}
 
 
-{% block title %}Ajout chien{% endblock %}
+{% block title %}Your Dog Information Page - Dog Project{% endblock %}
+
+{% block meta_description %}
+    <meta name="description" content="Welcome to the Dog Project, a community for all dog lovers to discuss anything related to man's best friend 
+                                    or to meet each other for dog walks or training sessions. This is the page for users to edit their dog's information">
+    <meta name="keywords" content="dog project, dog, dog trainers near me, local dog trainers, dog walks near me, dog owners community, forum">
+{% endblock %}
 
 {% block body %}
 
-    <div class="dog-form-page">
-    
-        <h1> Add/Edit dog info </h1>
+    <div class="dog-container">
+        
+        <div class="dog-form-container">
+          
+            <h1>Dog Information Page <i class="fa-solid fa-paw"></i></h1>
+          
+            <form method="post" class="dog-form">
 
-        <hr>
-        <div class="dog-form">
-            {{ form_start(formAddChien) }}
-            {{ form_end(formAddChien) }}
+                {{ form_start(formAddChien) }}
+
+                    {{ form_label(formAddChien.nom) }}
+                    {{ form_widget(formAddChien.nom) }}
+
+                    {{ form_label(formAddChien.dateNaissance) }}
+                    {{ form_widget(formAddChien.dateNaissance) }}
+
+                    {{ form_label(formAddChien.imageFile) }}
+                    {{ form_widget(formAddChien.imageFile) }}
+
+                    {{ form_label(formAddChien.description) }}
+                    {{ form_widget(formAddChien.description, {
+                        'id': 'text_post_edit'}) }}
+          
+                    {{ form_label(formAddChien.races) }} 
+                    {{ form_widget(formAddChien.races, {
+                        'id': 'dog_races_edit'}) 
+                    }} 
+
+                
+                    {{ form_widget(formAddChien.submit) }}
+
+                {{ form_end(formAddChien) }}
+                
+                
+            </form>           
+
         </div>
-
 
         
     </div>
