@@ -26,17 +26,19 @@
             </span>
             <a href="{{ path('new_chien') }}" class="new-dog-button" aria-label="add a new dog"><i class="fa-solid fa-plus"></i> ADD A NEW DOG</a>
         {% endif %}
+        
+        {#if user is a super admin can change person's role#}
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <div id="roles">
+
+                <a href="{{ path('make_user', {'id': personne.id}) }}" onclick="return confirm('Role to user ?')">User</a>
+                <a href="{{ path('make_admin', {'id': personne.id}) }}" onclick="return confirm('Role to admin ?')">Admin</a>
+                <a href="{{ path('make_super_admin', {'id': personne.id}) }}" onclick="return confirm('Role to superAdmin ?')">SuperAdmin</a>
+
+            </div>
+        {% endif %}
 
     </div>
-    {#if user is a super admin can change person's role#}
-    {% if is_granted('ROLE_SUPER_ADMIN') %}
-        <div class="roles">
-            <a href="{{ path('make_user', {'id': personne.id}) }}">make user</a>
-            <a href="{{ path('make_admin', {'id': personne.id}) }}">make admin</a>
-            <a href="{{ path('make_super_admin', {'id': personne.id}) }}">make super admin</a>
-        </div>  
-    {% endif %}
-
 
     {#Person info#}
     <div>
