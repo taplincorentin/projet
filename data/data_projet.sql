@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `balade` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nom` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `ville` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ville` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `date_heure_depart` datetime NOT NULL,
   `organisateur_id` int NOT NULL,
   `point_longitude` decimal(15,12) DEFAULT NULL,
@@ -52,10 +52,11 @@ CREATE TABLE IF NOT EXISTS `balade_personne` (
   CONSTRAINT `FK_1BC368A7FE292D59` FOREIGN KEY (`balade_id`) REFERENCES `balade` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.balade_personne : ~0 rows (environ)
+-- Listage des données de la table projet.balade_personne : ~2 rows (environ)
 INSERT INTO `balade_personne` (`balade_id`, `personne_id`) VALUES
 	(13, 4),
-	(13, 6);
+	(13, 6),
+	(13, 7);
 
 -- Listage de la structure de table projet. categorie
 CREATE TABLE IF NOT EXISTS `categorie` (
@@ -87,16 +88,20 @@ CREATE TABLE IF NOT EXISTS `chien` (
   PRIMARY KEY (`id`),
   KEY `IDX_13A4067EA21BD112` (`personne_id`),
   CONSTRAINT `FK_13A4067EA21BD112` FOREIGN KEY (`personne_id`) REFERENCES `personne` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.chien : ~6 rows (environ)
+-- Listage des données de la table projet.chien : ~8 rows (environ)
 INSERT INTO `chien` (`id`, `personne_id`, `nom`, `image_name`, `date_naissance`, `description`, `date_actualisation`, `races`) VALUES
-	(2, 1, 'Harlem', 'img-20220724-100308-655631eb82b47611926708.jpg', '2016-02-12', NULL, '2023-11-16 15:14:51', '["bouvier", "collie border"]'),
+	(2, 1, 'Harlem', 'img-20220724-100308-655631eb82b47611926708.jpg', '2016-02-12', 'A 45kg Bernese Montain Dog x Border Collie Mix.\r\n\r\nHe is very friendly and gentle giant who\'s never had any problems with other dogs.\r\n\r\nHis favourite thing in life is to play with a ball.', '2023-11-23 14:40:33', '["bouvier", "collie border"]'),
 	(3, 1, 'Boomer', 'img-20220828-180548-655632b47f2e0061526150.jpg', '2016-04-01', NULL, '2023-11-16 15:18:12', '["collie border"]'),
 	(4, 1, 'Lilas', 'microsoftteams-image-6555d3e81b514633237082.png', '2019-02-14', NULL, '2023-11-16 08:34:18', '["malinois"]'),
 	(9, 4, 'Burtono', 'mastiff-english-65535721a08d3904027177.jpg', '2018-05-12', NULL, '2023-11-14 17:13:18', NULL),
 	(10, 6, 'Trevor', 'beagle-adult-65538deff26f5295072921.jpg', '2019-02-12', NULL, '2023-11-14 15:10:39', NULL),
-	(11, 4, 'Joy', 'setter-gordon-6553ab19d4669759752159.jpg', '2023-05-18', NULL, '2023-11-14 17:15:05', NULL);
+	(11, 4, 'Joy', 'setter-gordon-6553ab19d4669759752159.jpg', '2023-05-18', NULL, '2023-11-14 17:15:05', NULL),
+	(16, 7, 'Kiara', 'img-20221025-092506-655c71d8ec14d411011469.jpg', '2019-03-21', 'trop cool', '2023-11-21 09:01:13', '["malinois", "whippet"]'),
+	(17, 7, 'Heylie', 'img-20220802-210434-655c71e3281bd761805538.jpg', '2019-01-06', 'grasse et mignonne', '2023-11-21 09:01:23', '["beagle", "waterdog spanish"]'),
+	(18, 7, 'Mimine', NULL, '2023-05-20', NULL, '2023-11-21 08:58:17', '["bullterrier staffordshire"]'),
+	(19, 8, 'Charly', 'n02113186-9116-655c7928502bc282301323.jpg', '2014-01-12', NULL, '2023-11-21 09:32:24', '["corgi cardigan"]');
 
 -- Listage de la structure de table projet. doctrine_migration_versions
 CREATE TABLE IF NOT EXISTS `doctrine_migration_versions` (
@@ -120,7 +125,8 @@ INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_
 	('DoctrineMigrations\\Version20231116161347', '2023-11-16 16:13:50', 38),
 	('DoctrineMigrations\\Version20231116162508', '2023-11-16 16:25:10', 29),
 	('DoctrineMigrations\\Version20231116171238', '2023-11-16 17:12:41', 31),
-	('DoctrineMigrations\\Version20231116174428', '2023-11-16 17:44:36', 91);
+	('DoctrineMigrations\\Version20231116174428', '2023-11-16 17:44:36', 91),
+	('DoctrineMigrations\\Version20231124150534', '2023-11-24 15:05:41', 168);
 
 -- Listage de la structure de table projet. messenger_messages
 CREATE TABLE IF NOT EXISTS `messenger_messages` (
@@ -151,19 +157,20 @@ CREATE TABLE IF NOT EXISTS `personne` (
   `date_creation` datetime NOT NULL,
   `description` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `is_educateur` tinyint(1) DEFAULT NULL,
-  `description_educateur` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `last_login` datetime DEFAULT NULL,
   `nom_image_profil` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_FCEC9EFE7927C74` (`email`),
   UNIQUE KEY `UNIQ_FCEC9EF86CC499D` (`pseudo`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table projet.personne : ~3 rows (environ)
-INSERT INTO `personne` (`id`, `email`, `pseudo`, `roles`, `password`, `date_creation`, `description`, `is_educateur`, `description_educateur`, `last_login`, `nom_image_profil`) VALUES
-	(1, 'coco@gmail.com', 'coco', '["ROLE_SUPER_ADMIN"]', '$2y$13$EfjDykRYy8LuDUoIx/Fp.uKGENqPa6rH9AhUtuy.3EKR7.BZAhIvS', '2023-11-09 11:11:09', NULL, 0, NULL, '2023-11-17 14:51:00', 'profile_picture_65564df36f900.jpg'),
-	(4, 'coco2@gmail.com', 'coco2', '["ROLE_USER"]', '$2y$13$HFZiNPEiY8l4WNSaJ.jxsO3BZSXGZkfcixBncHR.ixoSGx67kI7WW', '2023-11-14 08:15:50', NULL, 1, 'best dog trainer world', '2023-11-17 14:14:24', 'profile_picture_6557832648f1f.jpg'),
-	(6, 'coco3@gmail.com', 'coco3', '[]', '$2y$13$HCE.A.5A8/qz6RPjHF.sieqcMr7Zf9WrMNFh7wqwqYjWst1VlWDFS', '2023-11-14 15:07:31', NULL, 1, NULL, '2023-11-17 15:19:51', 'profile_picture_655784a7da726.jpg');
+INSERT INTO `personne` (`id`, `email`, `pseudo`, `roles`, `password`, `date_creation`, `description`, `is_educateur`, `last_login`, `nom_image_profil`) VALUES
+	(1, 'coco@gmail.com', 'coco', '["ROLE_SUPER_ADMIN"]', '$2y$13$EfjDykRYy8LuDUoIx/Fp.uKGENqPa6rH9AhUtuy.3EKR7.BZAhIvS', '2023-11-09 11:11:09', NULL, 0, '2023-11-23 14:43:03', 'profile_picture_65564df36f900.jpg'),
+	(4, 'coco2@gmail.com', 'coco2', '["ROLE_USER"]', '$2y$13$HFZiNPEiY8l4WNSaJ.jxsO3BZSXGZkfcixBncHR.ixoSGx67kI7WW', '2023-11-14 08:15:50', NULL, 1, '2023-11-23 15:08:19', 'profile_picture_6557832648f1f.jpg'),
+	(6, 'coco3@gmail.com', 'coco3', '[]', '$2y$13$HCE.A.5A8/qz6RPjHF.sieqcMr7Zf9WrMNFh7wqwqYjWst1VlWDFS', '2023-11-14 15:07:31', NULL, 1, '2023-11-17 15:19:51', 'profile_picture_655784a7da726.jpg'),
+	(7, 'isma@gmail.com', 'titounette', '[]', '$2y$13$QN.rh2Ya6OJj2VRUM8CnUO3GbQ3qDeAs.llYkF.E//AjZqlFeMPSG', '2023-11-17 21:19:18', NULL, 0, '2023-11-22 16:25:15', 'profile_picture_655c71ee597fc.jpg'),
+	(8, 'gertrude@exemple.com', 'geranium', '[]', '$2y$13$8Z6UeGIrPQ3cmcQvjl3TKOzzvKF6ov7ys/iapEMJ3nORWDu9rOvdK', '2023-11-21 09:06:07', NULL, 0, '2023-11-21 15:43:30', 'profile_picture_default.jpg');
 
 -- Listage de la structure de table projet. post
 CREATE TABLE IF NOT EXISTS `post` (
@@ -177,17 +184,20 @@ CREATE TABLE IF NOT EXISTS `post` (
   KEY `IDX_5A8A6C8D60BB6FE6` (`auteur_id`),
   CONSTRAINT `FK_5A8A6C8D1F55203D` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id`),
   CONSTRAINT `FK_5A8A6C8D60BB6FE6` FOREIGN KEY (`auteur_id`) REFERENCES `personne` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.post : ~0 rows (environ)
+-- Listage des données de la table projet.post : ~9 rows (environ)
 INSERT INTO `post` (`id`, `topic_id`, `auteur_id`, `contenu`, `date_creation`) VALUES
 	(1, 3, 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', '2023-11-09 18:01:55'),
 	(3, 4, NULL, 'hellololololololo', '2023-11-12 17:56:53'),
-	(4, 4, 1, 'hopla réchime Miss Dahlias quam, blottkopf, hoplageiss tristique baeckeoffe leo in, geïz gal hopla ftomi!', '2023-11-14 13:32:56'),
+	(4, 4, 1, 'hopla réchime Miss Dahlias quam, blottkopf, hoplageiss tristique baeckeoffe leo in, geïz gal hopla ftomi!', '2023-11-23 13:45:54'),
 	(5, 3, 4, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.', '2023-11-14 14:11:00'),
 	(6, 4, 4, 'Exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '2023-11-14 14:11:42'),
 	(7, 4, 6, 'idghizehiugsrdhfgsdf', '2023-11-14 15:14:05'),
-	(8, 3, 4, 'hahahahahahahahahahahahahhahaha', '2023-11-14 17:36:03');
+	(8, 3, 4, 'hahahahahahahahahahahahahhahaha', '2023-11-14 17:36:03'),
+	(9, 4, 1, 'Dignissim sodales ut eu sem integer vitae. Sed cras ornare arcu dui vivamus arcu felis. Nec feugiat in fermentum posuere urna nec tincidunt praesent. Sagittis orci a scelerisque purus semper eget. \r\nAt varius vel pharetra vel turpis nunc eget lorem :)!', '2023-11-23 10:28:04'),
+	(10, 12, 1, 'Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. \r\nNam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. \r\n\r\nDonec vitae sapien ut libero venenatis faucibus. \r\nNullam quis ante.', '2023-11-23 12:32:51'),
+	(12, 12, 4, 'Gal. kuglopf Hans ante salu habitant hopla Kabinetpapier varius schneck wurscht météor Coopé de Truchtersheim Wurschtsalad dui mollis hopla Oberschaeffolsheim  Yo dû. non aliquam ornare picon bière libero. consectetur gravida flammekueche ullamcorper Christkindelsmärik ornvare ac condimentum und s\'guelt hopla Heineken risusare', '2023-11-23 16:21:35');
 
 -- Listage de la structure de table projet. reset_password_request
 CREATE TABLE IF NOT EXISTS `reset_password_request` (
@@ -200,9 +210,11 @@ CREATE TABLE IF NOT EXISTS `reset_password_request` (
   PRIMARY KEY (`id`),
   KEY `IDX_7CE748AA76ED395` (`user_id`),
   CONSTRAINT `FK_7CE748AA76ED395` FOREIGN KEY (`user_id`) REFERENCES `personne` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.reset_password_request : ~0 rows (environ)
+-- Listage des données de la table projet.reset_password_request : ~2 rows (environ)
+INSERT INTO `reset_password_request` (`id`, `user_id`, `selector`, `hashed_token`, `requested_at`, `expires_at`) VALUES
+	(4, 1, 'SBZ2bK33tA1nUavmTHLr', 'bsK1oFrPMGiguPJruHpBXnivYuFpQFXI0xiuc/PDbIc=', '2023-11-21 15:17:40', '2023-11-21 16:17:40');
 
 -- Listage de la structure de table projet. seance
 CREATE TABLE IF NOT EXISTS `seance` (
@@ -210,7 +222,7 @@ CREATE TABLE IF NOT EXISTS `seance` (
   `organisateur_id` int NOT NULL,
   `nom` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `date_heure_depart` datetime NOT NULL,
-  `ville` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ville` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `theme_id` int DEFAULT NULL,
   `point_latitude` decimal(15,12) DEFAULT NULL,
@@ -240,7 +252,7 @@ CREATE TABLE IF NOT EXISTS `seance_personne` (
   CONSTRAINT `FK_E3754997E3797A94` FOREIGN KEY (`seance_id`) REFERENCES `seance` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.seance_personne : ~0 rows (environ)
+-- Listage des données de la table projet.seance_personne : ~2 rows (environ)
 INSERT INTO `seance_personne` (`seance_id`, `personne_id`) VALUES
 	(5, 1),
 	(5, 6);
@@ -248,11 +260,11 @@ INSERT INTO `seance_personne` (`seance_id`, `personne_id`) VALUES
 -- Listage de la structure de table projet. theme
 CREATE TABLE IF NOT EXISTS `theme` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nom` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nom` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.theme : ~0 rows (environ)
+-- Listage des données de la table projet.theme : ~7 rows (environ)
 INSERT INTO `theme` (`id`, `nom`) VALUES
 	(1, 'Medical Training'),
 	(2, 'Socializing'),
@@ -274,15 +286,18 @@ CREATE TABLE IF NOT EXISTS `topic` (
   KEY `IDX_9D40DE1B60BB6FE6` (`auteur_id`),
   CONSTRAINT `FK_9D40DE1B60BB6FE6` FOREIGN KEY (`auteur_id`) REFERENCES `personne` (`id`),
   CONSTRAINT `FK_9D40DE1BBCF5E72D` FOREIGN KEY (`categorie_id`) REFERENCES `categorie` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.topic : ~4 rows (environ)
+-- Listage des données de la table projet.topic : ~7 rows (environ)
 INSERT INTO `topic` (`id`, `categorie_id`, `auteur_id`, `titre`, `date_creation`) VALUES
 	(1, 2, 1, 'my dog eats my shoes', '2023-11-09 17:50:28'),
 	(3, 2, 1, 'my dog eats my food ', '2023-11-09 17:51:18'),
 	(4, 2, NULL, 'hello', '2023-11-12 17:56:44'),
 	(6, 7, 4, '[DISCUSSION] Central Park Medical Training', '2023-11-16 13:20:58'),
-	(8, 6, 1, '[DISCUSSION] Balade à la Citadelle', '2023-11-17 08:23:03');
+	(8, 6, 1, '[DISCUSSION] Balade à la Citadelle', '2023-11-17 08:23:03'),
+	(9, 5, 1, 'Notify our Team of Bugs Here', '2023-11-23 13:48:18'),
+	(11, 2, 1, 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.', '2023-11-23 08:08:15'),
+	(12, 2, 1, 'Convallis aenean et tortor at. Lobortis mattis aliquam faucibus purus in massa tempor nec.', '2023-11-23 09:51:09');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

@@ -21,8 +21,8 @@
         {#if this is the current user's profile can edit his info or delete his profile#}
         {% if (app.user == personne) %}
             <span class="user-edit-delete">
-                <a href="{{ path('edit_personne', {'id': personne.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
-                <a href="{{ path('delete_personne', {'id': personne.id}) }}" onclick="return confirm('Are you sure?')"><i class="fa-solid fa-trash fa-lg"></i></a>
+                <a href="{{ path('edit_personne', {'id': personne.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg" aria-label="modify your information information"></i></a>
+                <a href="{{ path('delete_personne', {'id': personne.id}) }}" onclick="return confirm('Are you sure?')"><i class="fa-solid fa-trash fa-lg" aria-label="delete your account"></i></a>
             </span>
             <a href="{{ path('new_chien') }}" class="new-dog-button"><i class="fa-solid fa-plus"></i> ADD A NEW DOG</a>
         {% endif %}
