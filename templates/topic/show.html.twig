@@ -15,13 +15,13 @@
         {% if topic.auteur is empty %}
             <p>Topic created by a deleted user</a></p> 
         {% else %}
-            <p>Topic created by <a href="{{ path('show_personne', {'id': topic.auteur.id}) }}" style=" color: black;">{{ topic.auteur }}</a></p>
+            <p>Topic created by <a href="{{ path('show_personne', {'id': topic.auteur.id}) }}" style=" color: black;" aria-label="{{ "go to " ~ topic.auteur ~ "'s profile page" }}">{{ topic.auteur }}</a></p>
         {% endif %}
 
         {% if app.user == topic.auteur %}
             <span class="topic-edit-delete">
-                <a href="{{ path('edit_topic',  {'categorie_id': topic.categorie.id, 'id': topic.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
-                <a href="{{ path('delete_topic', {'id': topic.id}) }}" onclick="return confirm('delete topic ?')"><i class="fa-solid fa-trash fa-lg"></i></a>
+                <a href="{{ path('edit_topic',  {'categorie_id': topic.categorie.id, 'id': topic.id}) }}" aria-label="edit topic title"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
+                <a href="{{ path('delete_topic', {'id': topic.id}) }}" onclick="return confirm('delete topic ?')" aria-label="delete topic"><i class="fa-solid fa-trash fa-lg"></i></a>
             </span>
         {% endif %}
         
@@ -52,8 +52,8 @@
                     {#if user is post auteur, can edit/delete post#}
                     {% if app.user == post.auteur %}
                         <span>
-                            <a href="{{ path('delete_post', {'id': post.id}) }}" onclick="return confirm('delete post ?')"><i class="fa-solid fa-trash fa-lg"></i></a>
-                            <a href="{{ path('edit_post',  {'topic_id': topic.id, 'id': post.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
+                            <a href="{{ path('delete_post', {'id': post.id}) }}" onclick="return confirm('delete post ?')" aria-label="delete post"><i class="fa-solid fa-trash fa-lg"></i></a>
+                            <a href="{{ path('edit_post',  {'topic_id': topic.id, 'id': post.id}) }}" aria-label="edit post content"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
                         </span>
                     {% endif %}
                 </div>
@@ -66,10 +66,10 @@
                         </div>    
                     {% else %}
                         <div class="topic-user">
-                            <a href="{{ path('show_personne', {'id': post.auteur.id}) }}">
+                            <a href="{{ path('show_personne', {'id': post.auteur.id}) }}" aria-label="{{ "go to " ~ post.auteur ~ "'s profile page" }}">
                                 <img class="topic-picture" src="{{ asset('/images/users/' ~ post.auteur.nomImageProfil) }}" alt="{{ post.auteur ~ "'s profile picture" }}">
                             </a>
-                            <a href="{{ path('show_personne', {'id': post.auteur.id}) }}">
+                            <a href="{{ path('show_personne', {'id': post.auteur.id}) }}" aria-label="{{ "go to " ~ post.auteur ~ "'s profile page" }}">
                                 {{post.auteur}}
                             </a>
                         </div>

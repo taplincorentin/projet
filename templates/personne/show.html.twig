@@ -24,7 +24,7 @@
                 <a href="{{ path('edit_personne', {'id': personne.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg" aria-label="modify your information information"></i></a>
                 <a href="{{ path('delete_personne', {'id': personne.id}) }}" onclick="return confirm('Are you sure?')"><i class="fa-solid fa-trash fa-lg" aria-label="delete your account"></i></a>
             </span>
-            <a href="{{ path('new_chien') }}" class="new-dog-button"><i class="fa-solid fa-plus"></i> ADD A NEW DOG</a>
+            <a href="{{ path('new_chien') }}" class="new-dog-button" aria-label="add a new dog"><i class="fa-solid fa-plus"></i> ADD A NEW DOG</a>
         {% endif %}
 
     </div>
@@ -57,8 +57,8 @@
                 {{chien.description}}
                 {#if user is dog owner, can edit/delete dog#}
                 {% if app.user == chien.personne %}
-                    <a href="{{ path('edit_chien', {'id': chien.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
-                    <a href="{{ path('delete_chien', {'id': chien.id}) }}" onclick="return confirm('Are you sure?')"><i class="fa-solid fa-trash fa-lg"></i></a>
+                    <a href="{{ path('edit_chien', {'id': chien.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg" aria-label="{{ "edit " ~ chien ~ "'s information" }}"></i></a>
+                    <a href="{{ path('delete_chien', {'id': chien.id}) }}" onclick="return confirm('Are you sure?')" aria-label="{{ "delete " ~ chien }}"><i class="fa-solid fa-trash fa-lg"></i></a>
                 {% endif %}
                 
             </div>
@@ -73,7 +73,7 @@
         <table>
         {% for seance in personne.seancesOrganisees %}
             <tr>
-                <td><a href="{{ path('show_seance', {'id': seance.id}) }}">{{ seance }}</a></td>
+                <td><a href="{{ path('show_seance', {'id': seance.id}) }}" aria-label="go to session's info page">{{ seance }}</a></td>
             </tr>  
         {% endfor %}
         </table>
@@ -87,7 +87,7 @@
         <table>
         {% for balade in personne.baladesOrganisees %}
             <tr>
-                <td><a href="{{ path('show_balade', {'id': balade.id}) }}">{{ balade }}</a></td>
+                <td><a href="{{ path('show_balade', {'id': balade.id}) }}" aria-label="go to the walk's info page">{{ balade }}</a></td>
             </tr>  
         {% endfor %}
         </table>
@@ -101,7 +101,7 @@
         <table>
         {% for seance in personne.seancesParticipees %}
             <tr>
-                <td><a href="{{ path('show_seance', {'id': seance.id}) }}">{{ seance }}</a></td>
+                <td><a href="{{ path('show_seance', {'id': seance.id}) }}" aria-label="go to session's info page">{{ seance }}</a></td>
             </tr>  
         {% endfor %}
         </table>
@@ -115,7 +115,7 @@
         <table>
         {% for balade in personne.balades %}
             <tr>
-                <td><a href="{{ path('show_balade', {'id': balade.id}) }}">{{ balade }}</a></td>
+                <td><a href="{{ path('show_balade', {'id': balade.id}) }}" aria-label="go to the walk's info page">{{ balade }}</a></td>
             </tr>  
         {% endfor %}
         </table>

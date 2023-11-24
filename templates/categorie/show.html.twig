@@ -21,7 +21,7 @@
     
         {% for categorie in categories %}
             {% if (categorie.nom != 'Walks') and (categorie.nom != 'Sessions') %}
-                <a href="{{ path('show_categorie', {'id': categorie.id}) }}">{{ categorie }}</a>
+                <a href="{{ path('show_categorie', {'id': categorie.id}) }}" aria-label="{{ "go to " ~ categorie ~ "'s topics" }}">{{ categorie }}</a>
             {% endif %}
         {% endfor %}
     
@@ -36,7 +36,7 @@
     
                 <div class="topic-date">
                     {{topic.dateCreation | date('d-m-Y H:i:s')}}
-                    <a href="{{ path('show_topic', {'id': topic.id}) }}">see comments >></a>
+                    <a href="{{ path('show_topic', {'id': topic.id}) }}" aria-label="go to topic's page">see comments >></a>
                 </div>
     
                 <div class="topic-body">
@@ -47,10 +47,10 @@
                         </div>    
                     {% else %}
                         <div class="topic-user">
-                            <a href="{{ path('show_personne', {'id': topic.auteur.id}) }}">
+                            <a href="{{ path('show_personne', {'id': topic.auteur.id}) }}" aria-label="{{ "go to " ~ topic.auteur ~ "'s profile page" }}">
                                 <img class="topic-picture" src="{{ asset('/images/users/' ~ topic.auteur.nomImageProfil) }}" alt="{{ topic.auteur ~ "'s profile picture" }}">
                             </a>
-                            <a href="{{ path('show_personne', {'id': topic.auteur.id}) }}">
+                            <a href="{{ path('show_personne', {'id': topic.auteur.id}) }}" aria-label="{{ "go to " ~ topic.auteur ~ "'s profile page" }}">
                                 {{topic.auteur}}
                             </a>
                         </div>
