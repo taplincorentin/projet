@@ -614,27 +614,70 @@ select#seance_form_theme{
 }
 
 
-/*User display on walk session views*/
+/*WALK/SESSIONS VIEWS */
+.event-container{
+  display: flex;
+  border:solid 1px var(--darkBlue);
+  background-color: var(--beige);
+}
+
+.event-container-left {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.event-information {
+  margin: 20px;
+}
+
+.event-information p a{
+  color: black;
+}
+
+.event-container-right{
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .participant-line{
-  width: 100%;
   color: white;
   background-color: var(--darkBlue);
-  font-size: 1.2em;
-  margin: 10px 0px 10px 0px;
+  margin: 20px 20px 10px 20px;
 }
+
 .participants{
   display: flex;
   flex-direction: row;
+  margin: 0px 20px 10px 20px;
+}
+.participant-picture {
+  border-radius: 30%;  
+  height: 100px; 
+  width: 100px;
+  object-fit: cover;
+  border:solid 1px var(--darkBlue);
+  margin: 2px;
 }
 
 .user-box{
   display: flex;
   flex-direction: column;
 }
-
+.event-topic {
+  background-color: var(--aliceBlue);
+}
+.discussion-line {
+  width: 100%;
+  color: white;
+  background-color: var(--darkBlue);
+  margin: 0px 0px 10px 0px;
+  font-size: 1.2em;
+}
 #map_show {
   border:solid 3px var(--darkBlue);
 }
-
-
 

@@ -180,7 +180,7 @@ class TopicController extends AbstractController
             if(!empty($topic->getBalade())){
                 
                 //check user is walk organiser
-                if ($user == $topic->getSeance()->getOrganisateur()){
+                if ($user == $topic->getBalade()->getOrganisateur()){
                     
                     //return topic view if it's the case
                     return $this->render('topic/show.html.twig', [
