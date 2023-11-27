@@ -22,6 +22,7 @@ img {
   color: white;
   padding: 2px 6px 2px 6px;
   border-radius: 30px;
+  cursor: pointer;
 }
 
 /*NAVBAR*/
@@ -82,7 +83,7 @@ img {
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: var(--lightBlue);
+  background-image: url( '/images/site/waves-background.svg' );
 }
 
 input[type=email], input[type=password] {
@@ -134,7 +135,7 @@ input[type=email], input[type=password] {
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: var(--lightBlue);
+  background-image: url( '/images/site/waves-background.svg' );
 }
 
 .register-form-container {
@@ -180,7 +181,7 @@ input[type=email], input[type=password] {
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: var(--lightBlue);
+  background-image: url( '/images/site/waves-background.svg' );
 }
 
 .reset-password-form-container {
@@ -225,7 +226,8 @@ input[type=email], input[type=password] {
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: var(--lightBlue);
+  background-image: url( '/images/site/waves-background.svg' );
+  background-repeat: no-repeat round;
 }
 
 .search-form-container {
@@ -355,7 +357,7 @@ input[type=email], input[type=password] {
 }
 
 .topic-picture {
-  border-radius: 30%;  
+  border-radius: 50%;  
   height: 100px; 
   width: 100px;
   object-fit: cover;
@@ -445,7 +447,7 @@ textarea#text_post_edit{
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--lightBlue);
+  background-image: url( '/images/site/waves-background.svg' );
 }
 
 .dog-form-container {
@@ -504,7 +506,7 @@ button#chien_form_submit{
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--lightBlue);
+  background-image: url( '/images/site/waves-background.svg' );
 }
 
 .walk-form-container {
@@ -613,12 +615,16 @@ select#seance_form_theme{
   right: 15px;
 }
 
+#editRoleBtn {
+  color: white;
+  background-color: var(--darkBlue);
+}
 
 /*WALK/SESSIONS VIEWS */
 .event-container{
   display: flex;
   border:solid 1px var(--darkBlue);
-  background-color: var(--beige);
+  
 }
 
 .event-container-left {
@@ -629,7 +635,10 @@ select#seance_form_theme{
 }
 
 .event-information {
-  margin: 20px;
+  border:solid 1px var(--tangerine);
+  box-shadow: 10px 5px 5px var(--tangerine);
+  margin: 15px;
+  padding: 10px;
 }
 
 .event-information p a{
@@ -638,9 +647,11 @@ select#seance_form_theme{
 
 .event-container-right{
   width: 50%;
+  background-image: url( '/images/site/poly-background.svg' );
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-left: 10px;
 }
 
 .participant-line{
@@ -655,7 +666,7 @@ select#seance_form_theme{
   margin: 0px 20px 10px 20px;
 }
 .participant-picture {
-  border-radius: 30%;  
+  border-radius: 50%;  
   height: 100px; 
   width: 100px;
   object-fit: cover;
@@ -667,9 +678,7 @@ select#seance_form_theme{
   display: flex;
   flex-direction: column;
 }
-.event-topic {
-  background-color: var(--aliceBlue);
-}
+
 .discussion-line {
   width: 100%;
   color: white;
@@ -680,4 +689,47 @@ select#seance_form_theme{
 #map_show {
   border:solid 3px var(--darkBlue);
 }
+
+  /*css for trainer modal*/
+
+/* The Modal (background) */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 50%; 
+  height: 100%; 
+  overflow: auto;
+  
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: var(--aliceBlue);
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  border:solid 1px var(--tangerine);
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
 

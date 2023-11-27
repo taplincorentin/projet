@@ -29,13 +29,33 @@
         
         {#if user is a super admin can change person's role#}
         {% if is_granted('ROLE_SUPER_ADMIN') %}
-            <div id="roles">
 
-                <a href="{{ path('make_user', {'id': personne.id}) }}" onclick="return confirm('Role to user ?')">User</a>
-                <a href="{{ path('make_admin', {'id': personne.id}) }}" onclick="return confirm('Role to admin ?')">Admin</a>
-                <a href="{{ path('make_super_admin', {'id': personne.id}) }}" onclick="return confirm('Role to superAdmin ?')">SuperAdmin</a>
+            <p><a id="editRoleBtn" class="button">Change role</a></p>
+            <!-- The Modal -->
+            <div id="myModal" class="modal">
+
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    {% if (personne.roles[0] == 'ROLE_SUPER_ADMIN') %}
+                        <p><a href="{{ path('make_user', {'id': personne.id}) }}" onclick="return confirm('Role to user ?')">Edit Role to User</a></p>
+                        <p><a href="{{ path('make_admin', {'id': personne.id}) }}" onclick="return confirm('Role to admin ?')">Edit Role to Admin</a></p>
+                    {% endif %}
+
+                    {% if (personne.roles[0] == 'ROLE_ADMIN') %}
+                        <p><a href="{{ path('make_user', {'id': personne.id}) }}" onclick="return confirm('Role to user ?')">Edit Role to User</a></p>
+                        <p><a href="{{ path('make_super_admin', {'id': personne.id}) }}" onclick="return confirm('Role to superAdmin ?')">Edit Role to SuperAdmin</a></p>
+                    {% endif %}
+                    
+                    {% if (personne.roles[0] == 'ROLE_USER') %}
+                        <p><a href="{{ path('make_admin', {'id': personne.id}) }}" onclick="return confirm('Role to admin ?')">Edit Role to Admin</a></p>
+                        <p><a href="{{ path('make_super_admin', {'id': personne.id}) }}" onclick="return confirm('Role to superAdmin ?')">Edit Role to SuperAdmin</a></p>
+                    {% endif %}
+                    
+                </div>
 
             </div>
+
         {% endif %}
 
     </div>
@@ -124,6 +144,33 @@
     </div>
     {% endif %}
     
-    
+    <script>
+        // Get the modal
+        var modal = document.getElementById("myModal");
+        
+        // Get the button that opens the modal
+        var btn = document.getElementById("editRoleBtn");
+        
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+        
+        // When the user clicks the button, open the modal 
+        btn.onclick = function() {
+          modal.style.display = "block";
+        }
+        
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+          modal.style.display = "none";
+        }
+        
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
+          }
+        }
+    </script>
 
 {% endblock %}
+
