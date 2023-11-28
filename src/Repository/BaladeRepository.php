@@ -13,7 +13,7 @@ class BaladeRepository extends ServiceEntityRepository
         parent::__construct($registry, Balade::class);
     }
 
-    public function getBaladesFutures(){
+    public function getBaladesFuturesParVille($ville){
         
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
@@ -21,6 +21,8 @@ class BaladeRepository extends ServiceEntityRepository
         $qb->select('b')
             ->from('App\Entity\Balade', 'b')
             ->where('b.dateHeureDepart > CURRENT_TIMESTAMP()')   //select all walks with a start datetime that hasn't passed yet
+            ->andWhere('b.ville = :ville')
+            ->setParameter('ville', $ville)
             ->orderBy('b.dateHeureDepart');                      //order by start date (closer ones first)
         
         $query = $qb->getQuery();

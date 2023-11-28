@@ -35,6 +35,28 @@ class TopicRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    public function getUserLatestTopics($user){
+        
+        $idCategoriesExclues = [6, 7];
+
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select('t')
+            ->from('App\Entity\Topic', 't')
+            ->leftJoin('t.categorie', 'c')
+            ->where('c.id NOT IN (:categoriesExclues)')
+            ->andWhere('t.auteur = :user')
+            ->setParameter('categoriesExclues', $idCategoriesExclues)
+            ->setParameter('user', $user)
+            ->orderBy('t.dateCreation', 'DESC')
+            ->setMaxResults(3);
+        
+        $query = $qb->getQuery();
+        return $query->getResult();
+    }
+
+
 
     public function __construct(ManagerRegistry $registry)
     {

@@ -27,7 +27,7 @@ class SearchController extends AbstractController
             if ($type === 'balades') {
 
                 //get walks with same ville
-                $resultatsBalades = $baladeRepository->findBy(['ville' => $ville]);
+                $resultatsBalades = $baladeRepository->getBaladesFuturesParVille($ville);
 
                 return $this->render('balade/resultats.html.twig', [
                     'resultatsBalades' => $resultatsBalades,
@@ -36,7 +36,7 @@ class SearchController extends AbstractController
 
             } elseif ($type === 'seances') {
                 //get seances with same ville
-                $resultatsSeances = $seanceRepository->findBy(['ville' => $ville]);
+                $resultatsSeances = $seanceRepository->getSeancesFuturesParVille($ville);
 
                 return $this->render('seance/resultats.html.twig', [
                     'resultatsSeances' => $resultatsSeances,

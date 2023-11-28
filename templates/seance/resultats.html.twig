@@ -4,19 +4,22 @@
 
 {% block body %}
 
-    <h1>Upcoming sessions in {{ville}}: </h1>
-    <div class="future-sessions">
+    <h3>Upcoming training sessions in {{ville}}: </h3>
+    <div class="sessions">
 
     {% for seance in resultatsSeances %}
         
-        <div class="session-box">
-            <div class='session-title'>
-                <p><a href="{{ path('show_seance', {'id': seance.id}) }}">{{ seance }}</a></p>
+        <a href="{{ path('show_seance', {'id': seance.id}) }}" aria-label="go to session's info page">
+            <div class="session">
+                <p>{{ seance }}</p>
+                {% if seance.theme is not empty %}
+                    <p><i class="fa-solid fa-puzzle-piece"></i> : {{seance.theme}}</p>
+                {% endif %}
+                <p><i class="fa-solid fa-calendar-days fa-xs"></i> : {{ seance.dateHeureDepart | date('j F Y H:i') }}</p>
+                <p><i class="fa-solid fa-tree-city fa-xs"></i> : {{ seance.ville }}</p>
+                <p><i class="fa-solid fa-person-hiking fa-xs"></i> : {{ seance.organisateur }}</p>
             </div>
-            <div class='session-date'>
-                <p>{{seance.dateHeureDepart | date('d-m-Y H:i')}}</p>
-            </div>
-        </div>
+        </a>
 
     {% endfor %}
 </div>

@@ -72,7 +72,7 @@
                 
             <h3 style="text-align: center;">Lastest Topics : </h3>
 
-    {% for topic in latestTopics |sort((b, a) => a.dateCreation <=> b.dateCreation) %}
+    {% for topic in latestTopics |sort((b, a) => a.dateCreation <=> b.dateCreation) |slice(0, 3)%}
         <div class="topic-user-profile">
 
             <div class="topic-date-user">

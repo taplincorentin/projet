@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Personne;
 use App\Form\PersonneFormType;
+use App\Repository\TopicRepository;
 use App\Repository\PersonneRepository;
 use App\Service\VerificationRoleService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -187,12 +188,12 @@ class PersonneController extends AbstractController
 
 
     #[Route('/personne/{id}', name: 'show_personne')]
-    public function show(Personne $personne = null): Response {
+    public function show(Personne $personne = null, TopicRepository $topicRepository): Response {
         
         //check if person exists
         if($personne){
 
-            $latestTopics = $personne->getTopics()->slice(3);
+            $latestTopics = $topicRepository->getUserLatestTopics($personne);
 
             return $this->render('personne/show.html.twig', [
                 'personne' => $personne,
