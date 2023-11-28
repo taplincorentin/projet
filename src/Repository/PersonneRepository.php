@@ -17,9 +17,8 @@ class PersonneRepository extends ServiceEntityRepository implements PasswordUpgr
         parent::__construct($registry, Personne::class);
     }
 
-    /**
-     * Used to upgrade (rehash) the user's password automatically over time.
-     */
+
+
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {
         if (!$user instanceof Personne) {

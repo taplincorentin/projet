@@ -36,7 +36,8 @@ class SeanceFormType extends AbstractType
                 'empty_data' => null
                 ])
             ->add('description', TextareaType::class, [
-                'label' => 'Additional Information : '
+                'label' => 'Additional Information : ',
+                'required' => false,
             ])
             ->add('pointLatitude', NumberType::class, [
                 'required' => false,

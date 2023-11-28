@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Personne;
 use App\Form\PersonneFormType;
+use App\Repository\PersonneRepository;
 use App\Service\VerificationRoleService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -190,8 +191,12 @@ class PersonneController extends AbstractController
         
         //check if person exists
         if($personne){
+
+            $latestTopics = $personne->getTopics()->slice(3);
+
             return $this->render('personne/show.html.twig', [
-                'personne' => $personne
+                'personne' => $personne,
+                'latestTopics' => $latestTopics
             ]);
         }
         else {

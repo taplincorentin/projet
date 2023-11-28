@@ -22,7 +22,8 @@ class BaladeFormType extends AbstractType
                 'label' => 'Title : '
             ])
             ->add('description', TextareaType::class, [
-                'label' => 'Additional Information : '
+                'label' => 'Additional Information : ',
+                'required' => false,
             ])
             ->add('ville', TextType::class, [
                 'label' => 'City/Town : '

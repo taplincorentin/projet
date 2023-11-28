@@ -64,16 +64,39 @@
 
         <div class="user-container-left">   
             <img src="{{ asset('/images/users/' ~ personne.nomImageProfil) }}" class="user-profile-picture" alt="{{ personne ~ "'s profile picture" }}">
-            <p style="font-size: small; text-align:center;">joined : {{ personne.dateCreation | date('j F Y') }}</p>
-            <p style="font-size: small; text-align:center;" >last online : {{ personne.lastLogin | date('j F Y H:i') }}</p>
+            <p style="font-size: small; text-align:center;">Joined : {{ personne.dateCreation | date('j F Y') }}</p>
+            <p style="font-size: small; text-align:center;" >Last login : {{ personne.lastLogin | date('j F Y H:i') }}</p>
+
+
+            {% if latestTopics is not empty %}
+                
+            <h3 style="text-align: center;">Lastest Topics : </h3>
+
+    {% for topic in latestTopics |sort((b, a) => a.dateCreation <=> b.dateCreation) %}
+        <div class="topic-user-profile">
+
+            <div class="topic-date-user">
+                <p>{{topic.dateCreation | date('d-m-Y H:i:s')}}</p>
+                <p>in "{{topic.categorie}}" category</p>          
+                
+            </div>
+
+            <div class="topic-content-user">
+                <p>{{topic}}</p>
+                <a href="{{ path('show_topic', {'id': topic.id}) }}" aria-label="{{ "go to topic's comments" }}">see comments >></a>
+            </div>
+
+        </div>
+    {% endfor %}
+    {% endif %}
         </div>
 
         <div class="user-container-center">
-            <p>About {{personne}} : </p>
+            <h3>About {{personne}} : </h3>
             <p>{{personne.description}}</p>
 
             {#Person's dog(s)#}
-            <h3>{{personne}}'s dog(s)</h3>
+            <h3>{{personne}}'s dog(s) : </h3>
             
             {% for chien in personne.chiens %} 
                 {% if chien.imageName is empty %}
@@ -85,9 +108,12 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             
+                            <div class="close-btn">
                                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
+                            </div>  
+
                                 {% if chien.imageName is not empty %}
                                     <img style="max-width: 250px;" src="{{ vich_uploader_asset(chien, 'imageFile') }}" class="dog-picture" alt="{{ "picture of " ~ chien ~ ", " ~ personne ~ "'s dog" }}">
                                 {% endif %}
@@ -107,77 +133,80 @@
                 
 
             {% endfor %}
+
+            <h3>Upcoming events : </h3>
+
+            <div class="sessions">
+        
+                {% for seance in personne.seancesOrganisees %}
+                    {% if seance.dateHeureDepart > date() %}
+                        <a href="{{ path('show_seance', {'id': seance.id}) }}" aria-label="go to session's info page">
+                            <div class="session">
+                                <p>{{ seance }}</p>
+                                <p><i class="fa-solid fa-calendar-days fa-xs"></i> : {{ seance.dateHeureDepart | date('j F Y H:i') }}</p>
+                                <p><i class="fa-solid fa-tree-city fa-xs"></i> : {{ seance.ville }}</p>
+                                <p><i class="fa-solid fa-person-walking fa-xs"></i> : organiser</p>
+                            </div>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+        
+                {% for seance in personne.seancesParticipees %}
+                    {% if seance.dateHeureDepart > date() %}
+                        <a href="{{ path('show_seance', {'id': seance.id}) }}" aria-label="go to session's info page">
+                            <div class="session">
+                                <p>{{ seance }}</p>
+                                <p><i class="fa-solid fa-calendar-days fa-xs"></i> : {{ seance.dateHeureDepart | date('j F Y H:i') }}</p>
+                                <p><i class="fa-solid fa-tree-city fa-xs"></i> : {{ seance.ville }}</p>
+                                <p><i class="fa-solid fa-person-walking fa-xs"></i> : participant</p>
+                            </div>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+        
+            </div>
+        
+        
+        
+            <div class="walks">
+                
+        
+                {% for balade in personne.baladesOrganisees %}
+                    {% if balade.dateHeureDepart > date() %}
+                        <a href="{{ path('show_balade', {'id': balade.id}) }}" aria-label="go to the walk's info page">
+                            <div class="walk">
+                                <p>{{ balade }}</p>
+                                <p><i class="fa-solid fa-calendar-days fa-xs"></i> : {{ balade.dateHeureDepart | date('j F Y H:i') }}</p>
+                                <p><i class="fa-solid fa-tree-city fa-xs"></i> : {{ balade.ville }}</p>
+                                <p><i class="fa-solid fa-person-walking fa-xs"></i> : organiser</p>
+                            </div>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+        
+                {% for balade in personne.balades %}
+                    {% if balade.dateHeureDepart > date() %}
+                        <a href="{{ path('show_balade', {'id': balade.id}) }}" aria-label="go to the walk's info page">
+                            <div class="walk">
+                                <p>{{ balade }}</p>
+                                <p><i class="fa-solid fa-calendar-days fa-xs"></i> : {{ balade.dateHeureDepart | date('j F Y H:i') }}</p>
+                                <p><i class="fa-solid fa-tree-city fa-xs"></i> : {{ balade.ville }}</p>
+                                <p><i class="fa-solid fa-person-walking fa-xs"></i> : participant</p>
+                            </div>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div>
 
-        <div class="user-container-right">   
-            
-        </div>
     </div>
-    
+        
 
     
 
 
-    
 
 
-    
-    {#Sessions person is organising#}
-    {% if personne.seancesOrganisees is not empty %}
-    <div>
-        <h3>sessions (as trainer)</h3>
-        <table>
-        {% for seance in personne.seancesOrganisees %}
-            <tr>
-                <td><a href="{{ path('show_seance', {'id': seance.id}) }}" aria-label="go to session's info page">{{ seance }}</a></td>
-            </tr>  
-        {% endfor %}
-        </table>
-    </div>
-    {% endif %}
-
-    {#Walks person is organising#}
-    {% if personne.baladesOrganisees is not empty %}
-    <div>
-        <h3>walks (as organiser)</h3>
-        <table>
-        {% for balade in personne.baladesOrganisees %}
-            <tr>
-                <td><a href="{{ path('show_balade', {'id': balade.id}) }}" aria-label="go to the walk's info page">{{ balade }}</a></td>
-            </tr>  
-        {% endfor %}
-        </table>
-    </div>
-    {% endif %}
-
-    {#Sessions person is participitating#}
-    {% if personne.seancesParticipees is not empty %}
-    <div>
-        <h3>sessions (as participant)</h3>
-        <table>
-        {% for seance in personne.seancesParticipees %}
-            <tr>
-                <td><a href="{{ path('show_seance', {'id': seance.id}) }}" aria-label="go to session's info page">{{ seance }}</a></td>
-            </tr>  
-        {% endfor %}
-        </table>
-    </div>
-    {% endif %}
-
-    {#Walks person is participitating#}
-    {% if personne.balades is not empty %}
-    <div>
-        <h3>walks (participant)</h3>
-        <table>
-        {% for balade in personne.balades %}
-            <tr>
-                <td><a href="{{ path('show_balade', {'id': balade.id}) }}" aria-label="go to the walk's info page">{{ balade }}</a></td>
-            </tr>  
-        {% endfor %}
-        </table>
-    </div>
-    {% endif %}
-    
 
 
 
