@@ -64,10 +64,11 @@
 
         <div class="user-container-left">   
             <img src="{{ asset('/images/users/' ~ personne.nomImageProfil) }}" class="user-profile-picture" alt="{{ personne ~ "'s profile picture" }}">
-            <p>joined : {{ personne.dateCreation | date('j F Y') }}</p>
+            <p style="font-size: small; text-align:center;">joined : {{ personne.dateCreation | date('j F Y') }}</p>
+            <p style="font-size: small; text-align:center;" >last online : {{ personne.lastLogin | date('j F Y H:i') }}</p>
         </div>
 
-        <div class="user-container-right">
+        <div class="user-container-center">
             <p>About {{personne}} : </p>
             <p>{{personne.description}}</p>
 
@@ -76,7 +77,7 @@
             
             {% for chien in personne.chiens %} 
                 {% if chien.imageName is empty %}
-                    <button data-toggle="modal" data-target="#myModal{{ loop.index }}">{{chien}}</button>
+                <img src="{{ asset('/images/chiens/dog-paw.png') }}" data-toggle="modal" data-target="#myModal{{ loop.index }}" class="dog-icon" alt="{{ "default picture of apaw for " ~ chien ~ ", " ~ personne ~ "'s dog" }}">
                 {% else %}
                     <img src="{{ vich_uploader_asset(chien, 'imageFile') }}" data-toggle="modal" data-target="#myModal{{ loop.index }}" class="dog-icon" alt="{{ "picture of " ~ chien ~ ", " ~ personne ~ "'s dog" }}">
                 {% endif %}
@@ -87,7 +88,9 @@
                                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
-                                <img style="max-width: 250px;" src="{{ vich_uploader_asset(chien, 'imageFile') }}" class="dog-picture" alt="{{ "picture of " ~ chien ~ ", " ~ personne ~ "'s dog" }}">
+                                {% if chien.imageName is not empty %}
+                                    <img style="max-width: 250px;" src="{{ vich_uploader_asset(chien, 'imageFile') }}" class="dog-picture" alt="{{ "picture of " ~ chien ~ ", " ~ personne ~ "'s dog" }}">
+                                {% endif %}
                                 <p><i class="fa-solid fa-signature"></i> : {{chien.nom}}</p>
                                 <p><i class="fa-solid fa-cake-candles"></i> : {{chien.dateNaissance | date('j F Y')}}</p>
                                 <p><i class="fa-solid fa-circle-info"></i> : {{chien.description}}</p>
@@ -104,6 +107,10 @@
                 
 
             {% endfor %}
+        </div>
+
+        <div class="user-container-right">   
+            
         </div>
     </div>
     
@@ -171,6 +178,9 @@
     </div>
     {% endif %}
     
+
+
+
     <script>
         
         //Part for the dog modal

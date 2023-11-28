@@ -1,8 +1,6 @@
 /*ENTIRE SITE*/
 
-img {
-    max-width: 200px;
-}
+
 
 :root {
     --darkBlue: #006D77;
@@ -623,20 +621,21 @@ select#seance_form_theme{
 .user-container-left {
   padding: 15px;
   border-right:solid 1px var(--darkBlue);
+
 }
 
-.user-container-right {
+.user-container-center {
   padding: 15px;
 }
 
-.user-container-right a {
+.user-container-center a {
   color: var(--darkBlue);
 }
 
 .user-profile-picture {
   border-radius: 50%;  
-  height: 200px; 
-  width: 200px;
+  height: 225px; 
+  width: 225px;
   object-fit: cover;
   border:solid 1px var(--tangerine);
   margin: 2px;
