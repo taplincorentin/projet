@@ -30,12 +30,12 @@
         {#if user is a super admin can change person's role#}
         {% if is_granted('ROLE_SUPER_ADMIN') %}
 
-            <p><a id="editRoleBtn" class="button">Change role</a></p>
+            <p><a id="roleBtn" class="button1">Change role</a></p>
 
-            <div id="myModal" class="modal">
+            <div id="roleModal" class="modal1">
 
-                <div class="modal-content">
-                    <span class="close">&times;</span>
+                <div class="modal-content1">
+                    <span class="roleClose">&times;</span>
                     {% if (personne.roles[0] == 'ROLE_SUPER_ADMIN') %}
                         <p><a href="{{ path('make_user', {'id': personne.id}) }}" onclick="return confirm('Role to user ?')">Edit Role to User</a></p>
                         <p><a href="{{ path('make_admin', {'id': personne.id}) }}" onclick="return confirm('Role to admin ?')">Edit Role to Admin</a></p>
@@ -64,61 +64,55 @@
 
         <div class="user-container-left">   
             <img src="{{ asset('/images/users/' ~ personne.nomImageProfil) }}" class="user-profile-picture" alt="{{ personne ~ "'s profile picture" }}">
+            <p>joined : {{ personne.dateCreation | date('j F Y') }}</p>
         </div>
 
         <div class="user-container-right">
-            <p>About {{personne}} : {{personne.description}}</p>
+            <p>About {{personne}} : </p>
+            <p>{{personne.description}}</p>
 
-             <h3>{{personne}}'s dog(s)</h3>
-            {% for chien in personne.chiens %}
-                {# <img src="{{ vich_uploader_asset(chien, 'imageFile') }}" id="myBtn" class="dog-icon" alt="{{ "picture of " ~ chien ~ ", " ~ personne ~ "'s dog" }}"> 
-                <button id="myBtn">{{ chien }}</button>
-                
-                
-                <div id="myModal" class="modal">
+            {#Person's dog(s)#}
+            <h3>{{personne}}'s dog(s)</h3>
+            
+            {% for chien in personne.chiens %} 
+                {% if chien.imageName is empty %}
+                    <button data-toggle="modal" data-target="#myModal{{ loop.index }}">{{chien}}</button>
+                {% else %}
+                    <img src="{{ vich_uploader_asset(chien, 'imageFile') }}" data-toggle="modal" data-target="#myModal{{ loop.index }}" class="dog-icon" alt="{{ "picture of " ~ chien ~ ", " ~ personne ~ "'s dog" }}">
+                {% endif %}
+                <div class="modal fade" id="myModal{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <img style="max-width: 250px;" src="{{ vich_uploader_asset(chien, 'imageFile') }}" class="dog-picture" alt="{{ "picture of " ~ chien ~ ", " ~ personne ~ "'s dog" }}">
+                                <p><i class="fa-solid fa-signature"></i> : {{chien.nom}}</p>
+                                <p><i class="fa-solid fa-cake-candles"></i> : {{chien.dateNaissance | date('j F Y')}}</p>
+                                <p><i class="fa-solid fa-circle-info"></i> : {{chien.description}}</p>
 
-                    <div class="modal-content">
-                        <span class="close">&times;</span>
-                        <img style="max-width: 200px;" src="{{ vich_uploader_asset(chien, 'imageFile') }}" class="dog-picture" alt="{{ "picture of " ~ chien ~ ", " ~ personne ~ "'s dog" }}">
-                        <p><i class="fa-solid fa-signature"></i> : {{chien.nom}}</p>
-                        <p><i class="fa-solid fa-cake-candles"></i> : {{chien.dateNaissance | date('d-m-Y')}}</p>
-                        <p><i class="fa-solid fa-circle-info"></i> : {{chien.description}}</p>
-                        
+                        </div>
                     </div>
-
-                    #}
-                    {#if user is dog owner, can edit/delete dog#}
-                {# {% if app.user == chien.personne %}
-                <a href="{{ path('edit_chien', {'id': chien.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg" aria-label="{{ "edit " ~ chien ~ "'s information" }}"></i></a>
-                <a href="{{ path('delete_chien', {'id': chien.id}) }}" onclick="return confirm('Are you sure?')" aria-label="{{ "delete " ~ chien }}"><i class="fa-solid fa-trash fa-lg"></i></a>
-            {% endif %}
                 </div>
-
-            {% endfor %}  #}
-        </div>
-    </div>
-
-    
-
-
-    {#Person's dog(s)#}
-    <div class="personne-chien">
-        <h3>{{personne.pseudo}}'s dog(s)</h3>
-        {% for chien in personne.chiens %}
-            <div class="personne-chien">
-                <img style="max-width: 200px;" src="{{ vich_uploader_asset(chien, 'imageFile') }}" alt="{{ "picture of " ~ chien ~ ", " ~ personne ~ "'s dog" }}">
-                {{chien.nom}}
-                {{chien.dateNaissance | date('d-m-Y')}}
-                {{chien.description}}
+                    
                 {#if user is dog owner, can edit/delete dog#}
                 {% if app.user == chien.personne %}
                     <a href="{{ path('edit_chien', {'id': chien.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg" aria-label="{{ "edit " ~ chien ~ "'s information" }}"></i></a>
                     <a href="{{ path('delete_chien', {'id': chien.id}) }}" onclick="return confirm('Are you sure?')" aria-label="{{ "delete " ~ chien }}"><i class="fa-solid fa-trash fa-lg"></i></a>
                 {% endif %}
                 
-            </div>
-        {% endfor %}
+
+            {% endfor %}
+        </div>
     </div>
+    
+
+    
+
+
+    
+
 
     
     {#Sessions person is organising#}
@@ -178,14 +172,28 @@
     {% endif %}
     
     <script>
-        /*// Get the modal
-        var modal = document.getElementById("myModal");
+        
+        //Part for the dog modal
+        $(document).ready(function(){
+            // This script initializes Bootstrap's modal functionality
+            $('[data-toggle="modal"]').each(function(){
+                $(this).click(function(){
+                    var target = $(this).data('target');
+                    $(target).modal('show');
+                });
+            });
+        });
+
+
+        //Part for the role modal
+        // Get the modal
+        var modal = document.getElementById("roleModal");
         
         // Get the button that opens the modal
-        var btn = document.getElementById("editRoleBtn");
+        var btn = document.getElementById("roleBtn");
         
         // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("close")[0];
+        var span = document.getElementsByClassName("roleClose")[0];
         
         // When the user clicks the button, open the modal 
         btn.onclick = function() {
@@ -202,33 +210,6 @@
           if (event.target == modal) {
             modal.style.display = "none";
           }
-        }
-        */
-
-        // Get the modal
-        var modal = document.getElementById("myModal");
-        
-        // Get the button that opens the modal
-        var btn = document.getElementById("myBtn");
-        
-        // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("close")[0];
-        
-        // When the user clicks the button, open the modal 
-        btn.onclick = function() {
-        modal.style.display = "block";
-        }
-        
-        // When the user clicks on <span> (x), close the modal
-        span1.onclick = function() {
-        modal.style.display = "none";
-        }
-        
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
         }
     </script>
 

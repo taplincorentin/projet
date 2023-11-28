@@ -16,7 +16,7 @@ img {
     font-family: 'Raleway', sans-serif;
     
 }
-.button {
+.button, .button1 {
   text-decoration: none;
   background-color: var(--darkBlue);
   color: white;
@@ -615,7 +615,72 @@ select#seance_form_theme{
   right: 15px;
 }
 
-#editRoleBtn {
+.user-container {
+  display: flex;
+  border-bottom:solid 1px var(--darkBlue);
+}
+
+.user-container-left {
+  padding: 15px;
+  border-right:solid 1px var(--darkBlue);
+}
+
+.user-container-right {
+  padding: 15px;
+}
+
+.user-container-right a {
+  color: var(--darkBlue);
+}
+
+.user-profile-picture {
+  border-radius: 50%;  
+  height: 200px; 
+  width: 200px;
+  object-fit: cover;
+  border:solid 1px var(--tangerine);
+  margin: 2px;
+}
+
+.dog-icon {
+  border-radius: 50%;  
+  height: 100px; 
+  width: 100px;
+  object-fit: cover;
+  border:solid 1px var(--tangerine);
+  margin: 2px;
+}
+.modal-dialog{
+  width: 20%;
+}
+.modal{
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 50;
+  top: 0;
+  width: 100%;  
+  overflow: auto;
+  outline: 0
+  
+}
+
+.modal-content {
+  background-color: var(--aliceBlue);
+  margin: 10px;
+  padding: 20px;
+  width: 100%;
+  border:solid 1px var(--tangerine);
+}
+
+.dog-picture {
+  width : 95%;
+  border-radius: 10%;
+}
+
+
+#roleBtn {
   color: white;
   background-color: var(--darkBlue);
 }
@@ -693,7 +758,7 @@ select#seance_form_theme{
   /*css for trainer modal*/
 
 /* The Modal (background) */
-.modal {
+.modal1 {
   display: none;
   position: fixed;
   z-index: 1;
@@ -706,26 +771,26 @@ select#seance_form_theme{
   
 }
 
+
 /* Modal Content */
-.modal-content {
+.modal-content1 {
   background-color: var(--aliceBlue);
   margin: auto;
   padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
+  width: 50%;
   border:solid 1px var(--tangerine);
 }
 
 /* The Close Button */
-.close {
+.close, .roleClose {
   color: #aaaaaa;
   float: right;
   font-size: 28px;
   font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
+.close:hover, .roleClose:hover,
+.close:focus, .roleClose:focus {
   color: #000;
   text-decoration: none;
   cursor: pointer;
