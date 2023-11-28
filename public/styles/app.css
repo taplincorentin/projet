@@ -680,6 +680,7 @@ select#seance_form_theme{
 .topic-content-user {
   width: 100%;
   text-align: center;
+  padding-bottom: 10px;
 }
 
 .topic-content-user a {
