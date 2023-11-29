@@ -877,4 +877,10 @@ select#seance_form_theme{
 }
 
 
-
+/*MEDIA QUERIES*/
+@media only screen and (max-width: 750px) {
+  .walk-form-container, .dog-form-container, .register-form-container, .reset-password-form-container, .form-container, .search-form-container {
+    width: 95%;
+    margin: 10px;
+  }
+}
