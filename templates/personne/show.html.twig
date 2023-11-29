@@ -30,7 +30,7 @@
         {#if user is a super admin can change person's role#}
         {% if is_granted('ROLE_SUPER_ADMIN') %}
 
-            <p><a id="roleBtn" class="button1">Change role</a></p>
+            <p id="editRole"><a id="roleBtn" class="button1">Change role</a></p>
 
             <div id="roleModal" class="modal1">
 
@@ -69,7 +69,7 @@
 
 
             {% if latestTopics is not empty %}
-                
+            <div id="latestUserTopics">
             <h3 style="text-align: center;">Lastest Topics : </h3>
 
     {% for topic in latestTopics |sort((b, a) => a.dateCreation <=> b.dateCreation) |slice(0, 3)%}
@@ -88,6 +88,7 @@
 
         </div>
     {% endfor %}
+        </div>  
     {% endif %}
         </div>
 
@@ -107,20 +108,24 @@
                 <div class="modal fade" id="myModal{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
-                            
+                            <div class="modal-content-container">
+                            {% if chien.imageName is not empty %}
+                            <div class="modal-content-left">
+                                    <img src="{{ vich_uploader_asset(chien, 'imageFile') }}" class="dog-picture" alt="{{ "picture of " ~ chien ~ ", " ~ personne ~ "'s dog" }}">
+                            </div>
+                            {% endif %}
+                            <div class="modal-content-right">
+
+                                    <p><i class="fa-solid fa-signature"></i> : {{chien.nom}}</p>
+                                    <p><i class="fa-solid fa-cake-candles"></i> : {{chien.dateNaissance | date('j F Y')}}</p>
+                                    <p><i class="fa-solid fa-circle-info"></i> : {{chien.description}}</p>
+                            </div>
+                        </div>
                             <div class="close-btn">
-                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
+                                <button type="button" id="modal-close" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">close</span>
                                 </button>
                             </div>  
-
-                                {% if chien.imageName is not empty %}
-                                    <img style="max-width: 250px;" src="{{ vich_uploader_asset(chien, 'imageFile') }}" class="dog-picture" alt="{{ "picture of " ~ chien ~ ", " ~ personne ~ "'s dog" }}">
-                                {% endif %}
-                                <p><i class="fa-solid fa-signature"></i> : {{chien.nom}}</p>
-                                <p><i class="fa-solid fa-cake-candles"></i> : {{chien.dateNaissance | date('j F Y')}}</p>
-                                <p><i class="fa-solid fa-circle-info"></i> : {{chien.description}}</p>
-
                         </div>
                     </div>
                 </div>
@@ -197,6 +202,29 @@
                     {% endif %}
                 {% endfor %}
             </div>
+
+            {% if latestTopics is not empty %}
+            <div id="latestUserTopicsResponsive">
+            <h3 style="text-align: center;">Lastest Topics : </h3>
+
+    {% for topic in latestTopics |sort((b, a) => a.dateCreation <=> b.dateCreation) |slice(0, 3)%}
+        <div class="topic-user-profile">
+
+            <div class="topic-date-user">
+                <p>{{topic.dateCreation | date('d-m-Y H:i:s')}}</p>
+                <p>in "{{topic.categorie}}" category</p>          
+                
+            </div>
+
+            <div class="topic-content-user">
+                <p>{{topic}}</p>
+                <a href="{{ path('show_topic', {'id': topic.id}) }}" aria-label="{{ "go to topic's comments" }}">go to topic >></a>
+            </div>
+
+        </div>
+    {% endfor %}
+        </div>  
+    {% endif %}
         </div>
 
     </div>
