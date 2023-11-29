@@ -22,8 +22,8 @@
         
         {% if app.user %}
 
-        <div class="navbar">
-            <a href="{{ path('app_home') }}"><i class="fa-solid fa-paw fa-xl"></i></a>
+        <div class="navbar" id="myNavbar">
+            <a href="{{ path('app_home') }}" id="navHome"><i class="fa-solid fa-paw fa-xl"></i></a>
             {% if app.user.isEducateur %} 
             <div class="dropdown">
               <button class="dropbtn"><i class="fa-solid fa-plus"></i> Create Walk/Training Session
@@ -35,12 +35,15 @@
               </div>
             </div>
             {% else %}
-            <a href="{{ path('new_balade') }}"><i class="fa-solid fa-plus"></i> Create Walk</a>
+            <a href="{{ path('new_balade') }}" id="navWalk"><i class="fa-solid fa-plus"></i> Create Walk</a>
             {% endif %}
-            <a href="{{ path('app_recherche') }}"><i class="fa-solid fa-magnifying-glass"></i> Search for Walk/Training Session</a>
-            <a href="{{ path('app_logout') }}" style="float:right" onclick="return confirm('Do you really want to sign out ?')"><i class="fa-solid fa-right-from-bracket"></i></a>
-            <a href="{{ path('show_personne', {'id': app.user.id}) }}" style="float:right" ><i class="fa-solid fa-user"></i></a>
-            <a href="{{ path('app_categorie') }}" style="float:right">FORUM</a>
+            <a href="{{ path('app_recherche') }}" id="navSearch"><i class="fa-solid fa-magnifying-glass"></i> Search for Walk/Training Session</a>
+            <a href="{{ path('app_logout') }}" id="navLog" onclick="return confirm('Do you really want to sign out ?')"><i class="fa-solid fa-right-from-bracket"></i></a>
+            <a href="{{ path('show_personne', {'id': app.user.id}) }}" id="navProfile"><i class="fa-solid fa-user"></i></a>
+            <a href="{{ path('app_categorie') }}" id="navForum">FORUM</a>
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                <i class="fa fa-bars"></i>
+              </a>
         </div>
         {# <div class="navbar">
             <ul>
@@ -77,10 +80,14 @@
      crossorigin=""></script>
             <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
             <script>
-                
-                $(function() {
-                    $('.select-breeds').select2();
-                })
+                function myFunction() {
+                    var x = document.getElementById("myNavbar");
+                    if (x.className === "navbar") {
+                      x.className += " responsive";
+                    } else {
+                      x.className = "navbar";
+                    }
+                  }
             </script>
         {% endblock %}
     </head>

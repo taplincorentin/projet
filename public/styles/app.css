@@ -89,7 +89,13 @@
   display: block;
 }
 
+.icon{
+  display: none;
+}
 
+#navProfile, #navLog, #navForum {
+  float:right;
+}
 /* .navbar ul {
     list-style-type: none;
     margin: 0;
@@ -947,6 +953,22 @@ select#seance_form_theme{
   .walk-form-container, .dog-form-container, .register-form-container, .reset-password-form-container, .form-container, .search-form-container {
     width: 95%;
     margin: 10px;
+    }
+    .navbar a:not(:first-child, :last-child) {display: none;}
+  .navbar a.icon {
+    float: right;
+    display: block;
   }
 
+    .navbar.responsive {position: relative;}
+  .navbar.responsive a.icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .navbar.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
 }
