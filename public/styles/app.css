@@ -943,5 +943,15 @@ select#seance_form_theme{
         width: 95%;
         margin: 10px;
       }
+
+      .event-container{
+        flex-direction: column;
+      }
+
+      .event-container-left, .event-container-right{
+        width: 100%;
+        margin-left: 0;
+        overflow: hidden;
+      }
     }
 
