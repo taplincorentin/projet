@@ -11,6 +11,7 @@
 
         <h1>{{categorie |upper }} CATEGORY</h1>
         <p>Welcome, if you cannot find what you are looking for, make your own topic!</p>
+        <a href="{{ path('app_categorie')}}" id="back-category-home" class="new-dog-button" aria-label="go back to category page">Back to Forum Home Page</a>
     
     </div>
     
@@ -29,6 +30,10 @@
     </div>
     
     <div class="category-right">
+
+        {% if categorie.topics is empty %}
+            <h2 style="text-align: center;">NO TOPICS YET, BE THE FIRST</h2>
+        {% else %}
         <h2 style="text-align: center;">LATEST TOPICS</h2>
     
         {% for topic in categorie.topics | sort((a, b) => b.dateCreation <=> a.dateCreation) %}
@@ -67,13 +72,14 @@
                 </div>
             </div>
         {% endfor %}
+        {% endif %}
         <div class="topic">
             <div class="topic-date">
                 <p></p>
             </div>   
             
             <div class="topic-body">         
-                <div class="topic-user">
+                <div class="topic-user" id="topicUserForm">
                     <span><img class="topic-picture" src="{{ asset('/images/users/' ~ app.user.nomImageProfil) }}" alt="your profile picture"></span>
                     <span>{{app.user}}</span> 
                 </div>
@@ -85,6 +91,8 @@
                     {{ form_end(formAddTopic) }}
                 </form>
             </div>
+        </div>
+    
         </div>
     </main>
     
