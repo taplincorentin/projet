@@ -21,8 +21,8 @@
         {#if this is the current user's profile can edit his info or delete his profile#}
         {% if (app.user == personne) %}
             <span class="user-edit-delete">
-                <a href="{{ path('edit_personne', {'id': personne.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg" aria-label="modify your information information"></i></a>
-                <a href="{{ path('delete_personne', {'id': personne.id}) }}" onclick="return confirm('Are you sure?')"><i class="fa-solid fa-trash fa-lg" aria-label="delete your account"></i></a>
+                <a href="{{ path('edit_personne', {'id': personne.id}) }}" aria-label="modify your information information"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
+                <a href="{{ path('delete_personne', {'id': personne.id}) }}" onclick="return confirm('Are you sure?')" aria-label="delete your account"><i class="fa-solid fa-trash fa-lg"></i></a>
             </span>
             <a href="{{ path('new_chien') }}" class="new-dog-button" aria-label="add a new dog"><i class="fa-solid fa-plus"></i> ADD A NEW DOG</a>
         {% endif %}
@@ -132,7 +132,7 @@
                     
                 {#if user is dog owner, can edit/delete dog#}
                 {% if app.user == chien.personne %}
-                    <a href="{{ path('edit_chien', {'id': chien.id}) }}"><i class="fa-solid fa-pen-to-square fa-lg" aria-label="{{ "edit " ~ chien ~ "'s information" }}"></i></a>
+                    <a href="{{ path('edit_chien', {'id': chien.id}) }}" aria-label="{{ "edit " ~ chien ~ "'s information" }}"eza><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
                     <a href="{{ path('delete_chien', {'id': chien.id}) }}" onclick="return confirm('Are you sure?')" aria-label="{{ "delete " ~ chien }}"><i class="fa-solid fa-trash fa-lg"></i></a>
                 {% endif %}
                 
@@ -145,7 +145,7 @@
         
                 {% for seance in personne.seancesOrganisees %}
                     {% if seance.dateHeureDepart > date() %}
-                        <a href="{{ path('show_seance', {'id': seance.id}) }}" aria-label="go to session's info page">
+                        <a href="{{ path('show_seance', {'id': seance.id}) }}" aria-label="go to {{seance}}'s info page">
                             <div class="session">
                                 <p>{{ seance }}</p>
                                 <p><i class="fa-solid fa-calendar-days fa-xs"></i> : {{ seance.dateHeureDepart | date('j F Y H:i') }}</p>
@@ -158,7 +158,7 @@
         
                 {% for seance in personne.seancesParticipees %}
                     {% if seance.dateHeureDepart > date() %}
-                        <a href="{{ path('show_seance', {'id': seance.id}) }}" aria-label="go to session's info page">
+                        <a href="{{ path('show_seance', {'id': seance.id}) }}" aria-label="go to {{seance}}'s info page">
                             <div class="session">
                                 <p>{{ seance }}</p>
                                 <p><i class="fa-solid fa-calendar-days fa-xs"></i> : {{ seance.dateHeureDepart | date('j F Y H:i') }}</p>
@@ -178,7 +178,7 @@
         
                 {% for balade in personne.baladesOrganisees %}
                     {% if balade.dateHeureDepart > date() %}
-                        <a href="{{ path('show_balade', {'id': balade.id}) }}" aria-label="go to the walk's info page">
+                        <a href="{{ path('show_balade', {'id': balade.id}) }}" aria-label="go to the {{balade}}'s info page">
                             <div class="walk">
                                 <p>{{ balade }}</p>
                                 <p><i class="fa-solid fa-calendar-days fa-xs"></i> : {{ balade.dateHeureDepart | date('j F Y H:i') }}</p>
@@ -191,7 +191,7 @@
         
                 {% for balade in personne.balades %}
                     {% if balade.dateHeureDepart > date() %}
-                        <a href="{{ path('show_balade', {'id': balade.id}) }}" aria-label="go to the walk's info page">
+                        <a href="{{ path('show_balade', {'id': balade.id}) }}" aria-label="go to the {{balade}}'s info page">
                             <div class="walk">
                                 <p>{{ balade }}</p>
                                 <p><i class="fa-solid fa-calendar-days fa-xs"></i> : {{ balade.dateHeureDepart | date('j F Y H:i') }}</p>

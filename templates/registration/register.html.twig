@@ -31,14 +31,15 @@
                     {{ form_widget(registrationForm.plainPassword.second) }}
 
             
-                   <div class="row">
+                   <div class="row1">
                         {{ form_widget(registrationForm.isEducateur) }} 
                         {{ form_label(registrationForm.isEducateur) }} 
                     </div> 
                     
-                    <div class="row">
+                    <div class="row1">
                         {{ form_widget(registrationForm.agreeTerms) }} 
-                        {{ form_label(registrationForm.agreeTerms) }} 
+                        {{ form_label(registrationForm.agreeTerms) }}
+                        <a href="{{path('app_privacy_policy')}}"  aria-label="open in new tab privacy policy page" target="_blank">Privacy Policy</a>
                     </div> 
                 
 

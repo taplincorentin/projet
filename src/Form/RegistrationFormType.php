@@ -47,7 +47,7 @@ class RegistrationFormType extends AbstractType
                         'message' => "can't sign up without accepting the conditions of use",
                     ]),
                 ],
-                'label' => "Agree to terms and condition of use"
+                'label' => 'I have read the',
                 
             ])
             ->add('submit', SubmitType::class, [

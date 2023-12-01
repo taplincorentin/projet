@@ -22,6 +22,30 @@
   border-radius: 30px;
   cursor: pointer;
 }
+.policy-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--darkBlue);
+}
+
+.policy-child {
+  width: 50%;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 5px;
+  border:solid 3px var(--tangerine);
+  background-color: var(--aliceBlue);
+}
+
+.policy-child h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.row1{
+  display:inline-block;
+}
 
 /*NAVBAR*/
 .nav {
