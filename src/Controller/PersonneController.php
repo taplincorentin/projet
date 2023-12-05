@@ -193,13 +193,16 @@ class PersonneController extends AbstractController
         //check if person exists
         if($personne){
 
+            //get user 3 latest topics
             $latestTopics = $topicRepository->getUserLatestTopics($personne);
 
+            //return person + 3 latest topics data to view
             return $this->render('personne/show.html.twig', [
                 'personne' => $personne,
                 'latestTopics' => $latestTopics
             ]);
         }
+        //if not redirect to HomePage
         else {
             return $this->redirectToRoute('app_home');
         }
