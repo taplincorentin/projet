@@ -189,7 +189,7 @@
 }
 
 .homepage-container {
-  background: rgba(155, 152, 152, 0.5);
+  background: rgba(155, 152, 152, 0.2);
   color: white;
   text-align: center;
 }
@@ -201,12 +201,19 @@
 
 .homepage-menu {
   display: flex;
-  justify-content: center;
-  
+  justify-content: center; 
+}
+
+.homepage-menu a {
+  text-decoration: none;
+  color: white;
 }
 
 .homepage-item {
-  background-color: gray;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--tangerine);
   border: solid 1px white;
   width: 200px;
   height: 400px;
