@@ -184,7 +184,6 @@ class Balade
         
         //create Topic
         $topic = new Topic();
-
         
         //create and set topic title
         $title = "[DISCUSSION] ".($this->getNom());

@@ -7,18 +7,18 @@
     <h3>Upcoming dog walks in {{ville}}: </h3>
     <div class="walks">
 
-    {% for balade in resultatsBalades %}
-        
-        <a href="{{ path('show_balade', {'id': balade.id}) }}" aria-label="go to the walk's info page">
-            <div class="walk">
-                <p>{{ balade }}</p>
-                <p><i class="fa-solid fa-calendar-days fa-xs"></i> : {{ balade.dateHeureDepart | date('j F Y H:i') }}</p>
-                <p><i class="fa-solid fa-tree-city fa-xs"></i> : {{ balade.ville }}</p>
-                <p><i class="fa-solid fa-person-hiking fa-xs"></i> : {{ balade.organisateur }}</p>
-            </div>
-        </a>
+        {% for balade in resultatsBalades %}
+            
+            <a href="{{ path('show_balade', {'id': balade.id}) }}" aria-label="go to the walk's info page">
+                <div class="walk">
+                    <p>{{ balade }}</p>
+                    <p><i class="fa-solid fa-calendar-days fa-xs"></i> : {{ balade.dateHeureDepart | date('j F Y H:i') }}</p>
+                    <p><i class="fa-solid fa-tree-city fa-xs"></i> : {{ balade.ville }}</p>
+                    <p><i class="fa-solid fa-person-hiking fa-xs"></i> : {{ balade.organisateur }}</p>
+                </div>
+            </a>
 
-    {% endfor %}
-</div>
+        {% endfor %}
+    </div>
 
 {% endblock %}

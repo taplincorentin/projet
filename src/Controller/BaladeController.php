@@ -37,12 +37,15 @@ class BaladeController extends AbstractController
     #[Route('/balade/new', name: 'new_balade')]
     public function new(Balade $balade = null, Request $request, EntityManagerInterface $entityManager): Response {
         
+        //create new Balade object
         $balade = new Balade();
 
         $form = $this->createForm(BaladeFormType::class, $balade);
 
 
         $form->handleRequest($request);
+
+        //when form is submitted, check form data is valid
         if ($form->isSubmitted() && $form->isValid()) {
             
             $balade = $form->getData();                 //get submitted data
@@ -62,13 +65,14 @@ class BaladeController extends AbstractController
                 $categorie = $entityManager->getRepository(Categorie::class)->findOneBy(['id'=>6]);
                 $topic->setCategorie($categorie);
             
-                //get current datetime to set 'lastModified'
+                //get current datetime to set 'dateCreation'
                 $now = new \DateTime();
                 $topic->setDateCreation($now);
 
                 //set current user as topic creator
                 $topic->setAuteur($this->getUser());
 
+                $entityManager->persist($topic);
                 $entityManager->flush();
 
 
@@ -164,21 +168,24 @@ class BaladeController extends AbstractController
     #[Route('/balade/{balade_id}/{personne_id}/move', name: 'enlist_personne_balade')]
     public function movePersonneToBalade(Balade $balade_id, int $personne_id, EntityManagerInterface $entityManager) {
         
-        $balade = $entityManager->getRepository(Balade::class)->findOneBy(['id'=>$balade_id]);          //get balade
-        $personne = $entityManager->getRepository(Personne::class)->findOneBy(['id'=>$personne_id]);
-        $user = $this->getUser();
-        $organisateur = $balade->getOrganisateur();
+        $balade = $entityManager->getRepository(Balade::class)->findOneBy(['id'=>$balade_id]);          //get walk
+        $personne = $entityManager->getRepository(Personne::class)->findOneBy(['id'=>$personne_id]);    //get the user that is getting added
+        $user = $this->getUser();                                                                       //get current user
+        $organisateur = $balade->getOrganisateur();                                                     //get walk organiser
 
-        if( $personne == $user && $personne != $organisateur ) {                                        //check current user and person that is getting enlisted for walk are the same and that the person isn't the walk's organiser                                                            
-            
+        if( $personne == $user && $personne != $organisateur ) {                                        /*check current user and person that is getting enlisted 
+                                                                                                        for walk are the same and that the person isn't the walk's organiser */
+            //add the person to the walk
             $balade->addPersonne($personne);
 
             $entityManager->persist($balade);
             $entityManager->flush();
 
+            //redirect to walk info page
             return $this->redirectToRoute('show_balade', ['id' => $balade->getId()]);
         }
 
+        //if not redirect to HomePage
         else {
             return $this->redirectToRoute('app_home');
         }

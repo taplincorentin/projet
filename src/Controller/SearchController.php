@@ -23,7 +23,7 @@ class SearchController extends AbstractController
             $ville = $form->get('ville')->getData();
             $type = $form->get('type')->getData();
 
-            // Perform actions based on the selected search type (concerts/plays)
+            // Perform actions based on the selected search type (balades/seances)
             if ($type === 'balades') {
 
                 //get walks with same ville
