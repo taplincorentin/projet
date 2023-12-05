@@ -160,29 +160,27 @@
 {
   margin-left:6px;
   margin-right:0;
-  border-radius:100%;
+
 }
 .copyright-text
 {
   margin:0
 }
-@media (max-width:991px)
-{
-  .site-footer [class^=col-]
-  {
-    margin-bottom:30px
-  }
-}
-@media (max-width:767px)
+
+@media (max-width:750px)
 {
   .site-footer
   {
-    padding-bottom:0
+    text-align: center;
   }
-  .site-footer .copyright-text,.site-footer .social-icons
-  {
-    text-align:center
-  }
+
+  .site-footer a
+{
+  margin-left:0px;
+
+
+}
+
 }
 
 /*LOGIN PAGE*/
