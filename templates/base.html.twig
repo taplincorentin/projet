@@ -90,7 +90,7 @@
                 {% if app.user.isEducateur %} 
                     <a href="{{ path('new_seance') }}"><i class="fa-solid fa-graduation-cap"></i> Create Training Session</a>
                 {% endif %}
-                <a href="{{ path('new_balade') }}" ><i class="fa-solid fa-plus"></i> Create Walk</a>
+                <a href="{{ path('new_balade') }}"><i class="fa-solid fa-plus"></i> Create Walk</a>
                 <a href="{{ path('app_recherche') }}" ><i class="fa-solid fa-magnifying-glass"></i> Search </a>
               <a href="{{ path('app_categorie') }}" ><i class="fa-solid fa-comments"></i> Forum</a>
               <a href="{{ path('show_personne', {'id': app.user.id}) }}"><i class="fa-solid fa-user"></i> Profile</a>
@@ -115,5 +115,14 @@
     </head>
     <body>
         {% block body %}{% endblock %}
+        
+        {% if app.user %}
+    <footer class="site-footer">
+      {{ render(path('app_footer')) }}
+    </footer>
+    {% endif %}
     </body>
+
+    
+    
 </html>

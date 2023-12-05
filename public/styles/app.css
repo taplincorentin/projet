@@ -96,7 +96,94 @@
   color: white;
 }
 
+/*FOOTER*/
+.site-footer
+{
+  background-color:var(--darkBlue);
+  padding: 20px;
+  font-size:0.8em;
 
+  color:white;
+  position: relative;
+}
+.site-footer hr
+{
+  border-top-color:#bbb;
+  opacity:0.5
+}
+.site-footer hr.small
+{
+  margin:20px 0
+}
+.site-footer h6
+{
+  color:#fff;
+  font-size:0.95em;
+  text-transform:uppercase;
+  margin-top:5px;
+  letter-spacing:2px;
+  margin-bottom: 3px;
+}
+
+.site-footer a:hover
+{
+  color:grey;
+  text-decoration:none;
+}
+.footer-links
+{
+  padding-left:0;
+  list-style:none
+}
+.footer-links li
+{
+  display:block
+}
+.footer-links a
+{
+  color:var(--aliceBlue)
+}
+.footer-links a:active,.footer-links a:focus,.footer-links a:hover
+{
+  color:grey;
+  text-decoration:none;
+}
+.footer-links.inline li
+{
+  display:inline-block
+}
+.site-footer .social-icons
+{
+  text-align:right
+}
+.site-footer a
+{
+  margin-left:6px;
+  margin-right:0;
+  border-radius:100%;
+}
+.copyright-text
+{
+  margin:0
+}
+@media (max-width:991px)
+{
+  .site-footer [class^=col-]
+  {
+    margin-bottom:30px
+  }
+}
+@media (max-width:767px)
+{
+  .site-footer
+  {
+    padding-bottom:0
+  }
+  .site-footer .copyright-text,.site-footer .social-icons
+  {
+    text-align:center
+  }
+}
 
 /*LOGIN PAGE*/
 .login-container {

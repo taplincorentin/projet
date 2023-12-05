@@ -111,53 +111,69 @@
 
         {#Forum part only visible by participants and organiser#}
         {% if (app.user in seance.participants) or (app.user == seance.organisateur) %}
-            <div class="event-topic">   
+            <div class="event-topic"> 
                 <div class="discussion-line">Discussion</div>
-
-
-
-
-                {% for post in seance.topic.posts | sort((a, b) => a.dateCreation <=> b.dateCreation) %}
+                {{ dump(seance.topic.posts) }}
+                {% if seance.topic.posts is empty %}
                     <div class="topic">
-
                         <div class="topic-date">
-                            {{post.dateCreation | date('d-m-Y H:i:s')}}
-                            
-                            {#if user is post auteur, can edit/delete post#}
-                            {% if app.user == post.auteur %}
-                                <span>
-                                    <a href="{{ path('delete_post', {'id': post.id}) }}" onclick="return confirm('delete post ?')" aria-label="delete post"><i class="fa-solid fa-trash fa-lg"></i></a>
-                                    <a href="{{ path('edit_post',  {'topic_id': seance.topic.id, 'id': post.id}) }}" aria-label="edit post content"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
-                                </span>
-                            {% endif %}
-                        </div>
-
-                        <div class="topic-body">
-                            {% if post.auteur is empty %}
-                                <div class="topic-user">
-                                    <img class="topic-picture" src="{{ asset('/images/users/profile_picture_default.jpg') }}" alt="picture of a dog, default picture for deleted users">
-                                        {{ 'deleted' }}
-                                </div>    
-                
-                            {% else %}
-                                <div class="topic-user">
-                                    <a href="{{ path('show_personne', {'id': post.auteur.id}) }}" aria-label="{{ "go to " ~ post.auteur ~ "'s profile page" }}">
-                                        <img class="topic-picture" src="{{ asset('/images/users/' ~ post.auteur.nomImageProfil) }}" alt="{{ post.auteur ~ "'s profile picture" }}">
-                                    </a>
-                                    <a href="{{ path('show_personne', {'id': post.auteur.id}) }}" aria-label="{{ "go to " ~ post.auteur ~ "'s profile page" }}">
-                                        {{post.auteur}}
-                                    </a>
-                                </div>
-                            {% endif %}
-
-                            <div class="topic-content">
-                                <p>{{post}}</p>
+                            <p></p>
+                        </div>   
+                        
+                        <div class="topic-body">         
+                            <div class="topic-user" id="topicUserForm">
+                                
                             </div>
-
+                
+                            <div class="topic-content">
+                                <p>No posts yet</p>
+                            </div>
                         </div>
                     </div>
 
-                {% endfor %}
+                {% else %}
+                    {% for post in seance.topic.posts | sort((a, b) => a.dateCreation <=> b.dateCreation) %}
+                        <div class="topic">
+
+                            <div class="topic-date">
+                                {{post.dateCreation | date('d-m-Y H:i:s')}}
+                                
+                                {#if user is post auteur, can edit/delete post#}
+                                {% if app.user == post.auteur %}
+                                    <span>
+                                        <a href="{{ path('delete_post', {'id': post.id}) }}" onclick="return confirm('delete post ?')" aria-label="delete post"><i class="fa-solid fa-trash fa-lg"></i></a>
+                                        <a href="{{ path('edit_post',  {'topic_id': seance.topic.id, 'id': post.id}) }}" aria-label="edit post content"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
+                                    </span>
+                                {% endif %}
+                            </div>
+
+                            <div class="topic-body">
+                                {% if post.auteur is empty %}
+                                    <div class="topic-user">
+                                        <img class="topic-picture" src="{{ asset('/images/users/profile_picture_default.jpg') }}" alt="picture of a dog, default picture for deleted users">
+                                            {{ 'deleted' }}
+                                    </div>    
+                    
+                                {% else %}
+                                    <div class="topic-user">
+                                        <a href="{{ path('show_personne', {'id': post.auteur.id}) }}" aria-label="{{ "go to " ~ post.auteur ~ "'s profile page" }}">
+                                            <img class="topic-picture" src="{{ asset('/images/users/' ~ post.auteur.nomImageProfil) }}" alt="{{ post.auteur ~ "'s profile picture" }}">
+                                        </a>
+                                        <a href="{{ path('show_personne', {'id': post.auteur.id}) }}" aria-label="{{ "go to " ~ post.auteur ~ "'s profile page" }}">
+                                            {{post.auteur}}
+                                        </a>
+                                    </div>
+                                {% endif %}
+
+                                <div class="topic-content">
+                                    <p>{{post}}</p>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    {% endfor %}
+                {% endif %}
 
             </div>
     

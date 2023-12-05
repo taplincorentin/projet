@@ -86,9 +86,21 @@
 <div class="event-topic">   
 <div class="discussion-line">Discussion</div>
 
+    {% if balade.topic.posts is empty %}
+    <div class="topic">
+        <div class="topic-date">
+            <p></p>
+        </div>   
+        
+        <div class="topic-body">         
 
+            <div class="topic-content">
+                <p style="text-align: center;">No posts yet</p>
+            </div>
+        </div>
+    </div>
 
-
+    {% else %}
     {% for post in balade.topic.posts | sort((a, b) => a.dateCreation <=> b.dateCreation) %}
         <div class="topic">
 
@@ -126,9 +138,10 @@
 
             </div>
         </div>
-    </div>
+    
     {% endfor %}
-
+    {% endif %}
+</div>
 {% endif %}
 </main>
 
