@@ -8,7 +8,7 @@
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('/styles/app.css') }}"  />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap-grid.min.css" integrity="sha512-ZuRTqfQ3jNAKvJskDAU/hxbX1w25g41bANOVd1Co6GahIe2XjM6uVZ9dh0Nt3KFCOA061amfF2VeL60aJXdwwQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -72,36 +72,41 @@
         {% endblock %}
         
         {% if app.user %}
-
-        <div class="nav">
-            <input type="checkbox" id="nav-check">
-            <div class="nav-header">
-              <div class="nav-title">
-                <a href="{{ path('app_home') }}" id="navHome"><i class="fa-solid fa-paw fa-xl"></i> Walk&Train</a>
-              </div>
-            </div>
-            <div class="nav-btn">
-              <label for="nav-check" id="navLabel">
-                <i class="fa-solid fa-bars fa-xl"></i>
-              </label>
-            </div>
-            
-            <div class="nav-links">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-light" id="navbar">
+          <div class="container">
+            <a href="{{ path('app_home') }}" id="navHome"><i class="fa-solid fa-paw fa-xl"></i> Walk&Train</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                  <a href="{{ path('new_balade') }}"><i class="fa-solid fa-plus"></i> Create Walk</a>
+                </li>
                 {% if app.user.isEducateur %} 
+                  <li class="nav-item">
                     <a href="{{ path('new_seance') }}"><i class="fa-solid fa-graduation-cap"></i> Create Training Session</a>
+                  </li>
                 {% endif %}
-                <a href="{{ path('new_balade') }}"><i class="fa-solid fa-plus"></i> Create Walk</a>
-                <a href="{{ path('app_recherche') }}" ><i class="fa-solid fa-magnifying-glass"></i> Search </a>
-              <a href="{{ path('app_categorie') }}" ><i class="fa-solid fa-comments"></i> Forum</a>
-              <a href="{{ path('show_personne', {'id': app.user.id}) }}"><i class="fa-solid fa-user"></i> Profile</a>
-              <a href="{{ path('app_logout') }}"  onclick="return confirm('Do you really want to sign out ?')"><i class="fa-solid fa-right-from-bracket"></i> Sign out</a>
+                <li class="nav-item">
+                  <a href="{{ path('app_recherche') }}" ><i class="fa-solid fa-magnifying-glass"></i> Search </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ path('app_categorie') }}" ><i class="fa-solid fa-comments"></i> Forum</a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ path('show_personne', {'id': app.user.id}) }}"><i class="fa-solid fa-user"></i> Profile</a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ path('app_logout') }}"  onclick="return confirm('Do you really want to sign out ?')"><i class="fa-solid fa-right-from-bracket"></i> Sign out</a>
+                </li>
+              </ul>
             </div>
           </div>
+        </nav>
 
-        
         {% endif %}
-
-    
 
         {% block javascripts %}
             <script src="{{ asset('scripts/app.js') }}"></script>
@@ -113,6 +118,7 @@
             <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         {% endblock %}
     </head>
+
     <body>
         {% block body %}{% endblock %}
         
@@ -121,6 +127,8 @@
       {{ render(path('app_footer')) }}
     </footer>
     {% endif %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     </body>
 
     
