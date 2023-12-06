@@ -77,7 +77,7 @@
                                     {% if post.auteur %}
                                         <div class="text-muted small ml-3 col text-end align-items-center">
                                             <div>Member since <strong>{{post.auteur.dateCreation | date('d/m/Y')}}</strong></div>
-                                            <div><strong>134</strong> posts</div>
+                                            <div><strong>{{ nbPostsTotalAuteur[post.id] }}</strong> post(s)</div>
                                         </div>
                                     {% endif %}
                                     
@@ -115,9 +115,8 @@
                                 </div>
 
                                 
-                                    <div class="text-muted small ml-3 col text-end align-items-center">
+                                    <div class="text-muted small col text-end align-middle">
                                         <div>Member since <strong>{{app.user.dateCreation | date('d/m/Y')}}</strong></div>
-                                        <div><strong>134</strong> posts</div>
                                     </div>
                                 
                                 

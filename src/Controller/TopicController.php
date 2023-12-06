@@ -7,6 +7,7 @@ use App\Entity\Topic;
 use App\Entity\Categorie;
 use App\Form\PostFormType;
 use App\Form\TopicFormType;
+use App\Repository\PostRepository;
 use App\Repository\CategorieRepository;
 use App\Service\VerificationRoleService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -138,7 +139,7 @@ class TopicController extends AbstractController
 
 
     #[Route('/topic/{id}', name: 'show_topic')]
-    public function show(Topic $topic = null, Post $post = null, Request $request, EntityManagerInterface $entityManager, CategorieRepository $categorieRepository): Response {
+    public function show(Topic $topic = null, Post $post = null, Request $request, EntityManagerInterface $entityManager, CategorieRepository $categorieRepository, PostRepository $postRepository): Response {
 
         //check topic exists
         if($topic){
@@ -151,6 +152,14 @@ class TopicController extends AbstractController
 
             //for post form and submission
             $post = new Post();
+
+            $posts = $topic->getPosts();
+            $nbPostsTotalAuteur = [];
+            foreach ($posts as $post) {
+                $nbPostsAuteur = $postRepository->nbPostsAuteur($post->getAuteur());
+                $nbPostsTotalAuteur[$post->getId()] = $nbPostsAuteur;
+                
+            }
                     
                 $form = $this->createForm(PostFormType::class, $post);
 
@@ -187,6 +196,7 @@ class TopicController extends AbstractController
                     'topic' => $topic,
                     'formAddPost' => $form,
                     'categories' => $categories,
+                    'nbPostsTotalAuteur' => $nbPostsTotalAuteur,
                     ]);
                 }
 
@@ -201,6 +211,7 @@ class TopicController extends AbstractController
                             'topic' => $topic,
                             'formAddPost' => $form,
                             'categories' => $categories,
+                            'nbPostsTotalAuteur' => $nbPostsTotalAuteur,
                         ]);
                     }
                 }
@@ -222,6 +233,7 @@ class TopicController extends AbstractController
                         'topic' => $topic,
                         'formAddPost' => $form,
                         'categories' => $categories,
+                        'nbPostsTotalAuteur' => $nbPostsTotalAuteur,
                     ]);
                 }
                 
@@ -236,6 +248,7 @@ class TopicController extends AbstractController
                             'topic' => $topic,
                             'formAddPost' => $form,
                             'categories' => $categories,
+                            'nbPostsTotalAuteur' => $nbPostsTotalAuteur,
                         ]);
                     }
                     
@@ -252,6 +265,7 @@ class TopicController extends AbstractController
                     'topic' => $topic,
                     'formAddPost' => $form,
                     'categories' => $categories,
+                    'nbPostsTotalAuteur' => $nbPostsTotalAuteur,
                 ]);
             }
      

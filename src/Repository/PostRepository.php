@@ -25,6 +25,21 @@ class PostRepository extends ServiceEntityRepository
         return $query->getSingleScalarResult();
     }
     
+    public function nbPostsAuteur($auteur){
+
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb ->select('COUNT(p.id)')
+            ->from('App\Entity\Post', 'p')
+            ->where('p.auteur = :auteur')
+            ->setParameter('auteur', $auteur);
+        
+        $query = $qb->getQuery();
+        
+        return $query->getSingleScalarResult();
+    }
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Post::class);
