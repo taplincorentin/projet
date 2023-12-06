@@ -59,6 +59,9 @@
 
 .nav-item {
   margin-left: 10px;
+  padding: 7px;
+  margin-bottom: 3px;
+  margin-top: 3px;
 }
 
 .nav-item a {
@@ -68,91 +71,22 @@
 
 
 /*FOOTER*/
-.site-footer
-{
+.footer{
   background-color:var(--darkBlue);
-  padding: 20px;
+  color: white; 
   font-size:0.8em;
-
-  color:white;
-  position: relative;
-}
-.site-footer hr
-{
-  border-top-color:#bbb;
-  opacity:0.5
-}
-.site-footer hr.small
-{
-  margin:20px 0
-}
-.site-footer h6
-{
-  color:#fff;
-  font-size:0.95em;
-  text-transform:uppercase;
-  margin-top:5px;
-  letter-spacing:2px;
-  margin-bottom: 3px;
+  padding-top: 20px;
 }
 
-.site-footer a:hover
-{
-  color:grey;
-  text-decoration:none;
-}
-.footer-links
-{
-  padding-left:0;
-  list-style:none
-}
-.footer-links li
-{
-  display:block
-}
-.footer-links a
-{
-  color:var(--aliceBlue)
-}
-.footer-links a:active,.footer-links a:focus,.footer-links a:hover
-{
-  color:grey;
-  text-decoration:none;
-}
-.footer-links.inline li
-{
-  display:inline-block
-}
-.site-footer .social-icons
-{
-  text-align:right
-}
-.site-footer a
-{
-  margin-left:6px;
-  margin-right:0;
-
-}
-.copyright-text
-{
-  margin:0
+.footer-links{
+  list-style: none;
 }
 
-@media (max-width:750px)
-{
-  .site-footer
-  {
-    text-align: center;
-  }
-
-  .site-footer a
-{
-  margin-left:0px;
-
-
+.footer-links > li > a {
+  color: white;
+  text-decoration: none; 
 }
 
-}
 
 /*HOMEPAGE*/
 .homepage{
