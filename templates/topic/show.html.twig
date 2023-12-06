@@ -48,44 +48,65 @@
         {% if topic.posts is empty %}
             <h2 style="text-align: center;">NO COMMENTS YET, BE THE FIRST</h2>
         {% endif %}
+
         {% for post in topic.posts | sort((a, b) => a.dateCreation <=> b.dateCreation) %}
-            <div class="topic">
-    
-                <div class="topic-date">
-                    {{post.dateCreation | date('d-m-Y H:i:s')}}
-                    {#if user is post auteur, can edit/delete post#}
-                    {% if app.user == post.auteur %}
-                        <span>
-                            <a href="{{ path('delete_post', {'id': post.id}) }}" onclick="return confirm('delete post ?')" aria-label="delete post"><i class="fa-solid fa-trash fa-lg"></i></a>
-                            <a href="{{ path('edit_post',  {'topic_id': topic.id, 'id': post.id}) }}" aria-label="edit post content"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
-                        </span>
-                    {% endif %}
-                </div>
-    
-                <div class="topic-body">
-                    {% if post.auteur is empty %}
-                        <div class="topic-user">
-                            <img class="topic-picture" src="{{ asset('/images/users/profile_picture_default.jpg') }}" alt="picture of a dog, default picture for deleted users">
-                            {{ 'deleted' }}
-                        </div>    
-                    {% else %}
-                        <div class="topic-user">
-                            <a href="{{ path('show_personne', {'id': post.auteur.id}) }}" aria-label="{{ "go to " ~ post.auteur ~ "'s profile page" }}">
-                                <img class="topic-picture" src="{{ asset('/images/users/' ~ post.auteur.nomImageProfil) }}" alt="{{ post.auteur ~ "'s profile picture" }}">
-                            </a>
-                            <a href="{{ path('show_personne', {'id': post.auteur.id}) }}" aria-label="{{ "go to " ~ post.auteur ~ "'s profile page" }}">
-                                {{post.auteur}}
-                            </a>
+        <div class="container-fluid mt-100">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <div class="row ">
+
+                                {# if post has no author (user deleted its account) #}
+                                {% if post.auteur is empty %}
+                                    <div class="col-md-auto">
+                                        <img class="topic-picture" src="{{ asset('/images/users/profile_picture_default.jpg') }}" alt="picture of a dog, default picture for deleted users">
+                                    </div>
+                                    <div class="ml-3 col"> {{'deleted'}}
+                                {% else %}
+                                    <div class="col-md-auto">
+                                        <img class="topic-picture" src="{{ asset('/images/users/' ~ post.auteur.nomImageProfil) }}" alt="{{ post.auteur ~ "'s profile picture" }}">
+                                    </div>
+                                    <div class="ml-3 col"> <a href="{{ path('show_personne', {'id': post.auteur.id}) }}" aria-label="{{ "go to " ~ post.auteur ~ "'s profile page" }}">{{post.auteur}}</a>
+                                {% endif %}
+                                    <div class="text-muted small">{{post.dateCreation | date('d-m-Y H:i:s')}}</div>
+                                </div>
+
+                                {% if post.auteur %}
+                                    <div class="text-muted small ml-3 col text-end align-items-center">
+                                        <div>Member since <strong>{{post.auteur.dateCreation | date('d/m/Y')}}</strong></div>
+                                        <div><strong>134</strong> posts</div>
+                                    </div>
+                                {% endif %}
+                                
+                            </div>
                         </div>
-                    {% endif %}
-    
-                    <div class="topic-content">
-                        <p>{{post}}</p>
+                        <div class="card-body">
+                            <p> {{post}} </p>
+                        </div>
+                        
+                        {#if user is post auteur, can edit/delete post#}
+                        {% if app.user == post.auteur %}
+                            <div class="card-footer">
+                                <a href="{{ path('edit_post',  {'topic_id': topic.id, 'id': post.id}) }}" aria-label="edit post content"><i class="fa-solid fa-pen-to-square"></i></a>
+                                <a href="{{ path('delete_post', {'id': post.id}) }}" onclick="return confirm('delete post ?')" aria-label="delete post"><i class="fa-solid fa-trash"></i></a>
+                            </div>
+                        {% endif %}
+                        
                     </div>
-    
                 </div>
             </div>
+        </div>
+
         {% endfor %}
+
+
+
+
+
+
+
+        {#NEW POST#}
         <div class="topic">
             <div class="topic-date">
                 <p></p>

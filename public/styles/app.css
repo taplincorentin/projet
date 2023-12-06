@@ -75,7 +75,7 @@
   background-color:var(--darkBlue);
   color: white; 
   font-size:0.8em;
-  padding-top: 20px;
+  padding-top: 30px;
 }
 
 .footer-links{
@@ -448,9 +448,8 @@ input[type=email], input[type=password] {
 
 .topic-picture {
   border-radius: 50%;  
-  height: 100px; 
-  width: 100px;
-  object-fit: cover;
+  height: 50px; 
+  width: 50px;
 }
 
 .topic-content {
@@ -1157,3 +1156,19 @@ select#seance_form_theme{
       }
     }
 
+
+
+    .card-header{
+      background-color: var(--aliceBlue) !important;
+    }
+
+    .card-footer{
+      background-color: var(--aliceBlue) !important;
+    }
+    
+    .card-footer a {
+      color: var(--darkBlue);
+      text-decoration: none;
+      float: inline-end;
+      margin-right: 5px;
+    }
