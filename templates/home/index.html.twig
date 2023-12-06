@@ -1,32 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} Homepage - Dog Project{% endblock %}
+{% block title %} Homepage - Walk&Train{% endblock %}
 {% block meta_description %}
-<meta name="description" content="Welcome to the Dog Project, a community for all dog lovers to discuss or search walks or training sessions around you.">
+<meta name="description" content="Welcome to Walk&Train, a community for all dog lovers to discuss or search walks or training sessions around you.">
 <meta name="keywords" content="dog project, dog, dog trainers near me, local dog trainers, dog walks near me, dog owners community">
 {% endblock %}
 
 {% block body %}
     <div class="homepage">
         <div class="homepage-container">
-            <h1>Welcome Walk&Train</h1>
+            <h1>Welcome to Walk&Train</h1>
             <div class="homepage-menu">
                 <a href="{{ path('app_recherche') }}"><div class="homepage-item">
-                    <p><i class="fa-solid fa-magnifying-glass"></i></p>
+                    <p><i class="fa-solid fa-magnifying-glass fa-lg"></i></p>
                     <p>Search for a Walk or a Training Session</p>
-                    <p>...</p>
+                    <p class="item-dots">...</p>
                     <p class="item-text">Crack Jennys tea cup come about grapple log run a shot across the bow boatswain swab careen quarterdeck lugsail. Gunwalls swing the lead lookout brigantine case shot transom chase grog blossom Nelsons folly coxswain.</p>
                 </div></a>
                 <a href="{{ path('new_balade') }}"><div class="homepage-item">
-                    <p><i class="fa-solid fa-circle-plus"></i></p>
+                    <p><i class="fa-solid fa-circle-plus fa-lg"></i></p>
                     <p>Create a Walk <br/><br/></p>
-                    <p>...</p>
+                    <p class="item-dots">...</p>
                     <p class="item-text">Crack Jennys tea cup come about grapple log run a shot across the bow boatswain swab careen quarterdeck lugsail. Gunwalls swing the lead lookout brigantine case shot transom chase grog blossom Nelsons folly coxswain.</p>
                 </div></a>
                 <a href="{{ path('app_categorie') }}"><div class="homepage-item">
-                    <p><i class="fa-solid fa-comments"></i></p>
+                    <p><i class="fa-solid fa-comments fa-lg"></i></p>
                     <p>Go to the Forum <br/><br/></p>
-                    <p>...</p>
+                    <p  class="item-dots">...</p>
                     <p class="item-text">Crack Jennys tea cup come about grapple log run a shot across the bow boatswain swab careen quarterdeck lugsail. Gunwalls swing the lead lookout brigantine case shot transom chase grog blossom Nelsons folly coxswain.</p>
                 </div></a>
             </div>
