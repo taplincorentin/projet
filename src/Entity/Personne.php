@@ -442,6 +442,11 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getNombrePosts(): int
+    {
+        return $this->posts->count();
+    }
+
     public function __toString(){
         return $this->pseudo;
     }

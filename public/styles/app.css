@@ -455,7 +455,6 @@ input[type=email], input[type=password] {
 .topic-content {
   display: flex;
   align-items: center;
-  padding-left: 60px;
   flex-grow: 3;
 }
 
@@ -489,37 +488,7 @@ button#topic_form_submit{
 }
 
 /*FORUM SHOW TOPIC POSTS PAGE*/
-form#new-post-form{
-  justify-content: space-between;
-}
 
-textarea#post_form_contenu{
-  width: 80%;
-  height: 50px;
-  margin: 10px;
-  padding: 10px;
-  resize: none;
-}
-
-button#post_form_submit{
-  width: 20%;
-  margin: 10px;
-  height: 50px;
-  padding: 10px;
-  color: white;
-  background-color: var(--darkBlue);
-}
-
-
-textarea#text_post_edit{
-  height : 100px;
-  width: 100%;
-  resize: none;
-  margin: 0;
-  margin-bottom: 10px;
-  padding: 0;
-  border-radius: 5px;
-}
 
 .topic-edit-delete{
   position: absolute;
@@ -1156,7 +1125,11 @@ select#seance_form_theme{
       }
     }
 
-
+    /*POSTS LIST PAGE*/
+    .category-right > .container-fluid {
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
 
     .card-header{
       background-color: var(--aliceBlue) !important;
@@ -1165,10 +1138,37 @@ select#seance_form_theme{
     .card-footer{
       background-color: var(--aliceBlue) !important;
     }
-    
+
     .card-footer a {
       color: var(--darkBlue);
       text-decoration: none;
       float: inline-end;
       margin-right: 5px;
     }
+
+    .user-name {
+      text-decoration: none;
+      color: black;
+      margin-bottom: 0;
+    }
+
+    form#new-post-form{
+      justify-content: space-between;
+    }
+    
+    textarea#post_form_contenu{
+      width: 100%;
+      height: 50px;
+      margin: 10px;
+      padding: 10px;
+      resize: none;
+    }
+    
+    button#post_form_submit{
+      width: auto;
+      color: white;
+      background-color: var(--darkBlue);
+      float: inline-end;
+      border-radius: 5px;
+    }
+    
