@@ -448,13 +448,6 @@ input[type=email], input[type=password] {
 }
 
 
-
-.topic-content {
-  display: flex;
-  align-items: center;
-  flex-grow: 3;
-}
-
 .topic-nb-posts {
   display: flex;
   align-items: center;
@@ -1118,6 +1111,67 @@ select#seance_form_theme{
       }
     }
 
+    /*TOPIC LIST PAGE*/
+    #category-page-menu {
+      margin-left: 20px;
+    }
+
+    .category-name {
+      background-color: var(--aliceBlue);
+      margin-top: 0px;
+      margin-bottom: 10px;
+      width: 60%;
+      border-radius: 5px;
+      margin-left: 20px;
+    }
+
+    .category-name h4 {
+      padding-left: 5px;
+    }
+
+    .topic-topic {
+      background-color: var(--aliceBlue);
+      margin-bottom: 0px;
+      width: 60%;
+      border-radius: 5px 5px 5px 0px;
+      margin-left: 20px;
+      padding-left: 5px;
+    }
+
+    .topic-content {
+      width: 100%;
+      display: flex;
+    }
+
+    .topic-info {
+      width: 65%;
+    }
+
+    .topic-info a {
+      text-decoration: none;
+      color: var(--darkBlue);
+    }
+    
+    .topic-posts {
+      width: 10%;
+    }
+
+    .bubble-text{background:#139ee0; color:#fff; padding:7px 15px; border-radius:3px; width:100px;}
+
+.bubble-text::after{
+content:""; 
+z-index: 99;
+border-left:20px solid transparent;
+border-right:20px solid transparent;
+border-top: 20px solid red;
+position: absolute;
+bottom: 0;
+}
+
+    .topic-last-post{
+      float: inline-end;
+    }
+
     /*POSTS LIST PAGE*/
     .category-main {
       background-color: var(--beige);
@@ -1137,6 +1191,7 @@ select#seance_form_theme{
       width: 70%;
       background-color: var(--lightBlue);
       border-radius: 5px;
+      margin-bottom: 20px;
     }
 
     .category-menu a {
@@ -1149,6 +1204,7 @@ select#seance_form_theme{
       background-color: var(--lightBlue);
       margin-bottom: 0;
       color: white;
+      border-radius: 5px 5px 0px 0px;
     }
 
     .breadcrumbs a {

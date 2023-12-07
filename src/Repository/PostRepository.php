@@ -25,6 +25,24 @@ class PostRepository extends ServiceEntityRepository
         return $query->getSingleScalarResult();
     }
     
+    public function getLastPostFromTopic($topic){
+        
+        $idCategoriesExclues = [6, 7];
+
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select('p')
+            ->from('App\Entity\Post', 'p')
+            ->where('p.topic = :topic')
+            ->setParameter('topic', $topic)
+            ->orderBy('p.dateCreation', 'DESC')
+            ->setMaxResults(1);
+        
+        $query = $qb->getQuery();
+        return $query->getResult();
+    }
+
     public function nbPostsAuteur($auteur){
 
         $em = $this->getEntityManager();

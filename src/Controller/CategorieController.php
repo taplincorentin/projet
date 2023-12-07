@@ -55,6 +55,13 @@ class CategorieController extends AbstractController
                 $nbPostsParTopic[$topic->getId()] = $nbPosts;
             }
 
+            $lastPostParTopic = [];
+            foreach ($categoryTopics as $topic) {
+                $lastPost = $postRepository->getLastPostFromTopic($topic);
+                $lastPostParTopic[$topic->getId()] = $lastPost;
+            }
+
+
 
             //part that handles the new topic form
             $topic = new Topic();
@@ -91,6 +98,7 @@ class CategorieController extends AbstractController
                 'categorie' => $categorie,
                 'formAddTopic' => $form,
                 'nbPostsParTopic' => $nbPostsParTopic,
+                'lastPostParTopic' => $lastPostParTopic,
                 'categories' => $categories,
             ]);
         }
