@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Topic Posts - Forum - Dog Project{% endblock %}
+{% block title %} {{topic}} - Forum - Walk&Train{% endblock %}
 
 {% block meta_description %}
     <meta name="description" content="Welcome to the Dog Project Forum, a community for all dog lovers to discuss anything related to man's best friend. This is the topic's page where you can read and add comments">
@@ -8,43 +8,59 @@
 {% endblock %}
 
 {% block body %}
-
-    <div class='category-head'>
-
-        <h1>{{topic | upper }}</h1>
-        {% if topic.auteur is empty %}
-            <p>Topic created by a deleted user</a></p> 
-        {% else %}
-            <p>Topic created by <a href="{{ path('show_personne', {'id': topic.auteur.id}) }}" style=" color: black;" aria-label="{{ "go to " ~ topic.auteur ~ "'s profile page" }}">{{ topic.auteur }}</a></p>
-        {% endif %}
-
-        {% if app.user == topic.auteur %}
-            <span class="topic-edit-delete">
-                <a href="{{ path('edit_topic',  {'categorie_id': topic.categorie.id, 'id': topic.id}) }}" aria-label="edit topic title"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
-                <a href="{{ path('delete_topic', {'id': topic.id}) }}" onclick="return confirm('delete topic ?')" aria-label="delete topic"><i class="fa-solid fa-trash fa-lg"></i></a>
-            </span>
-        {% endif %}
-
-        <a href="{{ path('show_categorie', {'id': topic.categorie.id}) }}" id="back-category-home" class="new-dog-button" aria-label="go back to category page">Back to {{topic.categorie}} Category Page</a>
         
-    
-    </div>
-    
     <main class="category-main">
-    <div class='category-left'>
-    
-        <h2>CATEGORIES</h2>
-    
-        {% for categorie in categories %}
-            {% if (categorie.nom != 'Walks') and (categorie.nom != 'Sessions') %}
-                <a href="{{ path('show_categorie', {'id': categorie.id}) }}">{{ categorie }}</a>
-            {% endif %}
-        {% endfor %}
-    
-    
-    </div>
-    
+        <div class="category-center">
+            <div class="category-menu">
+                {% for categorie in categories %}
+                    {% if (categorie.nom != 'Walks') and (categorie.nom != 'Sessions') %}
+                        <a href="{{ path('show_categorie', {'id': categorie.id}) }}"><i class="fa-solid fa-bars"></i> {{ categorie }}</a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        
     <div class="category-right">
+        
+        <div class="container-fluid" id="topic-card">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="breadcrumbs">
+                            <a href="{{ path('show_categorie', {'id': topic.categorie.id}) }}">{{topic.categorie}}</a> >> 
+                            <a href="{{ path('show_topic', {'id': topic.id}) }}">{{topic}}</a>
+                        </div>
+                        <div class="card-body">
+                            <p id="topic-card-title"><b>{{ topic }}</b></p>
+                        </div>
+                        <div class="card-footer" id="topic-card-footer">
+                            {% if topic.auteur is empty %}
+                            <div class="col-md-auto">
+                                <img class="topic-picture" id="topic-card-image" src="{{ asset('/images/users/profile_picture_default.jpg') }}" alt="picture of a dog, default picture for deleted users">
+                            </div>
+                            <div class="col" style="font-style:italic">by a deleted user</div> 
+                            {% else %}
+                            <a href="{{ path('show_personne', {'id': topic.auteur.id}) }}" aria-label="{{ "go to " ~ topic.auteur ~ "'s profile page" }}">
+                                <img class="topic-picture" id="topic-card-image" src="{{ asset('/images/users/' ~ topic.auteur.nomImageProfil) }}" alt="{{ topic.auteur ~ "'s profile picture" }}">
+                            </a>
+                            <div class="ml-3 col">
+                                <p class="topic-footer-info">by {{ topic.auteur }}</p>
+                                <p class="topic-footer-info">{{ topic.dateCreation | date("F j, Y, g:i a") }}</p>
+                            </div>
+                            {% if app.user == topic.auteur %}
+                                <span class="topic-edit-delete">
+                                    <a href="{{ path('edit_topic',  {'categorie_id': topic.categorie.id, 'id': topic.id}) }}" aria-label="edit topic title"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <a href="{{ path('delete_topic', {'id': topic.id}) }}" onclick="return confirm('delete topic ?')" aria-label="delete topic"><i class="fa-solid fa-trash"></i></a>
+                                </span>
+                            {% endif %}
+                            {% endif %}
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
         {% if topic.posts is empty %}
             <h2 style="text-align: center;">NO COMMENTS YET, BE THE FIRST</h2>
         {% endif %}
@@ -75,7 +91,7 @@
                                     </div>
 
                                     {% if post.auteur %}
-                                        <div class="text-muted small ml-3 col text-end align-items-center">
+                                        <div class="text-muted small ml-3 col text-end ">
                                             <div>Member since <strong>{{post.auteur.dateCreation | date('d/m/Y')}}</strong></div>
                                             <div><strong>{{ nbPostsTotalAuteur[post.id] }}</strong> post(s)</div>
                                         </div>
@@ -90,8 +106,8 @@
                             {#if user is post auteur, can edit/delete post#}
                             {% if app.user == post.auteur %}
                                 <div class="card-footer">
-                                    <a href="{{ path('edit_post',  {'topic_id': topic.id, 'id': post.id}) }}" aria-label="edit post content"><i class="fa-solid fa-pen-to-square"></i></a>
                                     <a href="{{ path('delete_post', {'id': post.id}) }}" onclick="return confirm('delete post ?')" aria-label="delete post"><i class="fa-solid fa-trash"></i></a>
+                                    <a href="{{ path('edit_post',  {'topic_id': topic.id, 'id': post.id}) }}" aria-label="edit post content"><i class="fa-solid fa-pen-to-square"></i></a>
                                 </div>
                             {% endif %}
                             

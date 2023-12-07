@@ -76,6 +76,7 @@
   color: white; 
   font-size:0.8em;
   padding-top: 30px;
+  padding-bottom: 20px;
 }
 
 .footer-links{
@@ -373,11 +374,11 @@ input[type=email], input[type=password] {
   padding-bottom: 10px;
 }
 
-.category-main{
+/* .category-main{
   display: flex;
   border:solid 1px var(--darkBlue);
   background-color: var(--beige);
-}
+} */
 
 .category-left{
   width: 20%;
@@ -446,11 +447,7 @@ input[type=email], input[type=password] {
   color: black;
 }
 
-.topic-picture {
-  border-radius: 50%;  
-  height: 50px; 
-  width: 50px;
-}
+
 
 .topic-content {
   display: flex;
@@ -490,11 +487,7 @@ button#topic_form_submit{
 /*FORUM SHOW TOPIC POSTS PAGE*/
 
 
-.topic-edit-delete{
-  position: absolute;
-  top: 70px;
-  right: 15px;
-}
+
 
 .topic-edit-delete a {
   color: var(--darkBlue);
@@ -1126,9 +1119,85 @@ select#seance_form_theme{
     }
 
     /*POSTS LIST PAGE*/
+    .category-main {
+      background-color: var(--beige);
+      padding-bottom: 40px;
+      padding-top : 10px;
+    }
+
+    .category-center{
+      display:flex;
+      justify-content: center;
+      margin-left:15px;
+    }
+
+    .category-menu {
+      display : flex;
+      justify-content: space-evenly;
+      width: 70%;
+      background-color: var(--lightBlue);
+      border-radius: 5px;
+    }
+
+    .category-menu a {
+      text-decoration: none;
+      color: white;
+      padding: 5px;
+    }
+
+    .breadcrumbs {
+      background-color: var(--lightBlue);
+      margin-bottom: 0;
+      color: white;
+    }
+
+    .breadcrumbs a {
+      text-decoration: none;
+      color: white;
+      padding: 5px;
+    }
+
+    #topic-card {
+      margin-top: 50px;
+      margin-bottom: 50px;
+      border-radius: 5px;
+    }
+
+    #topic-card-title {
+      padding-top: 10px;
+      padding-left: 21px;
+      font-size: 1.2em;
+    }
+
+    #topic-card-footer {
+      display: flex;
+    }
+
+    #topic-card-footer a {
+      float: none;
+    }
+
+    .topic-picture {
+      border-radius: 50%;  
+      height: 50px; 
+      width: 50px;
+      border: solid 1px var(--darkBlue);
+    }
+
+    #topic-card-image {
+      margin-right: 10px;
+    }
+
+    .topic-footer-info {
+      margin: 0;
+      padding: 0;
+    }
+
     .category-right > .container-fluid {
       margin-top: 10px;
       margin-bottom: 10px;
+      width: 60%;
+      
     }
 
     .card-header{
@@ -1146,6 +1215,12 @@ select#seance_form_theme{
       margin-right: 5px;
     }
 
+    .topic-edit-delete{
+      display: flex;
+      align-items: center;
+    }
+
+  
     .user-name {
       text-decoration: none;
       color: black;
