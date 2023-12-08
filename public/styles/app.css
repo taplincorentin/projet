@@ -81,9 +81,6 @@
   font-size:0.8em;
   padding-top: 30px;
   padding-bottom: 20px;
-  position: fixed;
-    bottom: 0;
-    width: 100%;
 }
 
 .footer-links{
@@ -1301,6 +1298,16 @@ select#seance_form_theme{
     }
 
 /*FORUM HOMEPAGE*/
+.category-home {
+  background-color: var(--beige);
+  padding-bottom: 40px;
+  padding-top : 10px;
+}
+
+.category-home > .container-fluid {
+  margin-bottom: 3px;
+}
+
 .forum-card{
   background-color: var(--aliceBlue);
   width: 60%;
@@ -1313,19 +1320,20 @@ select#seance_form_theme{
   display: flex;
 }
 
-.forum-card-paw {
-  width: 33%;
-  padding: 5px;
-}
-
 #paw {
   width: 100%;
 }
     
 .forum-card-text {
-  width: 67%;
-  padding: 5px;
+  width: 100%;
+  padding: 10px;
   margin: 5px;
   background-color: var(--lightBlue);
   border-radius: 5px;
+  border: solid 1px var(--darkBlue);
+}
+
+.forum-card-text p {
+  margin: 0;
+  padding: 0;
 }

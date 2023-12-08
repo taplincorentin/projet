@@ -101,7 +101,7 @@
             
             {% for chien in personne.chiens %} 
                 {% if chien.imageName is empty %}
-                <img src="{{ asset('/images/chiens/dog-paw.png') }}" data-toggle="modal" data-target="#myModal{{ loop.index }}" class="dog-icon" alt="{{ "default picture of apaw for " ~ chien ~ ", " ~ personne ~ "'s dog" }}">
+                <img src="{{ asset('/images/chiens/dog-paw.png') }}" data-toggle="modal" data-target="#myModal{{ loop.index }}" class="dog-icon" alt="{{ "default picture of a paw for " ~ chien ~ ", " ~ personne ~ "'s dog" }}">
                 {% else %}
                     <img src="{{ vich_uploader_asset(chien, 'imageFile') }}" data-toggle="modal" data-target="#myModal{{ loop.index }}" class="dog-icon" alt="{{ "picture of " ~ chien ~ ", " ~ personne ~ "'s dog" }}">
                 {% endif %}

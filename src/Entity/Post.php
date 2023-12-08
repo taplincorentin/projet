@@ -28,6 +28,9 @@ class Post
     #[ORM\JoinColumn(nullable: true)]
     private ?Personne $auteur = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $lastModified = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -83,5 +86,17 @@ class Post
     
     public function __toString(){
         return $this->contenu;
+    }
+
+    public function getLastModified(): ?\DateTimeInterface
+    {
+        return $this->lastModified;
+    }
+
+    public function setLastModified(?\DateTimeInterface $lastModified): static
+    {
+        $this->lastModified = $lastModified;
+
+        return $this;
     }
 }

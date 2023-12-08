@@ -36,7 +36,7 @@ class PostController extends AbstractController
 
                 //get current datetime to set 'lastModified'
                 $now = new \DateTime();
-                $post->setDateCreation($now);
+                $post->setLastModified($now);
                 
                 //prepare execute
                 $entityManager->persist($post);

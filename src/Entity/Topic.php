@@ -39,6 +39,9 @@ class Topic
     #[ORM\OneToOne(mappedBy: 'topic', cascade: ['persist', 'remove'])]
     private ?Seance $seance = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $lastModified = null;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -171,6 +174,18 @@ class Topic
         }
 
         $this->seance = $seance;
+
+        return $this;
+    }
+
+    public function getLastModified(): ?\DateTimeInterface
+    {
+        return $this->lastModified;
+    }
+
+    public function setLastModified(?\DateTimeInterface $lastModified): static
+    {
+        $this->lastModified = $lastModified;
 
         return $this;
     }

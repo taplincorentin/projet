@@ -10,7 +10,7 @@
 {% block body %}
 
 
-<main class="category-main">
+<main class="category-home">
 
     <div class="category-menu" id="category-page-menu">
         {% for categorie in categories %}
@@ -23,10 +23,13 @@
     <div class="forum-card">
         <h3>Welcome to Walk&Train's Forum</h3>
         <div class="forum-card-content">
-            <div class="forum-card-paw"><i class="fa-solid fa-paw fa-2xl" id="paw"></i></div>
-            <p class="forum-card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
-                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                 Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+            <div class="forum-card-paw"><img src="{{ asset('/images/chiens/dog-paw.png') }}" class="img-thumbnail img-fluid" alt="{{ "dog's paw drawing" }}" style="max-height: 225px;"></div>
+            <div class="forum-card-text">
+                <p>Walk&Train's Forum is a community where you can discuss, debate and ask questions about anything related to man's best friend.</p>
+                <p>Everyone is welcomed. Whether you are an experienced dog trainer or recent dog owner.</p>
+                <p>There are many topics that you can discover and participate in. You can also create your own if you cannot find what you are looking for.</p>
+                <p>We hope you will have a nice time on our site.</p>
+            </div>
         </div>
     </div>
 

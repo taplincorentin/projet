@@ -40,7 +40,7 @@ class TopicController extends AbstractController
 
                 //get current datetime to set 'lastModified'
                 $now = new \DateTime();
-                $topic->setDateCreation($now);
+                $topic->setLastModified($now);
 
                 $entityManager->persist($topic); //prepare
                 $entityManager->flush(); //execute
