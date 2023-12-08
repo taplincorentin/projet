@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Topic Edition Page - Walk&Train{% endblock %}
+
+{% block meta_description %}
+    <meta name="description" content="Welcome to the Dog Project, a community for all dog lovers to discuss anything related to man's best friend 
+                                    or to meet each other for dog walks or training sessions. This is the page for users to edit their topics' information">
+    <meta name="keywords" content="dog project, dog, dog trainers near me, local dog trainers, dog walks near me, dog owners community, forum">
+{% endblock %}
+
+{% block body %} 
+
+<main class="topic-edit">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <p>Edit your topic's title </p>
+                </div>
+                <div class="card-body">
+                    <form method="post" class="topic-content">
+                        {{ form_start(formAddTopic) }}
+                            {{ form_widget(formAddTopic.titre, {'attr': {'placeholder': "Your topic's title"}}) }}
+                </div>
+                <div class="card-footer">
+                    {{ form_widget(formAddTopic.submit, {
+                        'label': 'edit topic'}) }}
+                {{ form_end(formAddTopic) }}
+            </form>
+                </div>                        
+            </div>
+        </div>
+    </div>
+</div>
+
+</main>  
+{% endblock %}

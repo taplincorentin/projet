@@ -30,7 +30,7 @@
                         <div class="breadcrumbs">
                             <a href="{{ path('app_home') }}">Home</a> >> 
                             <a href="{{ path('app_categorie') }}">Forum</a> >>
-                            <a href="{{ path('show_categorie', {'id': topic.categorie.id}) }}">{{topic.categorie}}</a>
+                            <a href="{{ path('show_categorie', {'id': topic.categorie.id}) }}">{{topic.categorie}}</a> >>
                             
                         </div>
                         <div class="card-body">
@@ -64,7 +64,7 @@
         </div>
 
         {% if topic.posts is empty %}
-            <h2 style="text-align: center;">NO COMMENTS YET, BE THE FIRST</h2>
+            <h4 style="text-align: center;">No comments yet</h4>
         {% endif %}
 
         {% for post in topic.posts | sort((a, b) => a.dateCreation <=> b.dateCreation) %}
@@ -141,7 +141,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <form method="post" id="new-topic-form" class="topic-content">
+                            <form method="post" class="topic-content">
                                 {{ form_start(formAddPost) }}
                                     {{ form_widget(formAddPost.contenu, {'attr': {'placeholder': 'Type your comment here'}}) }}
                         </div>

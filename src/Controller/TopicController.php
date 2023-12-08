@@ -18,53 +18,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TopicController extends AbstractController
 {
-    // #[Route('/{categorie_id}/topic/new', name: 'new_topic')]
-    // public function new(Topic $topic = null, int $categorie_id, Request $request, EntityManagerInterface $entityManager): Response {
-
-    //     $topic = new Topic();
-
-    //     $categorie = $entityManager->getRepository(Categorie::class)->findOneBy(['id'=>$categorie_id]);
-
-    //     //security check that the categorie isn't the walk or session categorie (can't create a topic in it this way only by creating a walk/session)
-    //     if($categorie->getNom() != 'Walks' && $categorie->getNom() != 'Sessions'){
-            
-    //         $form = $this->createForm(TopicFormType::class, $topic);
-
-    //         $form->handleRequest($request); 
-    //         if ($form->isSubmitted() && $form->isValid()) { //if form submitted and valid
-    
-    //             //get form data (titre)
-    //             $topic = $form->getData();              
-                
-    //             //set topic category
-    //             $topic->setCategorie($categorie);       
-    
-    //             //get current datetime to set 'lastModified'
-    //             $now = new \DateTime();
-    //             $topic->setDateCreation($now);
-    
-    //             //set current user as topic creator
-    //             $auteur = $this->getUser();
-    //             $topic->setAuteur($auteur);
-    
-    //             $entityManager->persist($topic); //prepare
-    //             $entityManager->flush(); //execute
-    
-    //             //redirect to created topic
-    //             return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
-    
-    //         }
-            
-    //         return $this->render('topic/new.html.twig', [
-    //             'formAddTopic' => $form,
-    //         ]);
-        
-    //     }
-
-    //     return $this->redirectToRoute('app_home'); 
-    // }
-
-
     #[Route('/{categorie_id}/topic/{id}/edit', name: 'edit_topic')]
     public function edit(Topic $topic = null, int $categorie_id, Request $request, EntityManagerInterface $entityManager): Response {
 
@@ -97,7 +50,7 @@ class TopicController extends AbstractController
 
             }
 
-            return $this->render('topic/new.html.twig', [
+            return $this->render('topic/edit.html.twig', [
                 'formAddTopic' => $form,
             ]);
         }
@@ -150,16 +103,16 @@ class TopicController extends AbstractController
             //get current user for check
             $user = $this->getUser();
 
-            //for post form and submission
-            $post = new Post();
-
+            //get total number of posts by post author
             $posts = $topic->getPosts();
             $nbPostsTotalAuteur = [];
             foreach ($posts as $post) {
                 $nbPostsAuteur = $postRepository->nbPostsAuteur($post->getAuteur());
                 $nbPostsTotalAuteur[$post->getId()] = $nbPostsAuteur;
-                
             }
+
+            //for post form and submission
+            $post = new Post();
                     
                 $form = $this->createForm(PostFormType::class, $post);
 
@@ -183,6 +136,9 @@ class TopicController extends AbstractController
                     //prepare execute
                     $entityManager->persist($post);
                     $entityManager->flush();
+
+                    //redirect to created topic
+                    return $this->redirectToRoute('show_topic', ['id' => $post->getTopic()->getId()]);
                 }
 
             //if it's a walk's topic
@@ -191,6 +147,7 @@ class TopicController extends AbstractController
                 //check user is walk organiser
                 if ($user == $topic->getBalade()->getOrganisateur()){
                     
+
                     //return topic view if it's the case
                     return $this->render('topic/show.html.twig', [
                     'topic' => $topic,

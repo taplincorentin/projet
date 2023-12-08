@@ -23,6 +23,12 @@ class CategorieController extends AbstractController
 
         $latestTopics = $topicRepository->getLatestTopics();
 
+        $lastPostParTopic = [];
+        foreach ($latestTopics as $topic) {
+            $lastPost = $postRepository->getLastPostFromTopic($topic);
+            $lastPostParTopic[$topic->getId()] = $lastPost;
+        }
+
         $nbPostsParTopic = [];
         foreach ($latestTopics as $topic) {
             $nbPosts = $postRepository->nbPostsDansTopic($topic);
@@ -33,6 +39,7 @@ class CategorieController extends AbstractController
             'categories' => $categories,
             'latestTopics' => $latestTopics,
             'nbPostsParTopic' => $nbPostsParTopic,
+            'lastPostParTopic' => $lastPostParTopic,
         ]);
     }
 
