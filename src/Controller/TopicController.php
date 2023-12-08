@@ -18,39 +18,51 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TopicController extends AbstractController
 {
-    #[Route('/{categorie_id}/topic/{id}/edit', name: 'edit_topic')]
-    public function edit(Topic $topic = null, int $categorie_id, Request $request, EntityManagerInterface $entityManager): Response {
-
+    #[Route('/topic/{id}/edit', name: 'edit_topic')]
+    public function edit(Topic $topic= null, $id = null, Request $request, EntityManagerInterface $entityManager): Response {
         //get topic author and current user
         $auteur = $topic->getAuteur();
         $user = $this->getUser();
-
+        
         //check that topic author and current user are the same person
         if($auteur == $user ){
 
-            $categorie = $entityManager->getRepository(Categorie::class)->findOneBy(['id'=>$categorie_id]);
+            // $categorie = $entityManager->getRepository(Categorie::class)->findOneBy(['id'=>$categorie_id]);
         
-            $form = $this->createForm(TopicFormType::class, $topic);
+            $form = $this->createForm(TopicFormType::class, $topic
+            );
 
             $form->handleRequest($request); 
-            if ($form->isSubmitted() && $form->isValid()) { //if form submitted and valid
+            // dump($request->request->All());die;
+            if ($form->isSubmitted()) {
+            //                 //get form data (titre)
+                            $titre = $form->getData();    
+                            dump($titre);die;
+                            // dd($_POST);
 
-                //get form data (titre)
-                $topic = $form->getData();                     
-
-                //get current datetime to set 'lastModified'
-                $now = new \DateTime();
-                $topic->setLastModified($now);
-
-                $entityManager->persist($topic); //prepare
-                $entityManager->flush(); //execute
-
-                //redirect to edited topic
-                return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
-
+            //                 //get current datetime to set 'lastModified'
+            //                 $now = new \DateTime();
+            //                 $topic->setLastModified($now);
+                            $topic->setTitre($titre);
+                            $entityManager->persist($topic); //prepare
+                            $entityManager->flush(); //execute
             }
+                            // dd($topic);
+            
+                            //redirect to edited topic
+                            // return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
+                            // return $this->redirectToRoute('app_home');
 
-            return $this->render('topic/edit.html.twig', [
+                            // return $this->redirectToRoute('app_home');
+
+            // dd($_POST);
+            // if ($form->isSubmitted() && $form->isValid()) { //if form submitted and valid
+                
+
+
+            // }
+
+            return $this->render('topic/edit2.html.twig', [
                 'formAddTopic' => $form,
             ]);
         }
@@ -118,7 +130,6 @@ class TopicController extends AbstractController
 
                 $form->handleRequest($request); 
                 if ($form->isSubmitted() && $form->isValid()) { //if form submitted and valid
-
                     //get form data (contenu)
                     $post = $form->getData();
                         

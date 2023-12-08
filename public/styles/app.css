@@ -339,6 +339,8 @@ input[type=email], input[type=password] {
 
 .search-form-container input,
 .search-form-container button {
+  margin-left: 7px;
+  margin-right: 3px;
   margin-bottom: 15px;
   padding: 10px;
   border: 1px solid #ccc;
@@ -353,112 +355,6 @@ input[type=email], input[type=password] {
   width: 100%;
   margin-top: 3px;
 }
-
-/*Forum main page*/
-
-.category-head{
-  width: 100%;
-  text-align: center;
-  background-color: var(--lightBlue);
-  
-}
-
-#back-category-home{
-  display:none;
-}
-
-.category-head h1 {
-  margin: 0%;
-  padding-top: 10px;
-  padding-bottom: 5px;
-}
-
-.category-head p {
-  margin: 0%;
-  padding-bottom: 10px;
-}
-
-/* .category-main{
-  display: flex;
-  border:solid 1px var(--darkBlue);
-  background-color: var(--beige);
-} */
-
-.category-left{
-  width: 20%;
-  text-align: center;
-  overflow: hidden;
-}
-
-.category-left-responsive{
-  display: none;
-}
-
-.category-left a {
-  background-color: var(--darkBlue);
-  padding: 8px;
-  margin-top: 5px;
-  margin-left: 5px;
-  display: block;
-  width: 100%;
-  color: white;
-  text-transform: uppercase;
-  text-decoration: none;
-}
-
-.category-right {
-  width: 100%;
-  margin-left: 10px;
-}
-
-.topic{
-  border-radius: 25px;
-  margin-top: 6px;
-  border: solid 1px var(--darkBlue);
-  background-color: var(--aliceBlue);
-  overflow: hidden;
-}
-
-.topic-date {
-  background-color: var(--darkBlue);
-  color: white;
-  padding: 2px;
-}
-
-.topic-date a {
-  float: inline-end;
-  text-decoration: none;
-  color: white;
-  margin-left: 5px;
-}
-
-.topic-body {
-  display: flex;
-}
-
-.topic-user {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  margin: 2px;
-  padding-right: 20px;
-  padding-left: 20px;
-  border-right: solid 1px var(--darkBlue); 
-}
-
-.topic-user a{
-  text-decoration: none;
-  color: black;
-}
-
-
-.topic-nb-posts {
-  display: flex;
-  align-items: center;
-  padding : 10px;
-  border-left:solid 1px var(--darkBlue);
-}
-
 
 /*DOG FORM*/
 .dog-container {
@@ -1297,6 +1193,10 @@ select#seance_form_theme{
       border-radius: 5px;
     }
 
+    #edit-topic {
+      display: none;
+    }
+
 /*FORUM HOMEPAGE*/
 .category-home {
   background-color: var(--beige);
@@ -1314,6 +1214,11 @@ select#seance_form_theme{
   margin: 10px;
   margin-left: 20px;
   border-radius: 5px;
+  min-width: 750px;
+}
+
+#home-topic-topic {
+  min-width: 750px;
 }
 
 .forum-card-content {
@@ -1321,13 +1226,16 @@ select#seance_form_theme{
 }
 
 #paw {
-  width: 100%;
+  margin: 5px;
+  min-height: 200px;
+  min-width: 200px;
 }
     
 .forum-card-text {
   width: 100%;
   padding: 10px;
   margin: 5px;
+  margin-left: 10px;
   background-color: var(--lightBlue);
   border-radius: 5px;
   border: solid 1px var(--darkBlue);
