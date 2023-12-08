@@ -9,11 +9,13 @@
                    
                         {{ form_start(formAddTopic) }}
                             {{ form_widget(formAddTopic.titre, {'attr': {'placeholder': "Your topic's title"}}) }}
+
+                            {{ form_widget(formAddTopic.submit, {
+                                'label': 'edit topic'}) }}
+                        {{ form_end(formAddTopic) }}
                 </div>
                 <div class="card-footer">
-                    {{ form_widget(formAddTopic.submit, {
-                        'label': 'edit topic'}) }}
-                {{ form_end(formAddTopic) }}
+                    
        
                 </div>                        
             </div>

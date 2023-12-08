@@ -19,7 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class TopicController extends AbstractController
 {
     #[Route('/topic/{id}/edit', name: 'edit_topic')]
-    public function edit(Topic $topic= null, $id = null, Request $request, EntityManagerInterface $entityManager): Response {
+    public function edit(Topic $topic, Request $request, EntityManagerInterface $entityManager): Response {
         //get topic author and current user
         $auteur = $topic->getAuteur();
         $user = $this->getUser();
@@ -33,19 +33,23 @@ class TopicController extends AbstractController
             );
 
             $form->handleRequest($request); 
-            // dump($request->request->All());die;
-            if ($form->isSubmitted()) {
+ 
+            if ($form->isSubmitted() && $form->isValid()) {
             //                 //get form data (titre)
-                            $titre = $form->getData();    
-                            dump($titre);die;
+                               
+                      
+                $topic = $form->getData();  
                             // dd($_POST);
 
             //                 //get current datetime to set 'lastModified'
             //                 $now = new \DateTime();
             //                 $topic->setLastModified($now);
-                            $topic->setTitre($titre);
+                            
                             $entityManager->persist($topic); //prepare
                             $entityManager->flush(); //execute
+
+                            //redirect to edited topic page
+                return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
             }
                             // dd($topic);
             

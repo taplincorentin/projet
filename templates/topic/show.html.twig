@@ -54,6 +54,7 @@
                                 <span class="topic-edit-delete">
                                     <button onclick="myFunction()" aria-label="edit topic title"><i class="fa-solid fa-pen-to-square"></i></button>
                                     <a href="{{ path('delete_topic', {'id': topic.id}) }}" onclick="return confirm('delete topic ?')" aria-label="delete topic"><i class="fa-solid fa-trash"></i></a>
+                                    <a href="{{ path('edit_topic', {'id': topic.id}) }}" aria-label="edit topic">edit</a>
                                 </span>
                             {% endif %}
                             {% endif %}
@@ -69,7 +70,7 @@
 {# 
             {{render(controller('App\\Controller\\TopicController::edit', {'mainRequest':app.request, 'id':topic.id} ))}} #}
 
-            {{ render(controller('App\\Controller\\TopicController::edit', {'mainRequest': app.request, 'id': topic.id })) }}
+            {{ render(controller('App\\Controller\\TopicController::edit', {'id': topic.id })) }}
 
         {% if topic.posts is empty %}
             <h4 style="text-align: center;">No comments yet</h4>
