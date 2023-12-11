@@ -116,88 +116,78 @@ class TopicController extends AbstractController
         //check topic exists
         if($topic){
         
-        //get topic posts
-        $posts = $topic->getPosts();
+            //get topic posts
+            $posts = $topic->getPosts();
 
-        //get topic author and current user
-        $auteur = $topic->getAuteur();
-        $user = $this->getUser();
+            //get topic author and current user
+            $auteur = $topic->getAuteur();
+            $user = $this->getUser();
         
-        //EDIT TOPIC PART
-        //check that topic author and current user are the same person
-        if($auteur == $user ){
-
-            // $categorie = $entityManager->getRepository(Categorie::class)->findOneBy(['id'=>$categorie_id]);
+            //EDIT TOPIC PART
+            //check that topic author and current user are the same person
+            if($auteur == $user ){
         
-            $formT = $this->createForm(TopicFormType::class, $topic);
+                $formT = $this->createForm(TopicFormType::class, $topic);
 
-            $formT->handleRequest($request); 
+                $formT->handleRequest($request); 
  
-            if ($formT->isSubmitted() && $form->isValid()) {
-            //                 //get form data (titre)
-                               
-                      
-                $topic = $formT->getData();  
-                            // dd($_POST);
-
-            //                 //get current datetime to set 'lastModified'
-            //                 $now = new \DateTime();
-            //                 $topic->setLastModified($now);
+                if ($formT->isSubmitted() && $formT->isValid()) {
+                
+                    //get form data (titre)      
+                    $topic = $formT->getData();  
                             
-                            $entityManager->persist($topic); //prepare
-                            $entityManager->flush(); //execute
 
-                            //redirect to edited topic page
-                return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
+                    //get current datetime to set 'lastModified'
+                    $now = new \DateTime();
+                    $topic->setLastModified($now);
+                            
+                    $entityManager->persist($topic); //prepare
+                    $entityManager->flush(); //execute
+
+                    //redirect to edited topic page
+                    return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
+                }
             }
-                            // dd($topic);
-            
-                            //redirect to edited topic
-                            // return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
-                            // return $this->redirectToRoute('app_home');
 
-                            // return $this->redirectToRoute('app_home');
-
-            // dd($_POST);
-            // if ($form->isSubmitted() && $form->isValid()) { //if form submitted and valid
-                
-
-
-            // }
-
-            // return $this->render('topic/edit2.html.twig', [
-            //     'formAddTopic' => $form,
-            // ]);
-        }
-
-        //EDIT POST PART
-
-        $postForms = [];
+            //EDIT POST PART
+            $postForms = [];
  
-        foreach ($posts as $post2) {
-            $formP = $this->createForm(EditPostFormType::class, $post2);
-            $postForms[$post2->getId()] = $formP->createView();
-
-            $formP->handleRequest($request); 
-            if ($formP->isSubmitted() && $formP->isValid()) { //if form submitted and valid
-                $formData = $formP->getData();
-                $postId
-                //get form data (contenu)
-                $post = $formP->getData();               
-
-                //get current datetime to set 'lastModified'
-                $now = new \DateTime();
-                $post->setLastModified($now);
+            foreach ($posts as $post2) {
                 
-                //prepare execute
-                $entityManager->persist($post);
-                $entityManager->flush();
+                //get post author
+                $postAuteur = $post2->getAuteur();
+                
+                //if($postAuteur == $user){
+                    
+                    //create associated topic
+                    $formP = $this->createForm(EditPostFormType::class, $post2);
+                    
+                    //store associated post form
+                    $postForms[$post2->getId()] = $formP->createView();
 
-                //redirect to edited post's topic
-                return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
 
-            }
-        }
+                    $formP->handleRequest($request); 
+                    if ($formP->isSubmitted() && $formP->isValid()) { //if form submitted and valid
+                        //
+                        //get form data (contenu)
+                        $editedPost = $formP->getData();               
+                        
+                        //get current datetime to set 'lastModified'
+                        $now = new \DateTime();
+                        $editedPost->setLastModified($now);
+                
+                        //prepare execute
+                        $entityManager->persist($editedPost);
+                        $entityManager->flush();
+
+                        //redirect to edited post's topic
+                        return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
+
+                    }
+
+                    
+                }
+    //}
 
         
 
