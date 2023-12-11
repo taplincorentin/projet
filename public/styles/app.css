@@ -1152,6 +1152,7 @@ select#seance_form_theme{
 
     .card-header{
       background-color: var(--aliceBlue) !important;
+      display: flex;
     }
 
     .card-footer{
@@ -1170,6 +1171,9 @@ select#seance_form_theme{
       align-items: center;
     }
 
+    .post-username-date {
+      margin-left: 10px;
+    }
   
     .user-name {
       text-decoration: none;
@@ -1194,6 +1198,10 @@ select#seance_form_theme{
     }
 
     #edit-topic {
+      display: none;
+    }
+
+    .post-forms {
       display: none;
     }
 

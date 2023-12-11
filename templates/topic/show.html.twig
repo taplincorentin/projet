@@ -64,15 +64,6 @@
             </div>
         </div>
 
-    
-            topic id : {{ topic.id }}
-            cat id : {{ topic.categorie.id }}
-
-            {# {{render(controller('App\\Controller\\TopicController::edit', {'mainRequest':app.request, 'id':topic.id} ))}} #}
-
-            {# {{ render(controller('App\\Controller\\TopicController::edit', {'id': topic.id })) }} #}
-
-
             {# EDIT TOPIC DIV#}
             <div class="container-fluid" id="edit-topic">
                 <div class="row">
@@ -99,34 +90,38 @@
                 </div>
             </div>
 
+
         {% if topic.posts is empty %}
             <h4 style="text-align: center;">No comments yet</h4>
         {% endif %}
 
         {% for post in topic.posts | sort((a, b) => a.dateCreation <=> b.dateCreation) %}
-            <div class="container-fluid">
+            <div class="container-fluid" id="post-{{post.id}}">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <div class="row ">
-
+                    
                                     {# if post has no author (user deleted its account) #}
                                     {% if post.auteur is empty %}
                                         <div class="col-md-auto">
                                             <img class="topic-picture" src="{{ asset('/images/users/profile_picture_default.jpg') }}" alt="picture of a dog, default picture for deleted users">
                                         </div>
-                                        <div class="ml-3 col"> {{'deleted'}}
+                                        <div class="post-username-date">
+                                        <div class="ml-3 col"> {{'deleted'}}</div>
                                     {% else %}
                                         <div class="col-md-auto">
                                             <a href="{{ path('show_personne', {'id': post.auteur.id}) }}" aria-label="{{ "go to " ~ post.auteur ~ "'s profile page" }}">
                                                 <img class="topic-picture" src="{{ asset('/images/users/' ~ post.auteur.nomImageProfil) }}" alt="{{ post.auteur ~ "'s profile picture" }}">
                                             </a>
                                         </div>
-                                        <div class="ml-3 col"> <p class="user-name">{{post.auteur}}</p>
+                                        <div class="post-username-date">
+                                        <div class="ml-3 col"> <p class="user-name">{{post.auteur}}</p></div>
                                     {% endif %}
                                         <div class="text-muted small">{{post.dateCreation | date('d-m-Y H:i:s')}}</div>
-                                    </div>
+                                        </div> {#end of post-username-date div#}
+
+                                    
 
                                     {% if post.auteur %}
                                         <div class="text-muted small ml-3 col text-end ">
@@ -135,7 +130,7 @@
                                         </div>
                                     {% endif %}
                                     
-                                </div>
+                                
                             </div>
                             <div class="card-body">
                                 <p> {{post}} </p>
@@ -146,6 +141,7 @@
                                 <div class="card-footer">
                                     <a href="{{ path('delete_post', {'id': post.id}) }}" onclick="return confirm('delete post ?')" aria-label="delete post"><i class="fa-solid fa-trash"></i></a>
                                     <a href="{{ path('edit_post',  {'topic_id': topic.id, 'id': post.id}) }}" aria-label="edit post content"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <button onclick="togglePostForm({{post.id}})" aria-label="edit topic title"><i class="fa-solid fa-pen-to-square"></i></button>
                                 </div>
                             {% endif %}
                             
@@ -153,12 +149,10 @@
                     </div>
                 </div>
             </div>
-        </div>
-        {{ dump(postForms[post.id]) }}
 
         
-        
-        <div class="container-fluid" id="edit-post-{{post.id}}">
+        <div class="post-forms" id="edit-post-{{post.id}}">
+        <div class="container-fluid" >
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
@@ -180,6 +174,7 @@
                 </div>
             </div>
         </div>
+    </div>
 
 
         {% endfor %}
@@ -220,6 +215,7 @@
                 </div>
             </div>
         </div>
+        </div>
     </main>
     
     <script>
@@ -227,7 +223,14 @@
           var x = document.getElementById("topic-card");
           var y = document.getElementById("edit-topic");
             x.style.display = "none";
-            y.style.display = "block"
+            y.style.display = "block";
+        }
+
+        function togglePostForm(postId) {
+            var form = document.getElementById("edit-post-" + postId);
+            var post = document.getElementById("post-" + postId);
+            form.style.display = "block";
+            post.style.display = "none";
         }
         </script>
 {% endblock %}

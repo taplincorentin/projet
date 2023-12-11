@@ -15,6 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TopicController extends AbstractController
@@ -111,7 +112,7 @@ class TopicController extends AbstractController
 
 
     #[Route('/topic/{id}', name: 'show_topic')]
-    public function show(Topic $topic = null, Post $post = null, Request $request, EntityManagerInterface $entityManager, CategorieRepository $categorieRepository, PostRepository $postRepository): Response {
+    public function show(Topic $topic = null, Post $post = null, Request $request, EntityManagerInterface $entityManager, CategorieRepository $categorieRepository, PostRepository $postRepository, FormFactoryInterface $formFactory): Response {
 
         //check topic exists
         if($topic){
@@ -158,9 +159,9 @@ class TopicController extends AbstractController
                 $postAuteur = $post2->getAuteur();
                 
                 //if($postAuteur == $user){
-                    
+                    $postId = $post2->getId();
                     //create associated topic
-                    $formP = $this->createForm(EditPostFormType::class, $post2);
+                    $formP = $formFactory->createNamed('editPost'.$postId, EditPostFormType::class, $post2);
                     
                     //store associated post form
                     $postForms[$post2->getId()] = $formP->createView();
