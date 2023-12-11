@@ -53,4 +53,28 @@
 
         
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    
+            //initialize map variable
+            var map = L.map('map_add_balade').setView([51.505, -0.09], 13);
+        
+            //get opensteetmap tile and add attribution
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+        
+            //initialize marker variable
+            var marker = L.marker([51.5, -0.09]).addTo(map);
+        
+            //when click get get lat and long values
+            map.on('click', function(e) {
+                marker.setLatLng(e.latlng);
+                // Update input fields with latitude and longitude
+                document.getElementById('balade_form_pointLatitude').value = e.latlng.lat;
+                document.getElementById('balade_form_pointLongitude').value = e.latlng.lng;   
+            });
+        });
+    </script>
 {% endblock %}

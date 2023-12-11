@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Entity\Topic;
 use App\Form\PostFormType;
+use App\Form\EditPostFormType;
 use App\Service\VerificationRoleService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,7 +27,7 @@ class PostController extends AbstractController
 
             $topic = $entityManager->getRepository(Topic::class)->findOneBy(['id'=>$topic_id]);
         
-            $form = $this->createForm(PostFormType::class, $post);
+            $form = $this->createForm(EditPostFormType::class, $post);
 
             $form->handleRequest($request); 
             if ($form->isSubmitted() && $form->isValid()) { //if form submitted and valid

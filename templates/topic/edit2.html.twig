@@ -7,7 +7,7 @@
                 </div>
                 <div class="card-body">
                    
-                        {{ form_start(formAddTopic) }}
+                        {{ form_start(formAddTopic, {'action': path('edit_topic', {id: topic.id}), 'method': 'POST'}) }}
                             {{ form_widget(formAddTopic.titre, {'attr': {'placeholder': "Your topic's title"}}) }}
 
                             {{ form_widget(formAddTopic.submit, {

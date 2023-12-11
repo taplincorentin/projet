@@ -7,6 +7,7 @@ use App\Entity\Topic;
 use App\Entity\Categorie;
 use App\Form\PostFormType;
 use App\Form\TopicFormType;
+use App\Form\EditPostFormType;
 use App\Repository\PostRepository;
 use App\Repository\CategorieRepository;
 use App\Service\VerificationRoleService;
@@ -18,19 +19,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TopicController extends AbstractController
 {
+
+    
     #[Route('/topic/{id}/edit', name: 'edit_topic')]
     public function edit(Topic $topic, Request $request, EntityManagerInterface $entityManager): Response {
         //get topic author and current user
         $auteur = $topic->getAuteur();
         $user = $this->getUser();
         
+        //EDIT TOPIC PART
         //check that topic author and current user are the same person
         if($auteur == $user ){
 
             // $categorie = $entityManager->getRepository(Categorie::class)->findOneBy(['id'=>$categorie_id]);
         
-            $form = $this->createForm(TopicFormType::class, $topic
-            );
+            $form = $this->createForm(TopicFormType::class, $topic);
 
             $form->handleRequest($request); 
  
@@ -112,6 +115,91 @@ class TopicController extends AbstractController
 
         //check topic exists
         if($topic){
+        
+        //get topic posts
+        $posts = $topic->getPosts();
+
+        //get topic author and current user
+        $auteur = $topic->getAuteur();
+        $user = $this->getUser();
+        
+        //EDIT TOPIC PART
+        //check that topic author and current user are the same person
+        if($auteur == $user ){
+
+            // $categorie = $entityManager->getRepository(Categorie::class)->findOneBy(['id'=>$categorie_id]);
+        
+            $formT = $this->createForm(TopicFormType::class, $topic);
+
+            $formT->handleRequest($request); 
+ 
+            if ($formT->isSubmitted() && $form->isValid()) {
+            //                 //get form data (titre)
+                               
+                      
+                $topic = $formT->getData();  
+                            // dd($_POST);
+
+            //                 //get current datetime to set 'lastModified'
+            //                 $now = new \DateTime();
+            //                 $topic->setLastModified($now);
+                            
+                            $entityManager->persist($topic); //prepare
+                            $entityManager->flush(); //execute
+
+                            //redirect to edited topic page
+                return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
+            }
+                            // dd($topic);
+            
+                            //redirect to edited topic
+                            // return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
+                            // return $this->redirectToRoute('app_home');
+
+                            // return $this->redirectToRoute('app_home');
+
+            // dd($_POST);
+            // if ($form->isSubmitted() && $form->isValid()) { //if form submitted and valid
+                
+
+
+            // }
+
+            // return $this->render('topic/edit2.html.twig', [
+            //     'formAddTopic' => $form,
+            // ]);
+        }
+
+        //EDIT POST PART
+
+        $postForms = [];
+ 
+        foreach ($posts as $post2) {
+            $formP = $this->createForm(EditPostFormType::class, $post2);
+            $postForms[$post2->getId()] = $formP->createView();
+
+            $formP->handleRequest($request); 
+            if ($formP->isSubmitted() && $formP->isValid()) { //if form submitted and valid
+                $formData = $formP->getData();
+                $postId
+                //get form data (contenu)
+                $post = $formP->getData();               
+
+                //get current datetime to set 'lastModified'
+                $now = new \DateTime();
+                $post->setLastModified($now);
+                
+                //prepare execute
+                $entityManager->persist($post);
+                $entityManager->flush();
+
+                //redirect to edited post's topic
+                return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
+
+            }
+        }
+
+        
 
             //get all categories for menu 
             $categories = $categorieRepository->findBy([], ['nom' => 'ASC']); 
@@ -120,12 +208,13 @@ class TopicController extends AbstractController
             $user = $this->getUser();
 
             //get total number of posts by post author
-            $posts = $topic->getPosts();
             $nbPostsTotalAuteur = [];
             foreach ($posts as $post) {
                 $nbPostsAuteur = $postRepository->nbPostsAuteur($post->getAuteur());
                 $nbPostsTotalAuteur[$post->getId()] = $nbPostsAuteur;
             }
+            // dump($nbPostsTotalAuteur);
+            // dd($postForms);
 
             //for post form and submission
             $post = new Post();
@@ -169,6 +258,8 @@ class TopicController extends AbstractController
                     'formAddPost' => $form,
                     'categories' => $categories,
                     'nbPostsTotalAuteur' => $nbPostsTotalAuteur,
+                    'formAddTopic' => $formT,
+                    'postForms' => $postForms,
                     ]);
                 }
 
@@ -184,7 +275,9 @@ class TopicController extends AbstractController
                             'formAddPost' => $form,
                             'categories' => $categories,
                             'nbPostsTotalAuteur' => $nbPostsTotalAuteur,
-                        ]);
+                            'formAddTopic' => $formT,
+                            'postForms' => $postForms,
+                    ]);
                     }
                 }
 
@@ -206,7 +299,10 @@ class TopicController extends AbstractController
                         'formAddPost' => $form,
                         'categories' => $categories,
                         'nbPostsTotalAuteur' => $nbPostsTotalAuteur,
+                        'formAddTopic' => $formT,
+                        'postForms' => $postForms,
                     ]);
+                    
                 }
                 
                 //get session participants
@@ -221,7 +317,10 @@ class TopicController extends AbstractController
                             'formAddPost' => $form,
                             'categories' => $categories,
                             'nbPostsTotalAuteur' => $nbPostsTotalAuteur,
-                        ]);
+                            'formAddTopic' => $formT,
+                            'postForms' => $postForms,
+                    ]);
+                        
                     }
                     
                 }
@@ -238,7 +337,9 @@ class TopicController extends AbstractController
                     'formAddPost' => $form,
                     'categories' => $categories,
                     'nbPostsTotalAuteur' => $nbPostsTotalAuteur,
-                ]);
+                    'formAddTopic' => $formT,
+                    'postForms' => $postForms,
+                    ]);
             }
      
         }
