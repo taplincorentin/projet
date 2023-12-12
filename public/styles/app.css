@@ -1076,6 +1076,16 @@ select#seance_form_theme{
       margin-bottom: 50px;
     }
 
+        /*pagination*/
+      .page-item a {
+        color: var(--darkBlue);
+      }
+
+      .page-item.active > span {
+        background-color: var(--darkBlue);
+        
+      }
+
 /*FORUM HOMEPAGE*/
 .category-home {
   background-color: var(--beige);

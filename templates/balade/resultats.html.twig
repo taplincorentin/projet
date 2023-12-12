@@ -21,4 +21,35 @@
         {% endfor %}
     </div>
 
+    {# display balade results location on map #}
+    <div id="map_show_results" style="height: 400px; width:500px;">
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+            var results = {{ resultatsBalades|json_encode }};
+            var mapDiv = document.getElementById('map_show');
+            var map = L.map('map_show_results');
+
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            //for (result in results) {
+            console.log(results[0].nom);
+            //var latitude = results[0].latitude;
+            //var longitude = results[0].longitude;
+            //L.marker([ latitude , longitude ]).addTo(map);
+            //}
+
+            //map.setView([ latitude , longitude ], 12);
+    
+            
+    
+            
+                
+    });
+</script>
 {% endblock %}

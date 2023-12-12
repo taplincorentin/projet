@@ -97,7 +97,7 @@
             <h4 style="text-align: center;">No comments yet</h4>
         {% endif %}
 
-        {% for post in topic.posts | sort((a, b) => a.dateCreation <=> b.dateCreation) %}
+        {% for post in postsPaginate | sort((a, b) => a.dateCreation <=> b.dateCreation) %}
             <div class="container-fluid" id="post-{{post.id}}">
                 
                     
@@ -180,6 +180,7 @@
 
 
         {% endfor %}
+        {{ knp_pagination_render(postsPaginate) }}
 
         <div class="container-fluid">
             

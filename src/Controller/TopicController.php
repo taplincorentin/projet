@@ -12,6 +12,7 @@ use App\Repository\PostRepository;
 use App\Repository\CategorieRepository;
 use App\Service\VerificationRoleService;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -54,7 +55,7 @@ class TopicController extends AbstractController
 
 
     #[Route('/topic/{id}', name: 'show_topic')]
-    public function show(Topic $topic = null, Post $post = null, Request $request, EntityManagerInterface $entityManager, CategorieRepository $categorieRepository, PostRepository $postRepository, FormFactoryInterface $formFactory): Response {
+    public function show(Topic $topic = null, Post $post = null, Request $request, EntityManagerInterface $entityManager, CategorieRepository $categorieRepository, PostRepository $postRepository, FormFactoryInterface $formFactory, PaginatorInterface $paginator): Response {
 
         //check topic exists
         if($topic){
@@ -142,8 +143,12 @@ class TopicController extends AbstractController
             //get all categories for menu 
             $categories = $categorieRepository->findBy([], ['nom' => 'ASC']); 
 
-            //get current user for check
-            $user = $this->getUser();
+            //transorm postList for paging
+            $postsPaginate = $paginator->paginate(
+                                        $posts, // Requête contenant les données à paginer (ici nos articles)
+                                        $request->query->getInt('page', 1), // current page number
+                                                                2 // number of results per page
+                                        );  
 
             //get total number of posts by post author
             $nbPostsTotalAuteur = [];
@@ -192,6 +197,7 @@ class TopicController extends AbstractController
                     //return topic view if it's the case
                     return $this->render('topic/show.html.twig', [
                     'topic' => $topic,
+                    'postsPaginate' => $postsPaginate,
                     'formAddPost' => $form,
                     'categories' => $categories,
                     'nbPostsTotalAuteur' => $nbPostsTotalAuteur,
@@ -209,6 +215,7 @@ class TopicController extends AbstractController
                         //return topic view if it's the case
                         return $this->render('topic/show.html.twig', [
                             'topic' => $topic,
+                            'postsPaginate' => $postsPaginate,
                             'formAddPost' => $form,
                             'categories' => $categories,
                             'nbPostsTotalAuteur' => $nbPostsTotalAuteur,
@@ -233,6 +240,7 @@ class TopicController extends AbstractController
                     //return topic view if it's the case
                     return $this->render('topic/show.html.twig', [
                         'topic' => $topic,
+                        'postsPaginate' => $postsPaginate,
                         'formAddPost' => $form,
                         'categories' => $categories,
                         'nbPostsTotalAuteur' => $nbPostsTotalAuteur,
@@ -251,6 +259,7 @@ class TopicController extends AbstractController
                         //return topic view if it's the case
                         return $this->render('topic/show.html.twig', [
                             'topic' => $topic,
+                            'postsPaginate' => $postsPaginate,
                             'formAddPost' => $form,
                             'categories' => $categories,
                             'nbPostsTotalAuteur' => $nbPostsTotalAuteur,
@@ -271,6 +280,7 @@ class TopicController extends AbstractController
 
                 return $this->render('topic/show.html.twig', [
                     'topic' => $topic,
+                    'postsPaginate' => $postsPaginate,
                     'formAddPost' => $form,
                     'categories' => $categories,
                     'nbPostsTotalAuteur' => $nbPostsTotalAuteur,
