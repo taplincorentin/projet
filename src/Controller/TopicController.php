@@ -21,64 +21,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class TopicController extends AbstractController
 {
 
-    
-    #[Route('/topic/{id}/edit', name: 'edit_topic')]
-    public function edit(Topic $topic, Request $request, EntityManagerInterface $entityManager): Response {
-        //get topic author and current user
-        $auteur = $topic->getAuteur();
-        $user = $this->getUser();
-        
-        //EDIT TOPIC PART
-        //check that topic author and current user are the same person
-        if($auteur == $user ){
-
-            // $categorie = $entityManager->getRepository(Categorie::class)->findOneBy(['id'=>$categorie_id]);
-        
-            $form = $this->createForm(TopicFormType::class, $topic);
-
-            $form->handleRequest($request); 
- 
-            if ($form->isSubmitted() && $form->isValid()) {
-            //                 //get form data (titre)
-                               
-                      
-                $topic = $form->getData();  
-                            // dd($_POST);
-
-            //                 //get current datetime to set 'lastModified'
-            //                 $now = new \DateTime();
-            //                 $topic->setLastModified($now);
-                            
-                            $entityManager->persist($topic); //prepare
-                            $entityManager->flush(); //execute
-
-                            //redirect to edited topic page
-                return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
-            }
-                            // dd($topic);
-            
-                            //redirect to edited topic
-                            // return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
-                            // return $this->redirectToRoute('app_home');
-
-                            // return $this->redirectToRoute('app_home');
-
-            // dd($_POST);
-            // if ($form->isSubmitted() && $form->isValid()) { //if form submitted and valid
-                
-
-
-            // }
-
-            return $this->render('topic/edit2.html.twig', [
-                'formAddTopic' => $form,
-            ]);
-        }
-
-        return $this->redirectToRoute('app_home');
-    }
-
-
     #[Route('/topic/{id}/delete', name: 'delete_topic')]
 
     public function delete(Topic $topic, EntityManagerInterface $entityManager, VerificationRoleService $verficationRole) {
@@ -124,20 +66,20 @@ class TopicController extends AbstractController
             $auteur = $topic->getAuteur();
             $user = $this->getUser();
         
-            //EDIT TOPIC PART
-            //check that topic author and current user are the same person
-            if($auteur == $user ){
-        
-                $formT = $this->createForm(TopicFormType::class, $topic);
+            //EDIT TOPIC FORM RENDERING & SUBMISSION
+            
+            $formT = $this->createForm(TopicFormType::class, $topic);
 
-                $formT->handleRequest($request); 
+            $formT->handleRequest($request); 
  
-                if ($formT->isSubmitted() && $formT->isValid()) {
-                
+            if ($formT->isSubmitted() && $formT->isValid()) {
+
+                //check that topic author and current user are the same person
+                if($auteur == $user ){
+
                     //get form data (titre)      
                     $topic = $formT->getData();  
-                            
-
+                                
                     //get current datetime to set 'lastModified'
                     $now = new \DateTime();
                     $topic->setLastModified($now);
@@ -148,9 +90,11 @@ class TopicController extends AbstractController
                     //redirect to edited topic page
                     return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
                 }
-            }
 
-            //EDIT POST PART
+            }
+            
+
+            //EDIT POST FORM RENDERRING & SUBMISSION
             $postForms = [];
  
             foreach ($posts as $post2) {
@@ -158,39 +102,42 @@ class TopicController extends AbstractController
                 //get post author
                 $postAuteur = $post2->getAuteur();
                 
-                //if($postAuteur == $user){
-                    $postId = $post2->getId();
-                    //create associated topic
-                    $formP = $formFactory->createNamed('editPost'.$postId, EditPostFormType::class, $post2);
-                    
-                    //store associated post form
-                    $postForms[$post2->getId()] = $formP->createView();
-
-
-                    $formP->handleRequest($request); 
-                    if ($formP->isSubmitted() && $formP->isValid()) { //if form submitted and valid
-                        //
-                        //get form data (contenu)
-                        $editedPost = $formP->getData();               
-                        
-                        //get current datetime to set 'lastModified'
-                        $now = new \DateTime();
-                        $editedPost->setLastModified($now);
                 
-                        //prepare execute
-                        $entityManager->persist($editedPost);
-                        $entityManager->flush();
+                $postId = $post2->getId();
+        
+                //create associated topic
+                $formP = $formFactory->createNamed('editPost'.$postId, EditPostFormType::class, $post2);
+                    
+                //store associated post form
+                $postForms[$post2->getId()] = $formP->createView();
 
-                        //redirect to edited post's topic
-                        return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
 
+                $formP->handleRequest($request); 
+
+                if ($formP->isSubmitted() && $formP->isValid()) { //if form submitted and valid
+                        
+                    //check that topic author and current user are the same person
+                    if($postAuteur == $user){
+
+                    //get form data (contenu)
+                    $editedPost = $formP->getData();               
+                        
+                    //get current datetime to set 'lastModified'
+                    $now = new \DateTime();
+                    $editedPost->setLastModified($now);
+                
+                    //prepare execute
+                    $entityManager->persist($editedPost);
+                    $entityManager->flush();
+
+                    //redirect to edited post's topic
+                    return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
+            
                     }
+                }
 
                     
-                }
-    //}
-
-        
+            }        
 
             //get all categories for menu 
             $categories = $categorieRepository->findBy([], ['nom' => 'ASC']); 
@@ -204,37 +151,36 @@ class TopicController extends AbstractController
                 $nbPostsAuteur = $postRepository->nbPostsAuteur($post->getAuteur());
                 $nbPostsTotalAuteur[$post->getId()] = $nbPostsAuteur;
             }
-            // dump($nbPostsTotalAuteur);
-            // dd($postForms);
 
-            //for post form and submission
+            //NEW POST FORM RENDERING AND SUBMISSION
             $post = new Post();
                     
-                $form = $this->createForm(PostFormType::class, $post);
+            $form = $this->createForm(PostFormType::class, $post);
 
-                $form->handleRequest($request); 
-                if ($form->isSubmitted() && $form->isValid()) { //if form submitted and valid
-                    //get form data (contenu)
-                    $post = $form->getData();
+            $form->handleRequest($request); 
+            if ($form->isSubmitted() && $form->isValid()) { //if form submitted and valid
+                    
+                //get form data (contenu)
+                $post = $form->getData();
                         
-                    //set post topic
-                    $post->setTopic($topic);                
+                //set post topic
+                $post->setTopic($topic);                
 
-                    //get current datetime to set 'lastModified'
-                    $now = new \DateTime();
-                    $post->setDateCreation($now);
+                //get current datetime to set 'lastModified'
+                $now = new \DateTime();
+                $post->setDateCreation($now);
 
-                    //set current user as post creator
-                    $auteur = $this->getUser();
-                    $post->setAuteur($auteur);
+                //set current user as post creator
+                $auteur = $this->getUser();
+                $post->setAuteur($auteur);
                         
-                    //prepare execute
-                    $entityManager->persist($post);
-                    $entityManager->flush();
+                //prepare execute
+                $entityManager->persist($post);
+                $entityManager->flush();
 
-                    //redirect to created topic
-                    return $this->redirectToRoute('show_topic', ['id' => $post->getTopic()->getId()]);
-                }
+                //redirect to created topic
+                return $this->redirectToRoute('show_topic', ['id' => $post->getTopic()->getId()]);
+            }
 
             //if it's a walk's topic
             if(!empty($topic->getBalade())){
@@ -268,7 +214,7 @@ class TopicController extends AbstractController
                             'nbPostsTotalAuteur' => $nbPostsTotalAuteur,
                             'formAddTopic' => $formT,
                             'postForms' => $postForms,
-                    ]);
+                        ]);
                     }
                 }
 

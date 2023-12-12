@@ -10,7 +10,7 @@
 {% block body %}
         
     <main class="category-main">
-        <div class="category-center">
+        
             <div class="category-menu">
                 {% for categorie in categories %}
                     {% if (categorie.nom != 'Walks') and (categorie.nom != 'Sessions') %}
@@ -18,14 +18,12 @@
                     {% endif %}
                 {% endfor %}
             </div>
-        </div>
+        
 
         
     <div class="category-right">
-        
         <div class="container-fluid" id="topic-card">
-            <div class="row">
-                <div class="col-md-12">
+            
                     <div class="card">
                         <div class="breadcrumbs">
                             <a href="{{ path('app_home') }}">Home</a> >> 
@@ -52,43 +50,47 @@
                             </div>
                             {% if app.user == topic.auteur %}
                                 <span class="topic-edit-delete">
-                                    <button onclick="myFunction()" aria-label="edit topic title"><i class="fa-solid fa-pen-to-square"></i></button>
+                                    <a onclick="myFunction()" aria-label="edit topic title"><i class="fa-solid fa-pen-to-square"></i></a>
                                     <a href="{{ path('delete_topic', {'id': topic.id}) }}" onclick="return confirm('delete topic ?')" aria-label="delete topic"><i class="fa-solid fa-trash"></i></a>
-                                    <a href="{{ path('edit_topic', {'id': topic.id}) }}" aria-label="edit topic">edit </a>
                                 </span>
                             {% endif %}
                             {% endif %}
                         </div>                        
                     </div>
-                </div>
-            </div>
+                
         </div>
 
             {# EDIT TOPIC DIV#}
+            {% if app.user == topic.auteur %}
+                
+            
             <div class="container-fluid" id="edit-topic">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
                                 <p>Edit your topic's title </p>
+                                <a onclick="myFunctionR()" class="exit-edit" aria-label="edit topic title"><i class="fa-solid fa-xmark"></i></a>
                             </div>
                             <div class="card-body">
                                
-                                    {{ form_start(formAddTopic, {'action': path('edit_topic', {id: topic.id}), 'method': 'POST'}) }}
+                                    {{ form_start(formAddTopic) }}
                                         {{ form_widget(formAddTopic.titre, {'attr': {'placeholder': "Your topic's title"}}) }}
             
-                                        {{ form_widget(formAddTopic.submit, {
-                                            'label': 'edit topic'}) }}
-                                    {{ form_end(formAddTopic) }}
+                                        
                             </div>
                             <div class="card-footer">
+                                {{ form_widget(formAddTopic.submit, {
+                                    'label': 'edit'}) }}
+                            {{ form_end(formAddTopic) }}  
                                 
-                   
                             </div>                        
                         </div>
                     </div>
                 </div>
             </div>
+
+            {% endif %}
 
 
         {% if topic.posts is empty %}
@@ -97,8 +99,8 @@
 
         {% for post in topic.posts | sort((a, b) => a.dateCreation <=> b.dateCreation) %}
             <div class="container-fluid" id="post-{{post.id}}">
-                <div class="row">
-                    <div class="col-md-12">
+                
+                    
                         <div class="card">
                             <div class="card-header">
                     
@@ -139,66 +141,61 @@
                             {#if user is post auteur, can edit/delete post#}
                             {% if app.user == post.auteur %}
                                 <div class="card-footer">
-                                    <a href="{{ path('delete_post', {'id': post.id}) }}" onclick="return confirm('delete post ?')" aria-label="delete post"><i class="fa-solid fa-trash"></i></a>
-                                    <a href="{{ path('edit_post',  {'topic_id': topic.id, 'id': post.id}) }}" aria-label="edit post content"><i class="fa-solid fa-pen-to-square"></i></a>
-                                    <button onclick="togglePostForm({{post.id}})" aria-label="edit topic title"><i class="fa-solid fa-pen-to-square"></i></button>
+                                    <span class="topic-edit-delete">
+                                        <a onclick="togglePostForm({{post.id}})" aria-label="edit topic title"><i class="fa-solid fa-pen-to-square"></i></a>
+                                        <a href="{{ path('delete_post', {'id': post.id}) }}" onclick="return confirm('delete post ?')" aria-label="delete post"><i class="fa-solid fa-trash"></i></a>
+                                    </span>
                                 </div>
                             {% endif %}
                             
                         </div>
                     </div>
-                </div>
-            </div>
+                
+            
 
-        
-        <div class="post-forms" id="edit-post-{{post.id}}">
-        <div class="container-fluid" >
-            <div class="row">
-                <div class="col-md-12">
+            {% if app.user == post.auteur %}
+                
+            <div class="container-fluid"  id="edit-post-{{post.id}}" style="display : none">
+
+                
                     <div class="card">
                         <div class="card-header">
                             <p>Edit your comment </p>
+                            <a onclick="togglePostFormR({{post.id}})" class="exit-edit" aria-label="edit topic title"><i class="fa-solid fa-xmark"></i></a>
                         </div>
                         <div class="card-body">
                             
                                 {{ form_start(postForms[post.id]) }}
                                     {{ form_widget(postForms[post.id].contenu, {'attr': {'placeholder': "Your comment"}}) }}
-                                    {{ form_widget(postForms[post.id].submit, {
-                                        'label': 'edit comment'}) }}
-                                {{ form_end(postForms[post.id]) }}
+                                    
                         </div>
                         <div class="card-footer">
-
+                            {{ form_widget(postForms[post.id].submit, {
+                                'label': 'edit'}) }}
+                        {{ form_end(postForms[post.id]) }}
                         </div>                        
                     </div>
-                </div>
             </div>
-        </div>
-    </div>
+            {% endif %}
 
 
         {% endfor %}
 
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
+            
+                
                     <div class="card">
-                        <div class="card-header">
-                            <div class="row ">
-                                
+                        <div class="card-header">      
                                     <div class="col-md-auto">
                                         <img class="topic-picture" src="{{ asset('/images/users/' ~ app.user.nomImageProfil) }}" alt="your profile picture">
                                     </div>
-                                    <div class="ml-3 col"> <p class="user-name">{{app.user}}</p>
-                                </div>
+                                    <div class="post-username-date"><p class="user-name">{{app.user}}</p></div>
+                                    
 
                                 
-                                    <div class="text-muted small col text-end align-middle">
+                                    <div class="text-muted small col text-end">
                                         <div>Member since <strong>{{app.user.dateCreation | date('d/m/Y')}}</strong></div>
                                     </div>
-                                
-                                
-                            </div>
                         </div>
                         <div class="card-body">
                             <form method="post" class="topic-content">
@@ -212,8 +209,8 @@
                     </form>
                         </div>                        
                     </div>
-                </div>
-            </div>
+                
+            
         </div>
         </div>
     </main>
@@ -226,11 +223,25 @@
             y.style.display = "block";
         }
 
+        function myFunctionR() {
+            var x = document.getElementById("topic-card");
+            var y = document.getElementById("edit-topic");
+            x.style.display = "block";
+            y.style.display = "none";
+        }
+
         function togglePostForm(postId) {
             var form = document.getElementById("edit-post-" + postId);
             var post = document.getElementById("post-" + postId);
             form.style.display = "block";
             post.style.display = "none";
+        }
+
+        function togglePostFormR(postId) {
+            var form = document.getElementById("edit-post-" + postId);
+            var post = document.getElementById("post-" + postId);
+            form.style.display = "none";
+            post.style.display = "block";
         }
         </script>
 {% endblock %}

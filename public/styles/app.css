@@ -814,172 +814,6 @@ select#seance_form_theme{
 }
 
 
-/*MEDIA QUERIES*/
-
-    /*NAVBAR*/
-    @media (max-width:1010px) { /*Size at which my navbar text is too long for screen so menu burger*/
-      .nav > .nav-btn {
-        display: inline-block;
-        position: absolute;
-        right: 0px;
-        top: 0px;
-      }
-      .nav > .nav-btn > label {
-        display: inline-block;
-        width: 100%;
-        height: 100%;
-        padding: 13px;
-      }
-      .nav > .nav-btn > label:hover,.nav  #nav-check:checked ~ .nav-btn > label {
-        overflow: hidden;
-      }
-      .nav > .nav-btn > label > span {
-        display: block;
-        width: 25px;
-        height: 10px;
-        border-top: 2px solid #eee;
-      }
-      .nav > .nav-links {
-        position: absolute;
-        display: block;
-        width: 100%;
-        background-color: var(--darkBlue);
-        height: 0px;
-        transition: all 0.3s ease-in;
-        overflow-y: hidden;
-        top: 50px;
-        left: 0px;
-      }
-      .nav > .nav-links > a {
-        display: block;
-        width: 100%;
-      }
-      .nav > #nav-check:not(:checked) ~ .nav-links {
-        height: 0px;
-      }
-      .nav > #nav-check:checked ~ .nav-links {
-        height: calc(100vh - 50px);
-        overflow-y: auto;
-      }
-    
-      .nav-btn{
-        color: white;
-      }
-    
-      .nav-links{
-        text-align: center;
-      }
-      
-      #navLabel{
-        width: 100%;
-      }
-    }
-
-  
-    @media only screen and (max-width: 750px) {
-      /*FORMS*/
-      .walk-form-container, .dog-form-container, .register-form-container, .reset-password-form-container, .form-container, .search-form-container {
-        width: 95%;
-        margin: 10px;
-      }
-
-      /*EVENT INFO PAGE*/
-      .event-container{
-        flex-direction: column;
-      }
-
-      .event-container-left, .event-container-right{
-        width: 100%;
-        margin-left: 0;
-        overflow: hidden;
-      }
-
-      .user-profile-head{
-        padding-bottom: 10px;
-      }
-      .new-dog-button {
-        position: static;
-      }
-
-      /*FORUM*/
-      .category-head{
-        padding-bottom: 10px;
-      }
-      .category-main{
-        flex-direction: column;
-      }
-
-      .category-left{
-        display: none;
-      }
-      #category-list{
-        display:block;
-        width: 95%;
-        padding-left: 5px;
-      }
-      .category-right{
-        margin-left: 0;
-        padding-left: 10px;
-        padding-right: 5px;
-      }
-
-      .topic{
-        width: 95%;
-      }
-
-      .topic-content{
-        padding-left: 10px;
-      }
-
-      #back-category-home{
-        display:block;
-      }
-
-      #topicUserForm{
-        display: none;
-      }
-
-      /*PROFILE PAGE*/
-
-      .user-container{
-        flex-direction: column;
-      }
-
-      .user-container-center{
-        text-align: center;
-      }
-      .walks, .sessions{
-        justify-content: center;
-      }
-      #editRole {
-        margin-top: 15px;
-      }
-
-      .modal{
-        width: 500px;
-        left: 0;
-        overflow: auto;
-      }
-
-      .modal-content-left{
-        width: 200px;
-      }
-
-      .modal-content-right{
-        width: 200px;
-      }
-
-      .dog-picture{
-        max-width: 200px;
-      }
-
-      #latestUserTopicsResponsive{
-        display: block;
-      }
-      #latestUserTopics{
-        display: none;
-      }
-    }
 
     /*TOPIC LIST PAGE*/
     #category-page-menu {
@@ -990,9 +824,10 @@ select#seance_form_theme{
       background-color: var(--aliceBlue);
       margin-top: 0px;
       margin-bottom: 10px;
-      width: 60%;
+      width: auto;
       border-radius: 5px;
       margin-left: 20px;
+      margin-right: 13px;
     }
 
     .category-name h4 {
@@ -1002,14 +837,15 @@ select#seance_form_theme{
     .topic-topic {
       background-color: var(--aliceBlue);
       margin-bottom: 0px;
-      width: 60%;
+      width: auto;
       border-radius: 5px 5px 5px 0px;
       margin-left: 20px;
+      margin-right: 13px;
       padding-left: 5px;
     }
 
     .category-topics > .container-fluid {
-      width: 80%;
+      width: 100%;
       margin-bottom: 5px;
       margin-left: 0 !important;
     }
@@ -1026,6 +862,15 @@ select#seance_form_theme{
     .topic-info a {
       text-decoration: none;
       color: var(--darkBlue);
+    }
+
+    textarea{
+      resize:none !important;
+      width:100%;
+    }
+
+    textarea::-webkit-scrollbar {
+      display: none;
     }
     
     .topic-posts {
@@ -1077,15 +922,20 @@ select#seance_form_theme{
       display:flex;
       justify-content: center;
       margin-left:15px;
+      margin-right: 15px;
+      width: 100%;
     }
 
     .category-menu {
       display : flex;
       justify-content: space-evenly;
-      width: 70%;
+      flex-wrap: wrap;
+      width: auto;
       background-color: var(--lightBlue);
       border-radius: 5px;
       margin-bottom: 20px;
+      margin-left: 15px;
+      margin-right: 15px;
     }
 
     .category-menu a {
@@ -1127,6 +977,14 @@ select#seance_form_theme{
       float: none;
     }
 
+    .card-footer > button {
+      width: auto;
+      color: white;
+      background-color: var(--darkBlue);
+      float: inline-end;
+      border-radius: 5px;
+    }
+
     .topic-picture {
       border-radius: 50%;  
       height: 50px; 
@@ -1146,13 +1004,14 @@ select#seance_form_theme{
     .category-right > .container-fluid {
       margin-top: 10px;
       margin-bottom: 10px;
-      width: 60%;
-      
+      width: 100%; 
     }
 
     .card-header{
       background-color: var(--aliceBlue) !important;
       display: flex;
+      justify-content: space-between;
+      width: 100%;
     }
 
     .card-footer{
@@ -1169,6 +1028,15 @@ select#seance_form_theme{
     .topic-edit-delete{
       display: flex;
       align-items: center;
+      float: inline-end;
+    }
+
+    .topic-edit-delete a {
+      color: var(--darkBlue) !important;
+    }
+
+    .exit-edit {
+      color: var(--darkBlue);
     }
 
     .post-username-date {
@@ -1203,6 +1071,9 @@ select#seance_form_theme{
 
     .post-forms {
       display: none;
+      width: 60%;
+      margin-top: 50px;
+      margin-bottom: 50px;
     }
 
 /*FORUM HOMEPAGE*/
@@ -1252,4 +1123,115 @@ select#seance_form_theme{
 .forum-card-text p {
   margin: 0;
   padding: 0;
+}
+
+
+/*MEDIA QUERIES*/
+
+   
+
+  
+@media only screen and (max-width: 750px) {
+  /*FORMS*/
+  .walk-form-container, .dog-form-container, .register-form-container, .reset-password-form-container, .form-container, .search-form-container {
+    width: 95%;
+    margin: 10px;
+  }
+
+  /*EVENT INFO PAGE*/
+  .event-container{
+    flex-direction: column;
+  }
+
+  .event-container-left, .event-container-right{
+    width: 100%;
+    margin-left: 0;
+    overflow: hidden;
+  }
+
+  .user-profile-head{
+    padding-bottom: 10px;
+  }
+  .new-dog-button {
+    position: static;
+  }
+
+  /*FORUM*/
+  .category-head{
+    padding-bottom: 10px;
+  }
+  .category-main{
+    flex-direction: column;
+  }
+
+  .category-left{
+    display: none;
+  }
+  #category-list{
+    display:block;
+    width: 95%;
+    padding-left: 5px;
+  }
+  .category-right{
+    margin-left: 0;
+    padding-left: 10px;
+    padding-right: 5px;
+  }
+
+  .topic{
+    width: 95%;
+  }
+
+  .topic-content{
+    padding-left: 10px;
+  }
+
+  #back-category-home{
+    display:block;
+  }
+
+  #topicUserForm{
+    display: none;
+  }
+
+  /*PROFILE PAGE*/
+
+  .user-container{
+    flex-direction: column;
+  }
+
+  .user-container-center{
+    text-align: center;
+  }
+  .walks, .sessions{
+    justify-content: center;
+  }
+  #editRole {
+    margin-top: 15px;
+  }
+
+  .modal{
+    width: 500px;
+    left: 0;
+    overflow: auto;
+  }
+
+  .modal-content-left{
+    width: 200px;
+  }
+
+  .modal-content-right{
+    width: 200px;
+  }
+
+  .dog-picture{
+    max-width: 200px;
+  }
+
+  #latestUserTopicsResponsive{
+    display: block;
+  }
+  #latestUserTopics{
+    display: none;
+  }
 }
