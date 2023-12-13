@@ -1137,9 +1137,9 @@ select#seance_form_theme{
   padding: 10px;
   margin: 5px;
   margin-left: 10px;
-  background-color: var(--lightBlue);
+  background-color: white;
   border-radius: 5px;
-  border: solid 1px var(--darkBlue);
+  border: solid 1px var(--tangerine);
 }
 
 .forum-card-text p {
