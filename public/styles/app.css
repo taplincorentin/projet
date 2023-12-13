@@ -114,6 +114,7 @@ body {
 /*HOMEPAGE*/
 .homepage{
   background-image: url( '/images/site/background-dog.jpg' );
+  padding-bottom: 50px;
 }
 
 .homepage-container {
@@ -857,7 +858,8 @@ select#seance_form_theme{
 
     .category-topics > .container-fluid {
       width: 100%;
-      margin-bottom: 5px;
+      margin-bottom: 1rem;
+      margin-top: 1rem;
       margin-left: 0 !important;
     }
 
@@ -1012,8 +1014,8 @@ select#seance_form_theme{
     }
 
     .category-right > .container-fluid {
-      margin-top: 10px;
-      margin-bottom: 10px;
+      margin-bottom: 1rem;
+      margin-top: 1rem;
       width: 100%; 
     }
 
@@ -1103,7 +1105,8 @@ select#seance_form_theme{
 }
 
 .category-home > .container-fluid {
-  margin-bottom: 3px;
+  margin-bottom: 1rem;
+      margin-top: 1rem;
 }
 
 .forum-card{
