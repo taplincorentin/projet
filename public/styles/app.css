@@ -15,6 +15,10 @@
     
 }
 
+body {
+  margin: 0;
+}
+
 .vich-image > a > img {
   max-width: 400px;
 }
@@ -73,6 +77,18 @@
   text-decoration: none;
 }
 
+.dropdown a {
+  background-color: var(--darkBlue) !important;
+  color: white;
+  border: none !important;
+  padding-top: 10px;
+  padding-left: 17px;
+}
+
+#navbarNav > ul > div > ul {
+  background-color: var(--darkBlue) !important;
+}
+
 
 /*FOOTER*/
 .footer{
@@ -80,8 +96,10 @@
   color: white; 
   font-size:0.8em;
   padding-top: 30px;
-  padding-bottom: 20px;
+  padding-left: 20px;
+  width: 100%;
 }
+
 
 .footer-links{
   list-style: none;
@@ -906,7 +924,6 @@ select#seance_form_theme{
 
     /*POSTS LIST PAGE*/
     .category-main {
-      background-color: var(--beige);
       padding-bottom: 40px;
       padding-top : 10px;
     }
@@ -1081,7 +1098,6 @@ select#seance_form_theme{
 
 /*FORUM HOMEPAGE*/
 .category-home {
-  background-color: var(--beige);
   padding-bottom: 40px;
   padding-top : 10px;
 }
