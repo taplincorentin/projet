@@ -22,23 +22,39 @@ class CategorieController extends AbstractController
     {
         $categories = $categorieRepository->findBy([], ['nom' => 'ASC']); //get all categories
 
-        $latestTopics = $topicRepository->getLatestTopics();
-
+        $latestTopicsPerCat = [];
         $lastPostParTopic = [];
-        foreach ($latestTopics as $topic) {
-            $lastPost = $postRepository->getLastPostFromTopic($topic);
-            $lastPostParTopic[$topic->getId()] = $lastPost;
+        $nbPostsParTopic = [];
+        //loop through categories
+        foreach ($categories as $categorie) {
+
+            //check categorie isn't Walks or Sessions categories (not visible from forum homepage)
+            if($categorie->getNom() != 'Walks' && $categorie->getNom() != 'Sessions'){
+
+                //get category 3 last topics and store them in an array
+                $latestTopics = $topicRepository->getLatestTopicsPerCategory($categorie);
+                $latestTopicsPerCat[$categorie->getId()]= $latestTopics;
+
+                
+                foreach ($latestTopics as $topic) {
+                    $lastPost = $postRepository->getLastPostFromTopic($topic);
+                    $lastPostParTopic[$topic->getId()] = $lastPost;
+                }
+
+                
+                foreach ($latestTopics as $topic) {
+                    $nbPosts = $postRepository->nbPostsDansTopic($topic);
+                    $nbPostsParTopic[$topic->getId()] = $nbPosts;
+                }
+            }
         }
 
-        $nbPostsParTopic = [];
-        foreach ($latestTopics as $topic) {
-            $nbPosts = $postRepository->nbPostsDansTopic($topic);
-            $nbPostsParTopic[$topic->getId()] = $nbPosts;
-        }
+        
         
         return $this->render('categorie/index.html.twig', [
             'categories' => $categories,
             'latestTopics' => $latestTopics,
+            'latestTopicsPerCat' => $latestTopicsPerCat,
             'nbPostsParTopic' => $nbPostsParTopic,
             'lastPostParTopic' => $lastPostParTopic,
         ]);

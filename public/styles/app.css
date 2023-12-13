@@ -1016,7 +1016,7 @@ select#seance_form_theme{
     .category-right > .container-fluid {
       margin-bottom: 1rem;
       margin-top: 1rem;
-      width: 100%; 
+      width: 75%; 
     }
 
     .card-header{
@@ -1025,6 +1025,10 @@ select#seance_form_theme{
       justify-content: space-between;
       width: 100%;
     }
+
+    /* .card-body {
+      background-color: var(--aliceBlue) !important;
+    } */
 
     .card-footer{
       background-color: var(--aliceBlue) !important;
@@ -1104,21 +1108,38 @@ select#seance_form_theme{
   padding-top : 10px;
 }
 
+.categories-topics {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.topics-per-category {
+  width: 46%;
+}
+
+.category-home a {
+  text-decoration: none;
+}
+
+.category-home a h5 {
+  text-decoration: none;
+  color: #000;
+  margin-left: 20px;
+  padding-left: 5px;
+  padding-top: 10px;
+}
+
 .category-home > .container-fluid {
   margin-bottom: 1rem;
       margin-top: 1rem;
+      
 }
 
 .forum-card{
   background-color: var(--aliceBlue);
-  width: 60%;
   margin: 10px;
   margin-left: 20px;
   border-radius: 5px;
-  min-width: 750px;
-}
-
-#home-topic-topic {
   min-width: 750px;
 }
 
@@ -1131,6 +1152,10 @@ select#seance_form_theme{
   min-height: 200px;
   min-width: 200px;
 }
+
+/* .topic-info > a > p {
+  color: var(--tangerine);
+} */
     
 .forum-card-text {
   width: 100%;
@@ -1149,10 +1174,6 @@ select#seance_form_theme{
 
 
 /*MEDIA QUERIES*/
-
-   
-
-  
 @media only screen and (max-width: 750px) {
   /*FORMS*/
   .walk-form-container, .dog-form-container, .register-form-container, .reset-password-form-container, .form-container, .search-form-container {
@@ -1179,6 +1200,23 @@ select#seance_form_theme{
   }
 
   /*FORUM*/
+    /*ForumHomepage*/
+      .topic-posts{
+        display: none;
+      }
+
+      .topic-last-post {
+        display: none;
+      }
+
+      .topic-content{
+        width: 90%;
+      }
+
+      #paw {
+        display :none;
+      }
+
   .category-head{
     padding-bottom: 10px;
   }
@@ -1206,10 +1244,6 @@ select#seance_form_theme{
 
   .topic-content{
     padding-left: 10px;
-  }
-
-  #back-category-home{
-    display:block;
   }
 
   #topicUserForm{

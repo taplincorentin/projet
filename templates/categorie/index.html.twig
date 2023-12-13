@@ -25,54 +25,58 @@
         </div>
     </div>
 
-    <h5 id="home-topic-topic" class="topic-topic">Latest Topics</h5>
-    {% for topic in latestTopics | sort((a, b) => b.dateCreation <=> a.dateCreation) %}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card" style="margin-left: 7px;">
-                    
-                    <div class="card-body">
-                        <div class="topic-content">
+    <h5 id="home-topic-topic" class="topic-topic">Latest Topics in each Category</h5>
+
+    <div class="categories-topics">
+    {% for categorie in categories %}
+    
+    {% if (categorie.nom != 'Walks') and (categorie.nom != 'Sessions') %}
+        <div class="topics-per-category">
+        <a href="{{ path('show_categorie', {'id': categorie.id}) }}"><h5>{{categorie}}</h5></a>
+        {% for topic in latestTopicsPerCat[categorie.id] | sort((a, b) => b.dateCreation <=> a.dateCreation) %}
+        <div class="container-fluid">
+            <div class="card" style="margin-left: 7px;">
+                <div class="card-body">
+                    <div class="topic-content">
                         <div class="topic-info">
                             <a href="{{ path('show_topic', {'id': topic.id}) }}" aria-label="go to topic's page"><p>{{topic}}</p></a>
                             {% if topic.auteur is empty %}
-                                by deleted user in {{topic.categorie}}
+                                by deleted user
                             {% else %}
-                            by<a href="{{ path('show_personne', {'id': topic.auteur.id}) }}" aria-label="{{ "go to " ~ topic.auteur ~ "'s profile page" }}">
-                                     {{topic.auteur}}</a> in {{topic.categorie}}
+                                by <a href="{{ path('show_personne', {'id': topic.auteur.id}) }}" aria-label="{{ "go to " ~ topic.auteur ~ "'s profile page" }}">{{topic.auteur}}</a>
                             {% endif %}
-                        </div>
-                        <div class="topic-posts">
-                            {{ nbPostsParTopic[topic.id] }} post(s)
-                        </div>
-
-                        <div class="topic-last-post">
-                            <div>
-                            {% set lastPost = lastPostParTopic[topic.id] %}
-                            
-                            {% if lastPost is empty %}
+                            </div>
+                            <div class="topic-posts">
+                                {{ nbPostsParTopic[topic.id] }} post(s)
+                            </div>
+                            <div class="topic-last-post">
+                                <div>
+                                {% set lastPost = lastPostParTopic[topic.id] %}
                                 
-                            {% else %}
-                            {% set latestPost = lastPost[0] %}
-                                <p class="text-muted small">Last post by {{ latestPost.auteur }}</p>
-                                <div class="category-center">
-                                    <a href="{{ path('show_personne', {'id': latestPost.auteur.id}) }}" aria-label="{{ "go to " ~ latestPost.auteur ~ "'s profile page" }}">
-                                        <img class="topic-picture" src="{{ asset('/images/users/' ~ latestPost.auteur.nomImageProfil) }}" alt="{{ latestPost.auteur ~ "'s profile picture" }}">
-                                    </a>
-                                </div>                                                    
-                                <p class="text-muted small">{{latestPost.dateCreation | date('d-m-Y H:i:s')}}</p>
-
-                            {% endif %}
+                                {% if lastPost is empty %}
+                                    
+                                {% else %}
+                                {% set latestPost = lastPost[0] %}
+                                    <p class="text-muted small">Last post by {{ latestPost.auteur }}</p>
+                                    <div class="category-center">
+                                        <a href="{{ path('show_personne', {'id': latestPost.auteur.id}) }}" aria-label="{{ "go to " ~ latestPost.auteur ~ "'s profile page" }}">
+                                            <img class="topic-picture" src="{{ asset('/images/users/' ~ latestPost.auteur.nomImageProfil) }}" alt="{{ latestPost.auteur ~ "'s profile picture" }}">
+                                        </a>
+                                    </div>                                                    
+                                    <p class="text-muted small">{{latestPost.dateCreation | date('d-m-Y H:i:s')}}</p>
+    
+                                {% endif %}
+                            </div>
                         </div>
+                        
                     </div>
-                </div>
-                </div>
-                                      
                 </div>
             </div>
         </div>
-    </div>
+        {% endfor %}
+    {% endif %}
+        </div>
     {% endfor %}
+</div>
 </main>
 {% endblock %}
