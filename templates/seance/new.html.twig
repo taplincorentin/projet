@@ -45,7 +45,7 @@
                             {{ form_row(formAddSeance.pointLongitude) }}
                         </div>
                     
-                        {{ form_widget(formAddSeance.submit) }}
+                        {{ form_widget(formAddSeance.submit, { 'attr' : { 'data-label': 'submit training session creation form' } }) }}
     
                     {{ form_end(formAddSeance) }}
                     

@@ -15,7 +15,9 @@ class PostFormType extends AbstractType
     {
         $builder
             ->add('contenu', TextareaType::class)
-            ->add('submit', SubmitType::class)
+            ->add('submit', SubmitType::class, [
+                'attr' => ['data-label' => 'confirm post creation']
+                ])
         ;
     }
 

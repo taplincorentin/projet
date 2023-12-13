@@ -38,7 +38,7 @@
                     {{ form_label(formAddPersonne.imageProfil) }}
                     {{ form_widget(formAddPersonne.imageProfil) }}
                 
-                    {{ form_widget(formAddPersonne.submit) }}
+                    {{ form_widget(formAddPersonne.submit, { 'attr' : { 'data-label': 'confirm your information editon form' } }) }}
 
                 {{ form_end(formAddPersonne) }}
                 

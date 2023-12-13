@@ -80,8 +80,7 @@
                                         
                             </div>
                             <div class="card-footer">
-                                {{ form_widget(formAddTopic.submit, {
-                                    'label': 'edit'}) }}
+                                {{ form_widget(formAddTopic.submit, {'label': 'edit'}) }}
                             {{ form_end(formAddTopic) }}  
                                 
                             </div>                        
@@ -170,8 +169,7 @@
                                     
                         </div>
                         <div class="card-footer">
-                            {{ form_widget(postForms[post.id].submit, {
-                                'label': 'edit'}) }}
+                            {{ form_widget(postForms[post.id].submit, {'label': 'edit'}) }}
                         {{ form_end(postForms[post.id]) }}
                         </div>                        
                     </div>
@@ -204,8 +202,7 @@
                                     {{ form_widget(formAddPost.contenu, {'attr': {'placeholder': 'Type your comment here'}}) }}
                         </div>
                         <div class="card-footer">
-                            {{ form_widget(formAddPost.submit, {
-                                'label': 'comment'}) }}
+                            {{ form_widget(formAddPost.submit, {'label': 'comment'}) }}
                         {{ form_end(formAddPost) }}
                     </form>
                         </div>                        

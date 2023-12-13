@@ -18,7 +18,7 @@ class TopicFormType extends AbstractType
                 'label' => "Topic title",
             ])
             ->add('submit', SubmitType::class, [
-                'label' => "post new topic",
+                'attr' => ['data-label' => 'confirm topic creation/modification']
             ]);
         
     }

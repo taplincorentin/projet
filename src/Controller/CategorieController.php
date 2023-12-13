@@ -9,6 +9,7 @@ use App\Repository\PostRepository;
 use App\Repository\TopicRepository;
 use App\Repository\CategorieRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -45,7 +46,7 @@ class CategorieController extends AbstractController
 
 
     #[Route('/categorie/{id}', name: 'show_categorie')]
-    public function show(Categorie $categorie = null, Topic $topic = null, Request $request, EntityManagerInterface $entityManager, CategorieRepository $categorieRepository, PostRepository $postRepository): Response {
+    public function show(Categorie $categorie = null, Topic $topic = null, Request $request, EntityManagerInterface $entityManager, CategorieRepository $categorieRepository, PostRepository $postRepository, PaginatorInterface $paginator): Response {
 
         //check that categorie isn't walk or session category (aren't accessible this way)
         if($categorie->getNom() != 'Walks' && $categorie->getNom() != 'Sessions'){
@@ -68,6 +69,13 @@ class CategorieController extends AbstractController
                 $lastPostParTopic[$topic->getId()] = $lastPost;
             }
 
+
+            //transorm topicList for paging
+            $topicsPaginate = $paginator->paginate(
+                $categoryTopics, // Requête contenant les données à paginer (ici nos articles)
+                $request->query->getInt('page', 1), // current page number
+                                        2 // number of results per page
+                ); 
 
 
             //part that handles the new topic form
@@ -103,6 +111,7 @@ class CategorieController extends AbstractController
 
             return $this->render('categorie/show.html.twig', [
                 'categorie' => $categorie,
+                'topicsPaginate' => $topicsPaginate,
                 'formAddTopic' => $form,
                 'nbPostsParTopic' => $nbPostsParTopic,
                 'lastPostParTopic' => $lastPostParTopic,

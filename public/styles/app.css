@@ -667,10 +667,7 @@ select#seance_form_theme{
   border-radius: 10%;
   border:solid 1px var(--tangerine);
 }
-.walks{
-  display: flex;
-  flex-wrap: wrap;
-}
+
 
 .sessions{
   display: flex;
@@ -695,10 +692,6 @@ select#seance_form_theme{
   margin-bottom: 10px;
 }
 
-.sessions a, .walks a{
-  text-decoration: none;
-  color: black;
-}
 
 /*WALK/SESSIONS VIEWS */
 .event-container{
@@ -1213,9 +1206,7 @@ select#seance_form_theme{
   .user-container-center{
     text-align: center;
   }
-  .walks, .sessions{
-    justify-content: center;
-  }
+
   #editRole {
     margin-top: 15px;
   }

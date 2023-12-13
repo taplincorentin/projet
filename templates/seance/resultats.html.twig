@@ -1,27 +1,70 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Session search result{% endblock %}
+{% block title %}Training sessions search results - Walk&Train{% endblock %}
+
+{% block meta_description %}
+    <meta name="description" content="Welcome to Walk&Train, a community for all dog lovers to discuss anything related to man's best friend 
+                                        or to meet each other for dog walks or training sessions. This is the training sessions' search results page. The user can now see a little info about each session and go to each session's information page">
+    <meta name="keywords" content="dog project, dog, dog trainers near me, local dog trainers, dog walks near me, dog owners community, profile page">
+{% endblock %}
 
 {% block body %}
 
-    <h3>Upcoming training sessions in {{ville}}: </h3>
-    <div class="sessions">
+<h3>Upcoming training sessions in {{ville}}: </h3>
+    
 
     {% for seance in resultatsSeances %}
-        
-        <a href="{{ path('show_seance', {'id': seance.id}) }}" aria-label="go to session's info page">
-            <div class="session">
-                <p>{{ seance }}</p>
-                {% if seance.theme is not empty %}
-                    <p><i class="fa-solid fa-puzzle-piece"></i> : {{seance.theme}}</p>
-                {% endif %}
-                <p><i class="fa-solid fa-calendar-days fa-xs"></i> : {{ seance.dateHeureDepart | date('j F Y H:i') }}</p>
-                <p><i class="fa-solid fa-tree-city fa-xs"></i> : {{ seance.ville }}</p>
-                <p><i class="fa-solid fa-person-hiking fa-xs"></i> : {{ seance.organisateur }}</p>
+            <div class="session-results" data-id="{{seance.id}}" data-name="{{seance.nom}}" data-theme="{{seance.theme.nom}}" data-latitude="{{seance.pointLatitude}}" data-longitude="{{seance.pointLongitude}}"
+            data-date="{{seance.dateHeureDepart | date('j F Y H:i')}}">  
             </div>
-        </a>
+
 
     {% endfor %}
-</div>
+
+    {# display balade results location on map #}
+    <div id="map_show_results" style="height: 400px; width:500px;">
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+                
+            
+                const resultsElementsLatitude = document.querySelectorAll('[data-latitude]');
+                const resultsElementsLongitude = document.querySelectorAll('[data-longitude]');
+                const resultsElementsId = document.querySelectorAll('[data-id]');
+                const resultsElementsDate = document.querySelectorAll('[data-date]');
+                const resultsElementsName = document.querySelectorAll('[data-name]');
+                const resultsElementsTheme = document.querySelectorAll('[data-theme]');
+    
+                const resultsLatitude = Array.from(resultsElementsLatitude).map(item => item.dataset.latitude);
+                const resultsLongitude = Array.from(resultsElementsLongitude).map(item => item.dataset.longitude);
+                const resultsId = Array.from(resultsElementsId).map(item => item.dataset.id);
+                const resultsDate = Array.from(resultsElementsDate).map(item => item.dataset.date);
+                const resultsName = Array.from(resultsElementsName).map(item => item.dataset.name);
+                const resultsTheme = Array.from(resultsElementsTheme).map(item => item.dataset.theme);
+    
+                var mapDiv = document.getElementById('map_show');
+                var map = L.map('map_show_results').setView([ resultsLatitude[0], resultsLongitude[0] ], 13);
+    
+                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+    
+                
+    
+                for (var i = 0; i < resultsLatitude.length; i++) {
+                    var link = "<a href=\'/seance/"+resultsId[i]+" aria-label='go to the session info page'\'>Go to info page <i class='fa-solid fa-circle-arrow-right'></i></a>"
+                    var date = "<p>Date : "+resultsDate[i]+"</p>"
+                    var name = "<h5>"+resultsName[i]+"</h5>"
+                    var theme = "<p>Theme : "+resultsTheme[i]+"</p>"
+                    marker = new L.marker([resultsLatitude[i], resultsLongitude[i]]).addTo(map);
+                    marker.bindPopup(name + date + theme + link)
+                    console.log(resultsDate[i])
+                  }
+           
+        });
+    
+    </script>
 
 {% endblock %}

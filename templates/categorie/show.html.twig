@@ -38,7 +38,7 @@
             {% endif %}
                 
             <div class="category-topics">
-                {% for topic in categorie.topics | sort((a, b) => b.dateCreation <=> a.dateCreation) %}
+                {% for topic in topicsPaginate | sort((a, b) => b.dateCreation <=> a.dateCreation) %}
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-md-12">
@@ -90,6 +90,8 @@
                     
                 {% endfor %}
                     
+                {{ knp_pagination_render(topicsPaginate) }}
+
 
                 {# New topic form #}
                     <div class="container-fluid">
@@ -102,8 +104,7 @@
                                                 {{ form_widget(formAddTopic.titre, {'attr': {'placeholder': "Your topic's title"}}) }}
                                     </div>
                                     <div class="card-footer">
-                                        {{ form_widget(formAddTopic.submit, {
-                                            'label': 'create topic'}) }}
+                                        {{ form_widget(formAddTopic.submit, {'label': 'create topic'}) }}
                                     {{ form_end(formAddTopic) }}
                                 </form>
                                     </div>                        
