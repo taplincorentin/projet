@@ -147,7 +147,7 @@ class TopicController extends AbstractController
             $postsPaginate = $paginator->paginate(
                                         $posts, // Requête contenant les données à paginer (ici nos articles)
                                         $request->query->getInt('page', 1), // current page number
-                                                                2 // number of results per page
+                                                                10 // number of results per page
                                         );  
 
             //get total number of posts by post author

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Topic;
 use App\Entity\Categorie;
 use App\Form\TopicFormType;
+use App\Form\HomeTopicFormType;
 use App\Repository\PostRepository;
 use App\Repository\TopicRepository;
 use App\Repository\CategorieRepository;
@@ -18,7 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class CategorieController extends AbstractController
 {
     #[Route('/categorie', name: 'app_categorie')]
-    public function index(CategorieRepository $categorieRepository, TopicRepository $topicRepository, PostRepository $postRepository): Response
+    public function index(Request $request, EntityManagerInterface $entityManager, CategorieRepository $categorieRepository, TopicRepository $topicRepository, PostRepository $postRepository): Response
     {
         $categories = $categorieRepository->findBy([], ['nom' => 'ASC']); //get all categories
 
@@ -49,6 +50,34 @@ class CategorieController extends AbstractController
             }
         }
 
+        //part that handles the new topic form
+        $topic = new Topic();
+            
+        $form = $this->createForm(HomeTopicFormType::class, $topic);
+
+        $form->handleRequest($request); 
+        if ($form->isSubmitted() && $form->isValid()) { //if form submitted and valid
+
+            //get form data (titre)
+            $topic = $form->getData();                    
+
+            //get current datetime to set 'dateCreation'
+            $now = new \DateTime();
+            $topic->setDateCreation($now);
+
+            //set current user as topic creator
+            $auteur = $this->getUser();
+            $topic->setAuteur($auteur);
+
+            $entityManager->persist($topic); //prepare
+            $entityManager->flush(); //execute
+
+            //redirect to created topic
+            return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
+
+        }
+
+
         
         
         return $this->render('categorie/index.html.twig', [
@@ -57,6 +86,7 @@ class CategorieController extends AbstractController
             'latestTopicsPerCat' => $latestTopicsPerCat,
             'nbPostsParTopic' => $nbPostsParTopic,
             'lastPostParTopic' => $lastPostParTopic,
+            'formAddTopic' => $form,
         ]);
     }
 
@@ -90,7 +120,7 @@ class CategorieController extends AbstractController
             $topicsPaginate = $paginator->paginate(
                 $categoryTopics, // Requête contenant les données à paginer (ici nos articles)
                 $request->query->getInt('page', 1), // current page number
-                                        2 // number of results per page
+                                        10 // number of results per page
                 ); 
 
 

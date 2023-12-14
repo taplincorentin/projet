@@ -21,7 +21,20 @@ class CategorieRepository extends ServiceEntityRepository
         parent::__construct($registry, Categorie::class);
     }
 
-    
+    public function getAuthorizedCategories(){
+        $idCategoriesExclues = [6, 7];
+
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select('c')
+            ->from('App\Entity\Categorie', 'c')
+            ->where('c.id NOT IN (:categoriesExclues)')
+            ->setParameter('categoriesExclues', $idCategoriesExclues);
+        
+        $query = $qb->getQuery();
+        return $query->getResult();
+    }
 //    /**
 //     * @return Categorie[] Returns an array of Categorie objects
 //     */

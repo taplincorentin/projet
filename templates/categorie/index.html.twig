@@ -25,14 +25,52 @@
         </div>
     </div>
 
-    <h5 id="home-topic-topic" class="topic-topic">Latest Topics in each Category</h5>
+    
+    
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" id="new-topic-modal">
+      <div class="modal-content">
+        <div class="modal-header" id="new-topic-modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Create your own topic</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="new-topic-modal-body">
+            {{ form_start(formAddTopic) }}
+                {{ form_widget(formAddTopic.titre, {'attr': {'placeholder': "Your topic's title", 'maxlength' : 255}}) }}
+                {{ form_widget(formAddTopic.categorie, {'attr': {'placeholder': "Choose the category"}}) }}
+        </div>
+        <div class="modal-footer" id="new-topic-modal-footer">
+            {{ form_widget(formAddTopic.submit, {'label': 'Create Topic'}) }}
+                {{ form_end(formAddTopic) }}
+          
+        </div>
+      </div>
+    </div>
+  </div>
 
+    <h5 id="home-topic-topic" class="topic-topic">Latest Topics per Category</h5>
+
+    <div class="new-topic-card">
+        <div class="new-topic-card-text">
+            <p>Can't find what you are looking for ?</p>
+            <p class="text-muted small">Write your own topic</p>
+        </div>
+        <span class="create-topic-button">
+            <!-- Button trigger modal -->
+            <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Create a Topic</button>
+        </span>
+    </div>
+
+    
+    
     <div class="categories-topics">
     {% for categorie in categories %}
     
     {% if (categorie.nom != 'Walks') and (categorie.nom != 'Sessions') %}
         <div class="topics-per-category">
-        <a href="{{ path('show_categorie', {'id': categorie.id}) }}"><h5>{{categorie}}</h5></a>
+        <a href="{{ path('show_categorie', {'id': categorie.id}) }}"><h5>{{categorie}} >></h5></a>
         {% for topic in latestTopicsPerCat[categorie.id] | sort((a, b) => b.dateCreation <=> a.dateCreation) %}
         <div class="container-fluid">
             <div class="card" style="margin-left: 7px;">
@@ -74,8 +112,9 @@
             </div>
         </div>
         {% endfor %}
+    </div>
     {% endif %}
-        </div>
+        
     {% endfor %}
 </div>
 </main>
