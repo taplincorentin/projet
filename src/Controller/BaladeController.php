@@ -56,6 +56,8 @@ class BaladeController extends AbstractController
             $entityManager->persist($balade);           //prepare
             $entityManager->flush();                    //execute
 
+            $this->addFlash('success', "Dog walk created !");
+
             
             //ASSOCIATED TOPIC CREATION
                 $balade->createAssociatedTopic();
@@ -109,6 +111,8 @@ class BaladeController extends AbstractController
                 $entityManager->persist($balade);           //prepare
                 $entityManager->flush();                    //execute
 
+                $this->addFlash('success', "Dog walk information updated !");
+
                 return $this->redirectToRoute('show_balade', ['id' => $balade->getId()]);; //redirect walk info page
 
             }
@@ -135,6 +139,8 @@ class BaladeController extends AbstractController
             $entityManager->remove($balade);
             $entityManager->flush();
 
+            $this->addFlash('success', "Dog walk deleted !");
+
             return $this->redirectToRoute('app_home');  //redirect homepage
         }
 
@@ -157,6 +163,8 @@ class BaladeController extends AbstractController
             
             $entityManager->persist($balade);
             $entityManager->flush();
+
+            $this->addFlash('success', "Left walk's participants !");
             
 
             return $this->redirectToRoute('show_balade', ['id' => $balade->getId()]);
@@ -180,6 +188,8 @@ class BaladeController extends AbstractController
 
             $entityManager->persist($balade);
             $entityManager->flush();
+
+            $this->addFlash('success', "Joined walk's participants !");
 
             //redirect to walk info page
             return $this->redirectToRoute('show_balade', ['id' => $balade->getId()]);

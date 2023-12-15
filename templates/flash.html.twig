@@ -10,11 +10,20 @@
     </symbol>
   </svg>
 
-{% for message in app.flashes('notice') %}
+{% for message in app.flashes('success') %}
 
     <div class="alert alert-success" id="alert-message" role="alert">
         <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
         {{ message }}
-      </div>
+    </div>
+
+{% endfor %}
+
+{% for message in app.flashes('error') %}
+
+    <div class="alert alert-success" id="alert-message" role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+        {{ message }}
+    </div>
 
 {% endfor %}

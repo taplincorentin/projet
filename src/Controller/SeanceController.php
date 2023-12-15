@@ -58,7 +58,7 @@ class SeanceController extends AbstractController
                 $entityManager->persist($seance);           //prepare
                 $entityManager->flush();                    //execute
 
-
+                $this->addFlash('success', "Training session created !");
 
                 //ASSOCIATED TOPIC CREATION
                     $seance->createAssociatedTopic();
@@ -77,6 +77,7 @@ class SeanceController extends AbstractController
 
                     $entityManager->flush();
 
+                    
 
     
                 return $this->redirectToRoute('show_seance', ['id' => $seance->getId()]);; //redirection page d'info de la seance
@@ -116,6 +117,8 @@ class SeanceController extends AbstractController
     
                 $entityManager->persist($seance);           //prepare
                 $entityManager->flush();                    //execute
+
+                $this->addFlash('success', "Training session information updated !");
     
                 return $this->redirectToRoute('show_seance', ['id' => $seance->getId()]);; //redirection page d'info de la seance
     
@@ -140,6 +143,8 @@ class SeanceController extends AbstractController
         $entityManager->remove($seance);
         $entityManager->flush();
 
+        $this->addFlash('success', "Training session deleted !");
+
         return $this->redirectToRoute('app_home');      //redirection page d'accueil
     }
 
@@ -159,6 +164,8 @@ class SeanceController extends AbstractController
             
             $entityManager->persist($seance);
             $entityManager->flush();
+
+            $this->addFlash('success', "Left session's participants !");
             
 
             return $this->redirectToRoute('show_seance', ['id' => $seance->getId()]);
@@ -181,6 +188,8 @@ class SeanceController extends AbstractController
 
             $entityManager->persist($seance);
             $entityManager->flush();
+
+            $this->addFlash('success', "Joined session's participants !");
 
             return $this->redirectToRoute('show_seance', ['id' => $seance->getId()]);
         }

@@ -72,6 +72,8 @@ class CategorieController extends AbstractController
             $entityManager->persist($topic); //prepare
             $entityManager->flush(); //execute
 
+            $this->addFlash('success', "Topic created !");
+
             //redirect to created topic
             return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
 
@@ -148,6 +150,8 @@ class CategorieController extends AbstractController
     
                 $entityManager->persist($topic); //prepare
                 $entityManager->flush(); //execute
+
+                $this->addFlash('success', "Topic created !");
     
                 //redirect to created topic
                 return $this->redirectToRoute('show_categorie', ['id' => $categorie->getId()]);

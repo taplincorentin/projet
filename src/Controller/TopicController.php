@@ -43,6 +43,8 @@ class TopicController extends AbstractController
                 $entityManager->remove($topic);
                 $entityManager->flush();
 
+                $this->addFlash('success', "Topic deleted !");
+
                 //redirect to topic's category
                 return $this->redirectToRoute('show_categorie', ['id' => $categorie->getId()]); 
             }
@@ -88,6 +90,8 @@ class TopicController extends AbstractController
                     $entityManager->persist($topic); //prepare
                     $entityManager->flush(); //execute
 
+                    $this->addFlash('success', "Topic updated !");
+
                     //redirect to edited topic page
                     return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
                 }
@@ -130,6 +134,8 @@ class TopicController extends AbstractController
                     //prepare execute
                     $entityManager->persist($editedPost);
                     $entityManager->flush();
+
+                    $this->addFlash('success', "Post updated !");
 
                     //redirect to edited post's topic
                     return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
@@ -182,6 +188,8 @@ class TopicController extends AbstractController
                 //prepare execute
                 $entityManager->persist($post);
                 $entityManager->flush();
+
+                $this->addFlash('success', "Post created !");
 
                 //redirect to created topic
                 return $this->redirectToRoute('show_topic', ['id' => $post->getTopic()->getId()]);

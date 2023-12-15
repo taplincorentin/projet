@@ -66,6 +66,8 @@ class PersonneController extends AbstractController
                     $entityManager->flush(); //execute
                 }
 
+                $this->addFlash('success', "User information updated !");
+
                 return $this->redirectToRoute('show_personne', ['id' => $personne->getId()]); //redirection profil de l'utilisateur
 
             }
@@ -107,6 +109,7 @@ class PersonneController extends AbstractController
             $entityManager->remove($personne);
             $entityManager->flush();
 
+            $this->addFlash('success', "Account deleted !");
 
             //si la personne était un admin redirection à l'acceuil
             if ($verficationRole->verificationAdmin() ){
@@ -140,6 +143,8 @@ class PersonneController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
+            $this->addFlash('success', "User role changed to 'super admin' !");
+
             return $this->redirectToRoute('show_personne', ['id' => $personne->getId()]); //redirection profil de la personne dont le rôle a été modifié
         }
         
@@ -158,6 +163,8 @@ class PersonneController extends AbstractController
             $personne->setRoles(['ROLE_ADMIN']); 
             $entityManager->persist($personne);
             $entityManager->flush();
+
+            $this->addFlash('success', "User role changed to 'admin' !");
 
             return $this->redirectToRoute('show_personne', ['id' => $personne->getId()]); //redirection profil de la personne dont le rôle a été modifié
         }
@@ -178,6 +185,8 @@ class PersonneController extends AbstractController
             $personne->setRoles(['ROLE_USER']); 
             $entityManager->persist($personne);
             $entityManager->flush();
+
+            $this->addFlash('success', "User role changed to 'user' !");
 
             return $this->redirectToRoute('show_personne', ['id' => $personne->getId()]); //redirection profil de la personne dont le rôle a été modifié
         }

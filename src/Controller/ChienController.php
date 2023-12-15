@@ -42,6 +42,8 @@ class ChienController extends AbstractController
             $entityManager->persist($chien); 
             $entityManager->flush();
 
+            $this->addFlash('success', "New dog has been added !");
+
             //redirection profil de l'utilisateur
             return $this->redirectToRoute('show_personne', ['id' => $personne->getId()]);
 
@@ -80,6 +82,7 @@ class ChienController extends AbstractController
                 $entityManager->persist($chien); 
                 $entityManager->flush();
 
+                $this->addFlash('success', "Dog information updated !");
 
                 //redirection profil de l'utilisateur
                 return $this->redirectToRoute('show_personne', ['id' => $personne->getId()]);
@@ -110,6 +113,8 @@ class ChienController extends AbstractController
             //prepare execute
             $entityManager->remove($chien);
             $entityManager->flush();
+
+            $this->addFlash('success', "Dog has been deleted !");
 
             //redirect to user profile
             return $this->redirectToRoute('show_personne', ['id' => $personne->getId()]);; 

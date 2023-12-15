@@ -52,6 +52,7 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
         $this->em->flush();
 
+
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }

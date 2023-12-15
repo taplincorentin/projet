@@ -112,14 +112,16 @@ body {
 }
 
 #alert-message {
-  width: 300px;
+  display: flex;
   z-index: 2;
-}
-
-.fade-out {
   animation: fadeOut ease 5s;
   animation-fill-mode: forwards;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  margin-left: 10px;
 }
+  
 
 @keyframes fadeOut {
   0% {
@@ -127,6 +129,7 @@ body {
   }
   100% {
     opacity: 0;
+    display: none;
   }
 }
 
@@ -1273,6 +1276,12 @@ select#seance_form_theme{
 
 /*MEDIA QUERIES*/
 @media only screen and (max-width: 750px) {
+
+  /*Flash messages*/
+  #alert-message{
+    display: none;
+  }
+
   /*FORMS*/
   .walk-form-container, .dog-form-container, .register-form-container, .reset-password-form-container, .form-container, .search-form-container {
     width: 95%;

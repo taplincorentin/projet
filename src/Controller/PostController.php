@@ -43,6 +43,8 @@ class PostController extends AbstractController
                 $entityManager->persist($post);
                 $entityManager->flush();
 
+                $this->addFlash('success', "Post had been edited !");
+
                 //redirect to edited post's topic
                 return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
 
@@ -74,6 +76,8 @@ class PostController extends AbstractController
             //prepare execute
             $entityManager->remove($post);
             $entityManager->flush();
+
+            $this->addFlash('success', "Post has been deleted !");
 
             //redirect to post's topic
             return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
