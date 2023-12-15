@@ -38,7 +38,9 @@
         </div>
         <div class="modal-body" id="new-topic-modal-body">
             {{ form_start(formAddTopic) }}
+                {{ form_label(formAddTopic.titre, "Your topic's title") }}
                 {{ form_widget(formAddTopic.titre, {'attr': {'placeholder': "Your topic's title", 'maxlength' : 255}}) }}
+                {{ form_label(formAddTopic.categorie, "Select one of the forum's categories") }}
                 {{ form_widget(formAddTopic.categorie, {'attr': {'placeholder': "Choose the category"}}) }}
         </div>
         <div class="modal-footer" id="new-topic-modal-footer">

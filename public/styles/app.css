@@ -17,6 +17,7 @@
 
 body {
   margin: 0;
+  padding: 0;
 }
 
 .vich-image > a > img {
@@ -858,8 +859,8 @@ select#seance_form_theme{
 
     .category-topics > .container-fluid {
       width: 100%;
-      margin-bottom: 1rem;
-      margin-top: 1rem;
+      margin-bottom: 1.5rem;
+      margin-top: 1.5rem;
       margin-left: 0 !important;
     }
 
@@ -1014,8 +1015,8 @@ select#seance_form_theme{
     }
 
     .category-right > .container-fluid {
-      margin-bottom: 1rem;
-      margin-top: 1rem;
+      margin-bottom: 1.5rem;
+      margin-top: 1.5rem;
       width: 75%; 
     }
 
@@ -1185,12 +1186,21 @@ select#seance_form_theme{
 }
 
 #new-topic-modal-body > form > input, #new-topic-modal-body > form > select {
-  margin: 25px;
+  margin-left: 25px;
+  margin-bottom: 25px;
+  margin-right: 30px;
   height: 50px;
+  width: 95%;
+  border: solid 1px var(--lightBlue);
+}
+
+#new-topic-modal-body > form > label {
+  margin-left: 25px;
 }
 
 #new-topic-modal-footer > button {
-  width: 100%;
+  width: 95%;
+  margin: 25px;
   background-color: var(--tangerine);
   border: solid 1px var(--beige);
   padding: 10px;
