@@ -111,6 +111,25 @@ body {
   text-decoration: none; 
 }
 
+#alert-message {
+  width: 300px;
+  z-index: 2;
+}
+
+.fade-out {
+  animation: fadeOut ease 5s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 
 /*HOMEPAGE*/
 .homepage{
