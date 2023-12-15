@@ -104,6 +104,12 @@
           </div>
         </nav>
 
+        {% for message in app.flashes('notice') %}
+    <div class="flash-notice">
+        {{ message }}
+    </div>
+{% endfor %}
+
         {% endif %}
 
         {% block javascripts %}
