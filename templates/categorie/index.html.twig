@@ -97,11 +97,19 @@
                                     
                                 {% else %}
                                 {% set latestPost = lastPost[0] %}
-                                    <p class="text-muted small">Last post by {{ latestPost.auteur }}</p>
+                                    {% if latestPost.auteur is empty %}
+                                        <p class="text-muted small">Last post by deleted user</p>
+                                    {% else %}
+                                        <p class="text-muted small">Last post by {{ latestPost.auteur }}</p>
+                                    {% endif %}
                                     <div class="category-center">
-                                        <a href="{{ path('show_personne', {'id': latestPost.auteur.id}) }}" aria-label="{{ "go to " ~ latestPost.auteur ~ "'s profile page" }}">
-                                            <img class="topic-picture" src="{{ asset('/images/users/' ~ latestPost.auteur.nomImageProfil) }}" alt="{{ latestPost.auteur ~ "'s profile picture" }}">
-                                        </a>
+                                            {% if latestPost.auteur is empty %}
+                                                <img class="topic-picture" id="topic-card-image" src="{{ asset('/images/users/profile_picture_default.jpg') }}" alt="picture of a dog, default picture for deleted users"> 
+                                            {% else %}
+                                            <a href="{{ path('show_personne', {'id': latestPost.auteur.id}) }}" aria-label="{{ "go to " ~ latestPost.auteur ~ "'s profile page" }}">
+                                                <img class="topic-picture" src="{{ asset('/images/users/' ~ latestPost.auteur.nomImageProfil) }}" alt="{{ latestPost.auteur ~ "'s profile picture" }}"></a>
+                                            {% endif %}
+                                            
                                     </div>                                                    
                                     <p class="text-muted small">{{latestPost.dateCreation | date('d-m-Y H:i:s')}}</p>
     
