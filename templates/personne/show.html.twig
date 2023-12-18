@@ -25,7 +25,12 @@
                 <a href="{{ path('delete_personne', {'id': personne.id}) }}" onclick="return confirm('Are you sure?')" aria-label="delete your account"><i class="fa-solid fa-trash fa-lg"></i></a>
             </span>
             <a href="{{ path('new_chien') }}" class="new-dog-button" aria-label="add a new dog"><i class="fa-solid fa-plus"></i> ADD A NEW DOG</a>
+        {% elseif is_granted('ROLE_ADMIN') %}
+        <span class="user-edit-delete">
+            <a href="{{ path('delete_personne', {'id': personne.id}) }}" onclick="return confirm('Are you sure?')" aria-label="delete this account"><i class="fa-solid fa-trash fa-lg"></i></a>
+        </span>
         {% endif %}
+        
         
         {#if user is a super admin can change person's role#}
         {% if is_granted('ROLE_SUPER_ADMIN') %}
