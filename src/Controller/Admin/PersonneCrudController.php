@@ -12,7 +12,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class PersonneCrudController extends AbstractCrudController
 {
-    use Trait\RemoveNewTrait;
+    use Trait\PersonneTrait;
     public static function getEntityFqcn(): string
     {
         return Personne::class;
@@ -30,6 +30,8 @@ class PersonneCrudController extends AbstractCrudController
             ArrayField::new('chiens')
                 ->onlyOnDetail(),
             DateTimeField::new('lastLogin'),
+            DateTimeField::new('dateCreation')
+                ->onlyOnDetail(),
             AssociationField::new('topics')
                 ->onlyOnIndex(),
             ArrayField::new('topics')

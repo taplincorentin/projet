@@ -113,7 +113,6 @@
         {% if (app.user in seance.participants) or (app.user == seance.organisateur) %}
             <div class="event-topic"> 
                 <div class="discussion-line">Discussion</div>
-                {{ dump(seance.topic.posts) }}
                 {% if seance.topic.posts is empty %}
                     <div class="topic">
                         <div class="topic-date">
