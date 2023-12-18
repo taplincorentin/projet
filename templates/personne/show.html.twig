@@ -7,11 +7,43 @@
     <meta name="description" content="Welcome to Walk&Train, a community for all dog lovers to discuss anything related to man's best friend 
                                         or to meet each other for dog walks or training sessions. This is {{personne}}'s profile page, you can see 
                                             their dogs, organised walks and training sessions">
-    <meta name="keywords" content="dWalk&Train, dog, dog trainers near me, local dog trainers, dog walks near me, dog owners community, profile page">
+    <meta name="keywords" content="Walk&Train, dog, dog trainers near me, local dog trainers, dog walks near me, dog owners community, profile page">
 {% endblock %}
 
 
 {% block body %}
+
+    <section class="user-info">
+
+        <div>
+            <img src="{{ asset('/images/users/' ~ personne.nomImageProfil) }}" class="user-profile-picture" alt="{{ personne ~ "'s profile picture" }}">
+            <p style="font-size: small; text-align:center;">Joined : {{ personne.dateCreation | date('j F Y') }}</p>
+            <p style="font-size: small; text-align:center;" >Last login : {{ personne.lastLogin | date('j F Y H:i') }}</p>
+        </div>
+
+        <div>
+            <h3>About {{personne}} : </h3>
+            <p>{{personne.description}}</p>
+        </div>
+
+        <span class="">
+            <a href="{{ path('edit_personne', {'id': personne.id}) }}" aria-label="modify your information information"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
+            <a href="{{ path('delete_personne', {'id': personne.id}) }}" onclick="return confirm('Are you sure?')" aria-label="delete your account"><i class="fa-solid fa-trash fa-lg"></i></a>
+        </span>
+
+    </section>
+
+    <section class="user-dogs">
+
+    </section>
+
+    <section class="user-events">
+
+    </section>
+
+    <section class="user-forum-activity">
+
+    </section>
 
     <div class='user-profile-head'>
 
@@ -24,7 +56,7 @@
                 <a href="{{ path('edit_personne', {'id': personne.id}) }}" aria-label="modify your information information"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
                 <a href="{{ path('delete_personne', {'id': personne.id}) }}" onclick="return confirm('Are you sure?')" aria-label="delete your account"><i class="fa-solid fa-trash fa-lg"></i></a>
             </span>
-            <a href="{{ path('new_chien') }}" class="new-dog-button" aria-label="add a new dog"><i class="fa-solid fa-plus"></i> ADD A NEW DOG</a>
+            <a href="{{ path('new_chien') }}" class="" aria-label="add a new dog"><i class="fa-solid fa-plus"></i> ADD A NEW DOG</a>
         {% elseif is_granted('ROLE_ADMIN') %}
         <span class="user-edit-delete">
             <a href="{{ path('delete_personne', {'id': personne.id}) }}" onclick="return confirm('Are you sure?')" aria-label="delete this account"><i class="fa-solid fa-trash fa-lg"></i></a>

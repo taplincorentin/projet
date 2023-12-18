@@ -34,7 +34,9 @@ class RegistrationFormType extends AbstractType
                 'first_options'  => ['label' => 'Password : '],
                 'second_options' => ['label' => 'Confirm password : '],
                 'constraints' => [
-                    new RegexMdp(),
+                    new RegexMdp([
+                        'message' => 'password must contain at least 12 characters, including at least one number, lower and uppercase letters and a special character'
+                    ]),
                 ],
             ])
             ->add("isEducateur", CheckboxType::class, [
@@ -53,7 +55,7 @@ class RegistrationFormType extends AbstractType
             ->add('honeypot', HiddenType::class, [
                 'attr' => ['class' => 'hidden'],
                 'mapped' => false,
-                'required' => false,
+                'required' => false
             ])
             ->add('submit', SubmitType::class, [
                 'label' => "Sign up",

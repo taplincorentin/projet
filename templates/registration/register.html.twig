@@ -25,9 +25,11 @@
                     {{ form_widget(registrationForm.pseudo) }}
 
                     {{ form_label(registrationForm.plainPassword.first) }}
+                    {{ form_errors(registrationForm.plainPassword.first) }}
                     {{ form_widget(registrationForm.plainPassword.first) }}
 
                     {{ form_label(registrationForm.plainPassword.second) }}
+                    {{ form_errors(registrationForm.plainPassword.second) }}
                     {{ form_widget(registrationForm.plainPassword.second) }}
 
             
