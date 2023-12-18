@@ -6,6 +6,7 @@ use App\Entity\Post;
 use App\Entity\Theme;
 use App\Entity\Topic;
 use App\Entity\Balade;
+use App\Entity\Report;
 use App\Entity\Seance;
 use App\Entity\Personne;
 use App\Entity\Categorie;
@@ -41,6 +42,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Categories', 'fa-solid fa-list', Categorie::class);
         yield MenuItem::linkToCrud('Topics', 'fa-solid fa-puzzle-piece', Topic::class);
         yield MenuItem::linkToCrud('Posts', 'fa-solid fa-pen', Post::class);
+        yield MenuItem::linkToCrud('Reports', 'fa-solid fa-flag', Report::class);
         
         
     }

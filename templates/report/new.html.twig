@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Report Page - Walk&Train{% endblock %} 
+
+{% block meta_description %}
+    <meta name="description" content="Walk&Train report page that lets user report offensive or innapropriate posts.">
+    <meta name="keywords" content="Walk&Train, dog, dog trainers near me, dog walks near me, dog owners community">
+{% endblock %}
+
+{% block body %}
+
+    <div class="search-container">
+        
+        <div class="search-form-container">
+          
+            <h1>You can explain your report to our team <i class="fa-solid fa-paw"></i></h1>
+
+                {{ form_start(formAddReport) }}
+
+                    {{ form_widget(formAddReport.reason) }}
+
+                    {{ form_widget(formAddReport.submit, { 'attr' : { 'data-label': 'submit report' } }) }}
+
+                {{ form_end(formAddReport) }}
+
+        </div>
+
+        
+    </div>
+
+{% endblock %}

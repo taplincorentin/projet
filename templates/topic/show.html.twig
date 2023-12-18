@@ -130,15 +130,17 @@
                             </div>
                             
                             {#if user is post auteur, can edit/delete post#}
-                            {% if app.user == post.auteur %}
-                                <div class="card-footer">
+                            <div class="card-footer">
+                                {% if app.user == post.auteur %}
                                     <span class="topic-edit-delete">
                                         <a onclick="togglePostForm({{post.id}})" aria-label="edit topic title"><i class="fa-solid fa-pen-to-square"></i></a>
                                         <a href="{{ path('delete_post', {'id': post.id}) }}" onclick="return confirm('delete post ?')" aria-label="delete post"><i class="fa-solid fa-trash"></i></a>
                                     </span>
-                                </div>
-                            {% endif %}
-                            
+                                {% endif %}
+                                <span class="topic-edit-delete">
+                                    <a href="{{ path('new_report', {'post_id': post.id}) }}" aria-label="report post" target="_blank"><i class="fa-solid fa-flag"></i></a>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 

@@ -2,27 +2,25 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Post;
+use App\Entity\Report;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
-class PostCrudController extends AbstractCrudController
+class ReportCrudController extends AbstractCrudController
 {
-    use Trait\RemoveNewTrait;
+    use Trait\PersonneTrait;
     public static function getEntityFqcn(): string
     {
-        return Post::class;
+        return Report::class;
     }
 
     public function configureFields(string $pageName): iterable
     {
         return [
-            TextField::new('contenu')
-                ->hideOnDetail(),
-            AssociationField::new('auteur'),
-            DateTimeField::new('dateCreation'),
+            TextField::new('reason'),
+            AssociationField::new('reporter'),
+            AssociationField::new('post'),
         ];
     }
 
