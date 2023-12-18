@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -47,8 +48,12 @@ class RegistrationFormType extends AbstractType
                         'message' => "can't sign up without accepting the conditions of use",
                     ]),
                 ],
-                'label' => 'I have read the',
-                
+                'label' => 'I have read the',   
+            ])
+            ->add('honeypot', HiddenType::class, [
+                'attr' => ['class' => 'hidden'],
+                'mapped' => false,
+                'required' => false,
             ])
             ->add('submit', SubmitType::class, [
                 'label' => "Sign up",

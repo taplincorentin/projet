@@ -25,6 +25,11 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
+            if ($form->get('honeypot')->getData() != null) { //if honeypot has been filled
+                return $this->redirectToRoute('app_register');
+            }
+            
             // encodage du mot de passe
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
