@@ -75,6 +75,9 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $lastLogin = null;
 
+    #[ORM\OneToMany(mappedBy: 'reporter', targetEntity: Report::class, orphanRemoval: true)]
+    private Collection $reports;
+
 
     
 
@@ -87,6 +90,7 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
         $this->seancesOrganisees = new ArrayCollection();
         $this->seancesParticipees = new ArrayCollection();
         $this->baladesOrganisees = new ArrayCollection();
+        $this->reports = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -444,5 +448,35 @@ class Personne implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __toString(){
         return $this->pseudo;
+    }
+
+    /**
+     * @return Collection<int, Report>
+     */
+    public function getReports(): Collection
+    {
+        return $this->reports;
+    }
+
+    public function addReport(Report $report): static
+    {
+        if (!$this->reports->contains($report)) {
+            $this->reports->add($report);
+            $report->setReporter($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReport(Report $report): static
+    {
+        if ($this->reports->removeElement($report)) {
+            // set the owning side to null (unless already changed)
+            if ($report->getReporter() === $this) {
+                $report->setReporter(null);
+            }
+        }
+
+        return $this;
     }
 }
