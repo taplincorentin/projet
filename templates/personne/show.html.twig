@@ -15,22 +15,22 @@
     <main>
         <section class="user-info">
 
-            <div>
-                <img src="{{ asset('/images/users/' ~ personne.nomImageProfil) }}" class="user-profile-picture" alt="{{ personne ~ "'s profile picture" }}">
-                <p>Joined : {{ personne.dateCreation | date('j F Y') }}</p>
-                <p>Last login : {{ personne.lastLogin | date('j F Y H:i') }}</p>
+            <div class="user-info-left">
+                <img src="{{ asset('/images/users/' ~ personne.nomImageProfil) }}" class="user-image" id="profile-picture" alt="{{ personne ~ "'s profile picture" }}">
+                <p class="text-center text-muted small">Joined : {{ personne.dateCreation | date('j F Y') }}</p>
+                <p class="text-center text-muted small">Last login : {{ personne.lastLogin | date('j F Y H:i') }}</p>
             </div>
 
-            <div>
-                <h1>{{personne}}'s profile' </h3>
+            <div class="user-info-center">
+                <h1>{{personne}}'s profile </h1>
                 <p>{{personne.description}}</p>
             </div>
 
             {% if (app.user == personne) %}
-                <div>
+                <div class="user-info-right">
                     <h2>Edit your profile</h2>
-                    <a href="{{ path('edit_personne', {'id': personne.id}) }}" aria-label="modify your information information"><i class="fa-solid fa-pen-to-square fa-lg"></i> Edit your profile information</a>
-                    <a href="{{ path('delete_personne', {'id': personne.id}) }}" onclick="return confirm('Are you sure?')" aria-label="delete your account"><i class="fa-solid fa-trash fa-lg"></i> Delete your account</a>
+                    <a href="{{ path('edit_personne', {'id': personne.id}) }}" class="profile-edit" aria-label="modify your information information"><i class="fa-solid fa-pen-to-square fa-lg"></i> Edit your profile information</a>
+                    <a href="{{ path('delete_personne', {'id': personne.id}) }}" class="profile-delete" onclick="return confirm('Are you sure?')" aria-label="delete your account"><i class="fa-solid fa-trash fa-lg"></i> Delete your account</a>
                 </div>
             {% endif %}
 
@@ -42,101 +42,118 @@
 
             {# Link for user to add a new dog #}
             {% if (app.user == personne) %}
-                <a href="{{ path('new_chien') }}" class="" aria-label="add a new dog"><i class="fa-solid fa-plus"></i> Add a new dog</a>
+                <a href="{{ path('new_chien') }}" class="new-dog" aria-label="add a new dog"><i class="fa-solid fa-plus"></i> Add a new dog</a>
             {% endif %}
 
             {# Loop through and display person's dogs #}
-            {% for chien in personne.chiens %}
-                <article>
-                    {% if chien.imageName is empty %}
-                        <img src="{{ asset('/images/chiens/dog-paw.png') }}" class="dog-icon" alt="{{ "default picture of a paw for " ~ chien ~ ", " ~ personne ~ "'s dog" }}">
-                    {% else %}
-                        <img src="{{ vich_uploader_asset(chien, 'imageFile') }}" class="dog-icon" alt="{{ "picture of " ~ chien ~ ", " ~ personne ~ "'s dog" }}">
-                    {% endif %}
+            <section class="dogs">
+                {% for chien in personne.chiens %}
+                    <article class="dog-card">
 
-                    <h3>{{chien.nom}}</h3>
 
-                    {# calculate dog age #}
-                    {% set age = date().diff(date(chien.dateNaissance)).y %}
+                        {% if chien.imageName is empty %}
+                            <img src="{{ asset('/images/chiens/dog-paw.png') }}" class="dog-image" alt="{{ "default picture of a paw for " ~ chien ~ ", " ~ personne ~ "'s dog" }}">
+                        {% else %}
+                            <img src="{{ vich_uploader_asset(chien, 'imageFile') }}" class="dog-image" alt="{{ "picture of " ~ chien ~ ", " ~ personne ~ "'s dog" }}">
+                        {% endif %}
 
-                    <p>{{age}} year(s) old</p>
-                    <p>{{chien.description}}</p>
-                    
-                    {#if user is dog owner, can edit/delete dog#}
-                    {% if app.user == chien.personne %}
-                        <a href="{{ path('edit_chien', {'id': chien.id}) }}" aria-label="{{ "edit " ~ chien ~ "'s information" }}"eza><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
-                        <a href="{{ path('delete_chien', {'id': chien.id}) }}" onclick="return confirm('Are you sure?')" aria-label="{{ "delete " ~ chien }}"><i class="fa-solid fa-trash fa-lg"></i></a>
-                    {% endif %}
-                </article> 
-            {% endfor %}
+                        
+
+                        <div class="dog-info">
+                            <h3>{{chien.nom}}</h3>
+
+                            {# calculate dog age #}
+                            {% set age = date().diff(date(chien.dateNaissance)).y %}
+
+                            <p class="text-muted small">{{age}} year(s) old</p>
+                            <p class="small">{{chien.description}}</p>
+                            
+                        </div>
+
+                        {#if user is dog owner, can edit/delete dog#}
+                        <div class="dog-edit-delete">
+                            {% if app.user == chien.personne %}
+                                <a href="{{ path('edit_chien', {'id': chien.id}) }}" class="dog-edit" aria-label="{{ "edit " ~ chien ~ "'s information" }}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
+                                <a href="{{ path('delete_chien', {'id': chien.id}) }}" class="dog-delete" onclick="return confirm('Are you sure?')" aria-label="{{ "delete " ~ chien }}"><i class="fa-solid fa-trash fa-lg"></i></a>
+                            {% endif %}
+                        </div>
+                        
+                    </article> 
+                {% endfor %}
+                </section>
         </section>
 
         <section class="user-events">
             <h2>Upcoming Events</h2>
 
             {# Links to create Walk or Training Session #}
-            {% if (app.user == personne) %}
-                <a href="{{ path('new_balade') }}"><i class="fa-solid fa-plus"></i> Create Walk</a>
+            <section class="new-events">
+                {% if (app.user == personne) %}
+                    <a href="{{ path('new_balade') }}" class="new-event"><i class="fa-solid fa-plus"></i> Create Walk</a>
                 {% if app.user.isEducateur %} 
-                    <a href="{{ path('new_seance') }}"><i class="fa-solid fa-gplus"></i> Create Training Session</a>
+                    <a href="{{ path('new_seance') }}" class="new-event"><i class="fa-solid fa-plus"></i> Create Training Session</a>
                 {% endif %}
             {% endif %}
+            </section>
+            
+            <section class="events">
 
-            {# Training sessions (as organiser) #}
-            {% for seance in personne.seancesOrganisees %}
-                {% if seance.dateHeureDepart > date() %}
-                    <a href="{{ path('show_seance', {'id': seance.id}) }}" aria-label="go to {{seance}}'s info page">
-                        <article class="session">
-                            <p>{{ seance }}</p>
-                            <p><i class="fa-solid fa-calendar-days fa-xs"></i> : {{ seance.dateHeureDepart | date('j F Y H:i') }}</p>
-                            <p><i class="fa-solid fa-tree-city fa-xs"></i> : {{ seance.ville }}</p>
-                            <p><i class="fa-solid fa-person-walking fa-xs"></i> : organiser</p>
-                        </article>
-                    </a>
-                {% endif %}
-            {% endfor %}
-        
-             {# Training sessions (as participant) #}
-            {% for seance in personne.seancesParticipees %}
-                {% if seance.dateHeureDepart > date() %}
-                    <a href="{{ path('show_seance', {'id': seance.id}) }}" aria-label="go to {{seance}}'s info page">
-                        <article class="session">
-                            <p>{{ seance }}</p>
-                            <p><i class="fa-solid fa-calendar-days fa-xs"></i> : {{ seance.dateHeureDepart | date('j F Y H:i') }}</p>
-                            <p><i class="fa-solid fa-tree-city fa-xs"></i> : {{ seance.ville }}</p>
-                            <p><i class="fa-solid fa-person-walking fa-xs"></i> : participant</p>
-                        </article>
-                    </a>
-                {% endif %}
-            {% endfor %}
-        
-             {# Walks (as organiser) #}
-            {% for balade in personne.baladesOrganisees %}
-                {% if balade.dateHeureDepart > date() %}
-                    <a href="{{ path('show_balade', {'id': balade.id}) }}" aria-label="go to the {{balade}}'s info page">
-                        <article class="walk">
-                            <p>{{ balade }}</p>
-                            <p><i class="fa-solid fa-calendar-days fa-xs"></i> : {{ balade.dateHeureDepart | date('j F Y H:i') }}</p>
-                            <p><i class="fa-solid fa-tree-city fa-xs"></i> : {{ balade.ville }}</p>
-                            <p><i class="fa-solid fa-person-walking fa-xs"></i> : organiser</p>
-                        </article>
-                    </a>
-                {% endif %}
-            {% endfor %}
-        
-             {# Walks (as participant) #}
-            {% for balade in personne.balades %}
-                {% if balade.dateHeureDepart > date() %}
-                    <a href="{{ path('show_balade', {'id': balade.id}) }}" aria-label="go to the {{balade}}'s info page">
-                        <article class="walk">
-                            <p>{{ balade }}</p>
-                            <p><i class="fa-solid fa-calendar-days fa-xs"></i> : {{ balade.dateHeureDepart | date('j F Y H:i') }}</p>
-                            <p><i class="fa-solid fa-tree-city fa-xs"></i> : {{ balade.ville }}</p>
-                            <p><i class="fa-solid fa-person-walking fa-xs"></i> : participant</p>
-                        </article>
-                    </a>
-                {% endif %}
-            {% endfor %}
+                {# Training sessions (as organiser) #}
+                {% for seance in personne.seancesOrganisees %}
+                    {% if seance.dateHeureDepart > date() %}
+                        <a href="{{ path('show_seance', {'id': seance.id}) }}" aria-label="go to {{seance}}'s info page">
+                            <article class="session">
+                                <p><b>{{ seance }}</b></p>
+                                <p><i class="fa-solid fa-calendar-days fa-xs"></i> : {{ seance.dateHeureDepart | date('j F Y H:i') }}</p>
+                                <p><i class="fa-solid fa-tree-city fa-xs"></i> : {{ seance.ville }}</p>
+                                <p><i class="fa-solid fa-person-walking fa-xs"></i> : organiser</p>
+                            </article>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            
+                {# Training sessions (as participant) #}
+                {% for seance in personne.seancesParticipees %}
+                    {% if seance.dateHeureDepart > date() %}
+                        <a href="{{ path('show_seance', {'id': seance.id}) }}" aria-label="go to {{seance}}'s info page">
+                            <article class="session">
+                                <p><b>{{ seance }}</b></p>
+                                <p><i class="fa-solid fa-calendar-days fa-xs"></i> : {{ seance.dateHeureDepart | date('j F Y H:i') }}</p>
+                                <p><i class="fa-solid fa-tree-city fa-xs"></i> : {{ seance.ville }}</p>
+                                <p><i class="fa-solid fa-person-walking fa-xs"></i> : participant</p>
+                            </article>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            
+                {# Walks (as organiser) #}
+                {% for balade in personne.baladesOrganisees %}
+                    {% if balade.dateHeureDepart > date() %}
+                        <a href="{{ path('show_balade', {'id': balade.id}) }}" aria-label="go to the {{balade}}'s info page">
+                            <article class="walk">
+                                <p><b>{{ balade }}</b></p>
+                                <p><i class="fa-solid fa-calendar-days fa-xs"></i> : {{ balade.dateHeureDepart | date('j F Y H:i') }}</p>
+                                <p><i class="fa-solid fa-tree-city fa-xs"></i> : {{ balade.ville }}</p>
+                                <p><i class="fa-solid fa-person-walking fa-xs"></i> : organiser</p>
+                            </article>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            
+                {# Walks (as participant) #}
+                {% for balade in personne.balades %}
+                    {% if balade.dateHeureDepart > date() %}
+                        <a href="{{ path('show_balade', {'id': balade.id}) }}" aria-label="go to the {{balade}}'s info page">
+                            <article class="walk">
+                                <p><b>{{ balade }}</b></p>
+                                <p><i class="fa-solid fa-calendar-days fa-xs"></i> : {{ balade.dateHeureDepart | date('j F Y H:i') }}</p>
+                                <p><i class="fa-solid fa-tree-city fa-xs"></i> : {{ balade.ville }}</p>
+                                <p><i class="fa-solid fa-person-walking fa-xs"></i> : participant</p>
+                            </article>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            </section>
             
         </section>
 
