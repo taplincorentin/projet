@@ -12,59 +12,162 @@
 
 
 {% block body %}
+    <main>
+        <section class="user-info">
 
-    <section class="user-info">
+            <div>
+                <img src="{{ asset('/images/users/' ~ personne.nomImageProfil) }}" class="user-profile-picture" alt="{{ personne ~ "'s profile picture" }}">
+                <p>Joined : {{ personne.dateCreation | date('j F Y') }}</p>
+                <p>Last login : {{ personne.lastLogin | date('j F Y H:i') }}</p>
+            </div>
 
-        <div>
-            <img src="{{ asset('/images/users/' ~ personne.nomImageProfil) }}" class="user-profile-picture" alt="{{ personne ~ "'s profile picture" }}">
-            <p style="font-size: small; text-align:center;">Joined : {{ personne.dateCreation | date('j F Y') }}</p>
-            <p style="font-size: small; text-align:center;" >Last login : {{ personne.lastLogin | date('j F Y H:i') }}</p>
-        </div>
+            <div>
+                <h1>{{personne}}'s profile' </h3>
+                <p>{{personne.description}}</p>
+            </div>
 
-        <div>
-            <h3>About {{personne}} : </h3>
-            <p>{{personne.description}}</p>
-        </div>
+            {% if (app.user == personne) %}
+                <div>
+                    <h2>Edit your profile</h2>
+                    <a href="{{ path('edit_personne', {'id': personne.id}) }}" aria-label="modify your information information"><i class="fa-solid fa-pen-to-square fa-lg"></i> Edit your profile information</a>
+                    <a href="{{ path('delete_personne', {'id': personne.id}) }}" onclick="return confirm('Are you sure?')" aria-label="delete your account"><i class="fa-solid fa-trash fa-lg"></i> Delete your account</a>
+                </div>
+            {% endif %}
 
-        <span class="">
-            <a href="{{ path('edit_personne', {'id': personne.id}) }}" aria-label="modify your information information"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
-            <a href="{{ path('delete_personne', {'id': personne.id}) }}" onclick="return confirm('Are you sure?')" aria-label="delete your account"><i class="fa-solid fa-trash fa-lg"></i></a>
-        </span>
+        </section>
 
-    </section>
+        <section class="user-dogs">
+            
+            <h2>{{personne}}'s dog(s)</h2>
 
-    <section class="user-dogs">
+            {# Link for user to add a new dog #}
+            {% if (app.user == personne) %}
+                <a href="{{ path('new_chien') }}" class="" aria-label="add a new dog"><i class="fa-solid fa-plus"></i> Add a new dog</a>
+            {% endif %}
 
-    </section>
+            {# Loop through and display person's dogs #}
+            {% for chien in personne.chiens %}
+                <article>
+                    {% if chien.imageName is empty %}
+                        <img src="{{ asset('/images/chiens/dog-paw.png') }}" class="dog-icon" alt="{{ "default picture of a paw for " ~ chien ~ ", " ~ personne ~ "'s dog" }}">
+                    {% else %}
+                        <img src="{{ vich_uploader_asset(chien, 'imageFile') }}" class="dog-icon" alt="{{ "picture of " ~ chien ~ ", " ~ personne ~ "'s dog" }}">
+                    {% endif %}
 
-    <section class="user-events">
+                    <h3>{{chien.nom}}</h3>
 
-    </section>
+                    {# calculate dog age #}
+                    {% set age = date().diff(date(chien.dateNaissance)).y %}
 
-    <section class="user-forum-activity">
+                    <p>{{age}} year(s) old</p>
+                    <p>{{chien.description}}</p>
+                    
+                    {#if user is dog owner, can edit/delete dog#}
+                    {% if app.user == chien.personne %}
+                        <a href="{{ path('edit_chien', {'id': chien.id}) }}" aria-label="{{ "edit " ~ chien ~ "'s information" }}"eza><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
+                        <a href="{{ path('delete_chien', {'id': chien.id}) }}" onclick="return confirm('Are you sure?')" aria-label="{{ "delete " ~ chien }}"><i class="fa-solid fa-trash fa-lg"></i></a>
+                    {% endif %}
+                </article> 
+            {% endfor %}
+        </section>
 
-    </section>
+        <section class="user-events">
+            <h2>Upcoming Events</h2>
 
-    <div class='user-profile-head'>
+            {# Links to create Walk or Training Session #}
+            {% if (app.user == personne) %}
+                <a href="{{ path('new_balade') }}"><i class="fa-solid fa-plus"></i> Create Walk</a>
+                {% if app.user.isEducateur %} 
+                    <a href="{{ path('new_seance') }}"><i class="fa-solid fa-gplus"></i> Create Training Session</a>
+                {% endif %}
+            {% endif %}
 
-        <h1>{{personne |upper }}'S PROFILE</h1>
-        <p>Get to know {{personne}}, their dogs and upcoming events !</p>
+            {# Training sessions (as organiser) #}
+            {% for seance in personne.seancesOrganisees %}
+                {% if seance.dateHeureDepart > date() %}
+                    <a href="{{ path('show_seance', {'id': seance.id}) }}" aria-label="go to {{seance}}'s info page">
+                        <article class="session">
+                            <p>{{ seance }}</p>
+                            <p><i class="fa-solid fa-calendar-days fa-xs"></i> : {{ seance.dateHeureDepart | date('j F Y H:i') }}</p>
+                            <p><i class="fa-solid fa-tree-city fa-xs"></i> : {{ seance.ville }}</p>
+                            <p><i class="fa-solid fa-person-walking fa-xs"></i> : organiser</p>
+                        </article>
+                    </a>
+                {% endif %}
+            {% endfor %}
+        
+             {# Training sessions (as participant) #}
+            {% for seance in personne.seancesParticipees %}
+                {% if seance.dateHeureDepart > date() %}
+                    <a href="{{ path('show_seance', {'id': seance.id}) }}" aria-label="go to {{seance}}'s info page">
+                        <article class="session">
+                            <p>{{ seance }}</p>
+                            <p><i class="fa-solid fa-calendar-days fa-xs"></i> : {{ seance.dateHeureDepart | date('j F Y H:i') }}</p>
+                            <p><i class="fa-solid fa-tree-city fa-xs"></i> : {{ seance.ville }}</p>
+                            <p><i class="fa-solid fa-person-walking fa-xs"></i> : participant</p>
+                        </article>
+                    </a>
+                {% endif %}
+            {% endfor %}
+        
+             {# Walks (as organiser) #}
+            {% for balade in personne.baladesOrganisees %}
+                {% if balade.dateHeureDepart > date() %}
+                    <a href="{{ path('show_balade', {'id': balade.id}) }}" aria-label="go to the {{balade}}'s info page">
+                        <article class="walk">
+                            <p>{{ balade }}</p>
+                            <p><i class="fa-solid fa-calendar-days fa-xs"></i> : {{ balade.dateHeureDepart | date('j F Y H:i') }}</p>
+                            <p><i class="fa-solid fa-tree-city fa-xs"></i> : {{ balade.ville }}</p>
+                            <p><i class="fa-solid fa-person-walking fa-xs"></i> : organiser</p>
+                        </article>
+                    </a>
+                {% endif %}
+            {% endfor %}
+        
+             {# Walks (as participant) #}
+            {% for balade in personne.balades %}
+                {% if balade.dateHeureDepart > date() %}
+                    <a href="{{ path('show_balade', {'id': balade.id}) }}" aria-label="go to the {{balade}}'s info page">
+                        <article class="walk">
+                            <p>{{ balade }}</p>
+                            <p><i class="fa-solid fa-calendar-days fa-xs"></i> : {{ balade.dateHeureDepart | date('j F Y H:i') }}</p>
+                            <p><i class="fa-solid fa-tree-city fa-xs"></i> : {{ balade.ville }}</p>
+                            <p><i class="fa-solid fa-person-walking fa-xs"></i> : participant</p>
+                        </article>
+                    </a>
+                {% endif %}
+            {% endfor %}
+            
+        </section>
 
-        {#if this is the current user's profile can edit his info or delete his profile#}
-        {% if (app.user == personne) %}
-            <span class="user-edit-delete">
-                <a href="{{ path('edit_personne', {'id': personne.id}) }}" aria-label="modify your information information"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
-                <a href="{{ path('delete_personne', {'id': personne.id}) }}" onclick="return confirm('Are you sure?')" aria-label="delete your account"><i class="fa-solid fa-trash fa-lg"></i></a>
-            </span>
-            <a href="{{ path('new_chien') }}" class="" aria-label="add a new dog"><i class="fa-solid fa-plus"></i> ADD A NEW DOG</a>
-        {% elseif is_granted('ROLE_ADMIN') %}
-        <span class="user-edit-delete">
-            <a href="{{ path('delete_personne', {'id': personne.id}) }}" onclick="return confirm('Are you sure?')" aria-label="delete this account"><i class="fa-solid fa-trash fa-lg"></i></a>
-        </span>
-        {% endif %}
+        <section class="user-forum-activity">
+            <h2>Latest Topics</h2>
+
+            {% if latestTopics is not empty %}
+                {% for topic in latestTopics |sort((b, a) => a.dateCreation <=> b.dateCreation) |slice(0, 3)%}
+                    <article>
+                        <h3>in {{topic.categorie}}</h3>
+                        <p>{{topic.dateCreation | date('d-m-Y H:i:s')}}</p>
+                        <p>{{topic}}</p>
+                        <a href="{{ path('show_topic', {'id': topic.id}) }}" aria-label="{{ "go to topic's comments" }}">go to topic >></a>
+                    </article>
+                {% endfor %}
+            {% else %}
+                <p>no topics yet</p>
+            {% endif %}
+
+        </section>
+    </main>
+
+    {# 
+        ADMIN PART
+        
+        <div class='user-profile-head'>
+
+
         
         
-        {#if user is a super admin can change person's role#}
+
         {% if is_granted('ROLE_SUPER_ADMIN') %}
 
             <p id="editRole"><a id="roleBtn" class="button1">Change role</a></p>
@@ -94,228 +197,9 @@
 
         {% endif %}
 
-    </div>
+    </div> #}
 
-    {#Person info#}
-    <div class="user-container">
-
-        <div class="user-container-left">   
-            <img src="{{ asset('/images/users/' ~ personne.nomImageProfil) }}" class="user-profile-picture" alt="{{ personne ~ "'s profile picture" }}">
-            <p style="font-size: small; text-align:center;">Joined : {{ personne.dateCreation | date('j F Y') }}</p>
-            <p style="font-size: small; text-align:center;" >Last login : {{ personne.lastLogin | date('j F Y H:i') }}</p>
-
-
-            {% if latestTopics is not empty %}
-            <div id="latestUserTopics">
-            <h3 style="text-align: center;">Lastest Topics : </h3>
-
-    {% for topic in latestTopics |sort((b, a) => a.dateCreation <=> b.dateCreation) |slice(0, 3)%}
-        <div class="topic-user-profile">
-
-            <div class="topic-date-user">
-                <p>{{topic.dateCreation | date('d-m-Y H:i:s')}}</p>
-                <p>in "{{topic.categorie}}" category</p>          
-                
-            </div>
-
-            <div class="topic-content-user">
-                <p>{{topic}}</p>
-                <a href="{{ path('show_topic', {'id': topic.id}) }}" aria-label="{{ "go to topic's comments" }}">go to topic >></a>
-            </div>
-
-        </div>
-    {% endfor %}
-        </div>  
-    {% endif %}
-        </div>
-
-        <div class="user-container-center">
-            <h3>About {{personne}} : </h3>
-            <p>{{personne.description}}</p>
-
-            {#Person's dog(s)#}
-            <h3>{{personne}}'s dog(s) : </h3>
-            
-            {% for chien in personne.chiens %} 
-                {% if chien.imageName is empty %}
-                <img src="{{ asset('/images/chiens/dog-paw.png') }}" data-toggle="modal" data-target="#myModal{{ loop.index }}" class="dog-icon" alt="{{ "default picture of a paw for " ~ chien ~ ", " ~ personne ~ "'s dog" }}">
-                {% else %}
-                    <img src="{{ vich_uploader_asset(chien, 'imageFile') }}" data-toggle="modal" data-target="#myModal{{ loop.index }}" class="dog-icon" alt="{{ "picture of " ~ chien ~ ", " ~ personne ~ "'s dog" }}">
-                {% endif %}
-                <div class="modal fade" id="myModal{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-content-container">
-                            {% if chien.imageName is not empty %}
-                            <div class="modal-content-left">
-                                    <img src="{{ vich_uploader_asset(chien, 'imageFile') }}" class="dog-picture" alt="{{ "picture of " ~ chien ~ ", " ~ personne ~ "'s dog" }}">
-                            </div>
-                            {% endif %}
-                            <div class="modal-content-right">
-
-                                    <p><i class="fa-solid fa-signature"></i> : {{chien.nom}}</p>
-                                    <p><i class="fa-solid fa-cake-candles"></i> : {{chien.dateNaissance | date('j F Y')}}</p>
-                                    <p><i class="fa-solid fa-circle-info"></i> : {{chien.description}}</p>
-                            </div>
-                        </div>
-                            <div class="close-btn">
-                                <button type="button" id="modal-close" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">close</span>
-                                </button>
-                            </div>  
-                        </div>
-                    </div>
-                </div>
-                    
-                {#if user is dog owner, can edit/delete dog#}
-                {% if app.user == chien.personne %}
-                    <a href="{{ path('edit_chien', {'id': chien.id}) }}" aria-label="{{ "edit " ~ chien ~ "'s information" }}"eza><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
-                    <a href="{{ path('delete_chien', {'id': chien.id}) }}" onclick="return confirm('Are you sure?')" aria-label="{{ "delete " ~ chien }}"><i class="fa-solid fa-trash fa-lg"></i></a>
-                {% endif %}
-                
-
-            {% endfor %}
-
-            <h3>Upcoming events : </h3>
-
-            <div class="sessions">
+   
         
-                {% for seance in personne.seancesOrganisees %}
-                    {% if seance.dateHeureDepart > date() %}
-                        <a href="{{ path('show_seance', {'id': seance.id}) }}" aria-label="go to {{seance}}'s info page">
-                            <div class="session">
-                                <p>{{ seance }}</p>
-                                <p><i class="fa-solid fa-calendar-days fa-xs"></i> : {{ seance.dateHeureDepart | date('j F Y H:i') }}</p>
-                                <p><i class="fa-solid fa-tree-city fa-xs"></i> : {{ seance.ville }}</p>
-                                <p><i class="fa-solid fa-person-walking fa-xs"></i> : organiser</p>
-                            </div>
-                        </a>
-                    {% endif %}
-                {% endfor %}
-        
-                {% for seance in personne.seancesParticipees %}
-                    {% if seance.dateHeureDepart > date() %}
-                        <a href="{{ path('show_seance', {'id': seance.id}) }}" aria-label="go to {{seance}}'s info page">
-                            <div class="session">
-                                <p>{{ seance }}</p>
-                                <p><i class="fa-solid fa-calendar-days fa-xs"></i> : {{ seance.dateHeureDepart | date('j F Y H:i') }}</p>
-                                <p><i class="fa-solid fa-tree-city fa-xs"></i> : {{ seance.ville }}</p>
-                                <p><i class="fa-solid fa-person-walking fa-xs"></i> : participant</p>
-                            </div>
-                        </a>
-                    {% endif %}
-                {% endfor %}
-        
-            </div>
-        
-        
-        
-            <div class="walks">
-                
-        
-                {% for balade in personne.baladesOrganisees %}
-                    {% if balade.dateHeureDepart > date() %}
-                        <a href="{{ path('show_balade', {'id': balade.id}) }}" aria-label="go to the {{balade}}'s info page">
-                            <div class="walk">
-                                <p>{{ balade }}</p>
-                                <p><i class="fa-solid fa-calendar-days fa-xs"></i> : {{ balade.dateHeureDepart | date('j F Y H:i') }}</p>
-                                <p><i class="fa-solid fa-tree-city fa-xs"></i> : {{ balade.ville }}</p>
-                                <p><i class="fa-solid fa-person-walking fa-xs"></i> : organiser</p>
-                            </div>
-                        </a>
-                    {% endif %}
-                {% endfor %}
-        
-                {% for balade in personne.balades %}
-                    {% if balade.dateHeureDepart > date() %}
-                        <a href="{{ path('show_balade', {'id': balade.id}) }}" aria-label="go to the {{balade}}'s info page">
-                            <div class="walk">
-                                <p>{{ balade }}</p>
-                                <p><i class="fa-solid fa-calendar-days fa-xs"></i> : {{ balade.dateHeureDepart | date('j F Y H:i') }}</p>
-                                <p><i class="fa-solid fa-tree-city fa-xs"></i> : {{ balade.ville }}</p>
-                                <p><i class="fa-solid fa-person-walking fa-xs"></i> : participant</p>
-                            </div>
-                        </a>
-                    {% endif %}
-                {% endfor %}
-            </div>
-
-            {% if latestTopics is not empty %}
-            <div id="latestUserTopicsResponsive">
-            <h3 style="text-align: center;">Lastest Topics : </h3>
-
-    {% for topic in latestTopics |sort((b, a) => a.dateCreation <=> b.dateCreation) |slice(0, 3)%}
-        <div class="topic-user-profile">
-
-            <div class="topic-date-user">
-                <p>{{topic.dateCreation | date('d-m-Y H:i:s')}}</p>
-                <p>in "{{topic.categorie}}" category</p>          
-                
-            </div>
-
-            <div class="topic-content-user">
-                <p>{{topic}}</p>
-                <a href="{{ path('show_topic', {'id': topic.id}) }}" aria-label="{{ "go to topic's comments" }}">go to topic >></a>
-            </div>
-
-        </div>
-    {% endfor %}
-        </div>  
-    {% endif %}
-        </div>
-
-    </div>
-        
-
-    
-
-
-
-
-
-
-
-    <script>
-        
-        //Part for the dog modal
-        $(document).ready(function(){
-            // This script initializes Bootstrap's modal functionality
-            $('[data-toggle="modal"]').each(function(){
-                $(this).click(function(){
-                    var target = $(this).data('target');
-                    $(target).modal('show');
-                });
-            });
-        });
-
-
-        //Part for the role modal
-        // Get the modal
-        var modal = document.getElementById("roleModal");
-        
-        // Get the button that opens the modal
-        var btn = document.getElementById("roleBtn");
-        
-        // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("roleClose")[0];
-        
-        // When the user clicks the button, open the modal 
-        btn.onclick = function() {
-          modal.style.display = "block";
-        }
-        
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
-          modal.style.display = "none";
-        }
-        
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-          if (event.target == modal) {
-            modal.style.display = "none";
-          }
-        }
-    </script>
-
 {% endblock %}
 
