@@ -29,7 +29,7 @@
             {% if (app.user == personne) %}
                 <div class="user-info-right">
                     <h2>Edit your profile</h2>
-                    <a href="{{ path('edit_personne', {'id': personne.id}) }}" class="profile-edit" aria-label="modify your information information"><i class="fa-solid fa-pen-to-square fa-lg"></i> Edit your profile information</a>
+                    <a href="{{ path('edit_personne', {'id': personne.id}) }}" class="profile-edit" aria-label="modify your profile information"><i class="fa-solid fa-pen-to-square fa-lg"></i> Edit your profile information</a>
                     <a href="{{ path('delete_personne', {'id': personne.id}) }}" class="profile-delete" onclick="return confirm('Are you sure?')" aria-label="delete your account"><i class="fa-solid fa-trash fa-lg"></i> Delete your account</a>
                 </div>
             {% endif %}
