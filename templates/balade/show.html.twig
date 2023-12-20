@@ -11,133 +11,112 @@
 
 {% block body %}
 
-    <main>
+    <main class="event-info-page">
+        <h1 class="event-name"> {{balade.nom}} </h1>
+
+                {#if user is one of this walk's participants can disenroll#}
+                {% if app.user in balade.personnes %}
+                <a href="{{ path('remove_personne_balade', {'balade_id': balade.id , 'personne_id': app.user.id}) }}" class="event-join" aria-label="disenroll from walk"><i class="fa-solid fa-user-minus"></i> Quit</a>
+                {% endif %}
+                {#if user is not one of this walk's participants and isn't the organiser can enroll#}
+                {% if (app.user not in balade.personnes) and (app.user != balade.organisateur) %}
+                    <a href="{{ path('enlist_personne_balade', {'balade_id': balade.id , 'personne_id': app.user.id})}} " class="event-join" aria-label="enroll to walk"><i class="fa-solid fa-user-plus"></i> Join</a>
+                {% endif %}
+
         <section class="event-info">
+            
             <div class="event-info-left">
-                <h1> {{balade.nom}} </h1>
 
                 <p><i class="fa-solid fa-tree-city"></i> : {{balade.ville}} </p>
 
-                <p><i class="fa-solid fa-calendar-days"></i> : {{balade.dateHeureDepart | date('d-m-Y H:i')}}</p>
+                <p><i class="fa-solid fa-calendar-days"></i> : {{balade.dateHeureDepart | date('d F Y - H:i')}}</p>
 
                 <p><i class="fa-solid fa-circle-info"></i> : {{balade.description}}</p>
 
-                <p>Organised by <a href="{{ path('show_personne', {'id': balade.organisateur.id}) }}">{{ balade.organisateur }}</a></p>
+                
             </div>
             <div class="event-info-center">
 
             </div>
             <div class="event-info-right">
-                
                 {#if user is organiser, can edit/delete walk#}
                 {% if app.user == balade.organisateur %}
-                    <div>
-                        <a href="{{ path('edit_balade', {'id': balade.id}) }}" aria-label="edit your dog walk information"><i class="fa-solid fa-pen-to-square fa-lg"></i> Edit walk information</a>
-                        <a href="{{ path('delete_balade', {'id': balade.id}) }}" onclick="return confirm('delete dog walk ?')" aria-label="delete your dog walk"><i class="fa-solid fa-trash fa-lg"></i> Delete walk</a>
-                    </div>
-                {% endif %}
-                    
-                {#if user is one of this walk's participants can disenroll#}
-                {% if app.user in balade.personnes %}
-                    <a href="{{ path('remove_personne_balade', {'balade_id': balade.id , 'personne_id': app.user.id}) }}" aria-label="disenroll from walk"><i class="fa-solid fa-user-minus"></i> Quit</a>
-                {% endif %}
-                {#if user is not one of this walk's participants and isn't the organiser can enroll#}
-                {% if (app.user not in balade.personnes) and (app.user != balade.organisateur) %}
-                    <a href="{{ path('enlist_personne_balade', {'balade_id': balade.id , 'personne_id': app.user.id})}} " aria-label="enroll to walk"><i class="fa-solid fa-user-plus"></i> Join</a>
+                    <h2>Options</h2>
+                    <a href="{{ path('edit_balade', {'id': balade.id}) }}" class="event-edit" aria-label="edit your dog walk information"><i class="fa-solid fa-pen-to-square fa-lg"></i> Edit walk information</a>
+                    <a href="{{ path('delete_balade', {'id': balade.id}) }}" class="event-delete" onclick="return confirm('delete dog walk ?')" aria-label="delete your dog walk"><i class="fa-solid fa-trash fa-lg"></i> Delete walk</a>
+                {% else %}
+                    <h2>Created by :</h2>
+                    <a href="{{ path('show_personne', {'id': balade.organisateur.id}) }}"><img src="{{ asset('/images/users/' ~ balade.organisateur.nomImageProfil) }}" class="organiser-icon" alt="{{ balade.organisateur ~ "'s profile picture" }}"></a>
                 {% endif %}
 
             </div>
             
-
         </section>
 
-        <section class="event-map">
-            {# display balade location on map #}
-            <div id="map_show"
-                data-latitude ="{{ balade.pointLatitude }}"
-                data-longitude ="{{ balade.pointLongitude }}">
-            </div>
-        </section>
+        <section class="event-map-participants">
+            <section class="event-map">
+                <h2>Map</h2>
+                {# display balade location on map #}
+                <div id="map_show"
+                    data-latitude ="{{ balade.pointLatitude }}"
+                    data-longitude ="{{ balade.pointLongitude }}">
+                </div>
+            </section>
 
-        <section class="event-participants">
-            <h2>Participants</h2>
-            {% for personne in balade.personnes|sort((a, b) => a.pseudo <=> b.pseudo) %}
-                <a href="{{ path('show_personne', {'id': personne.id}) }}">
-                    <article class="participant">
-                        <img class="participant-picture" src="{{ asset('/images/users/' ~ personne.nomImageProfil) }}" alt="{{ personne ~ "'s profile picture" }}">
-                    </article>
-                </a>      
-            {% endfor %}
+            <section class="event-participants">
+                <h2>Participants</h2>
+                <div class="participants">
+                    {% for personne in balade.personnes|sort((a, b) => a.pseudo <=> b.pseudo) %}
+                        <a href="{{ path('show_personne', {'id': personne.id}) }}">
+                            <article class="participant">
+                                <img class="participant-picture" src="{{ asset('/images/users/' ~ personne.nomImageProfil) }}" alt="{{ personne ~ "'s profile picture" }}">
+                            </article>
+                        </a>      
+                    {% endfor %}
+                </div>
+            </section>
         </section>
 
         {#Forum part only visible by participants and organiser#}
         {% if (app.user in balade.personnes) or (app.user == balade.organisateur) %}
-        <section class="event-topic">
-            <h2>Discussion</h2>
-            <a href="{{ path('show_topic', {'id': balade.topic.id}) }}">Go to forum topic</a>
+            <section class="event-topic">
+                <h2>Discussion</h2>
+                <a href="{{ path('show_topic', {'id': balade.topic.id}) }}" class="event-topic-link">Go to forum topic</a>
 
-            {% if balade.topic.posts is empty %}
-                <p>No posts yet</p>
-            {% else %}
-                {% for post in balade.topic.posts | sort((a, b) => a.dateCreation <=> b.dateCreation) %}
-                    <article class="user-topic">
-                        <div>
-                            <p>{{post.dateCreation | date('d-m-Y H:i:s')}}</p>
-                        </div>
-                        <p>{{post}}</p>
-                    </article>
-                {% endfor %}
-            {% endif %}
-        </section>
+                {% if balade.topic.posts is empty %}
+                    <p class="empty-topic">No posts yet :(</p>
+                {% else %}
+                    {% for post in balade.topic.posts | sort((a, b) => a.dateCreation <=> b.dateCreation) %}
+                        <article class="post">
+                            <div class="post-header">
+                                {% if post.auteur is empty %}
+                                    <div class="post-author-icon">
+                                        <img src="{{ asset('/images/users/profile_picture_default.jpg') }}" alt="picture of a dog, default picture for deleted users">
+                                    </div>
+                                    <div class="post-author-info">
+                                        <p>deleted user</p>
+                                    </div>
+                                {% else %}
+                                    <div class="post-author-icon">
+                                        <a href="{{ path('show_personne', {'id': post.auteur.id}) }}" aria-label="{{ "go to " ~ post.auteur ~ "'s profile page" }}">
+                                            <img src="{{ asset('/images/users/' ~ post.auteur.nomImageProfil) }}" class="author-icon" alt="{{ post.auteur ~ "'s profile picture" }}">
+                                        </a>
+                                    </div>
+                                    <div class="post-author-info">
+                                        <p>{{post.auteur}}</p>
+                                        <p>{{post.dateCreation | date('d-m-Y H:i:s')}}</p>
+                                        <p></p>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <p class="post-body">{{post}}</p>
+                        </article>
+                    {% endfor %}
+                {% endif %}
+            </section>
         {% endif %}
     </main>
-
     
-    
-
-
-
-
-    {% else %}
-    {% for post in balade.topic.posts | sort((a, b) => a.dateCreation <=> b.dateCreation) %}
-        <div class="topic">
-
-            <div class="topic-date">
-                {{post.dateCreation | date('d-m-Y H:i:s')}}
-            </div>
-
-            <div class="topic-body">
-                {% if post.auteur is empty %}
-                    <div class="topic-user">
-                        <img class="topic-picture" src="{{ asset('/images/users/profile_picture_default.jpg') }}" alt="picture of a dog, default picture for deleted users">
-                        {{ 'deleted' }}
-                    </div>    
-                {% else %}
-                    <div class="topic-user">
-                        <a href="{{ path('show_personne', {'id': post.auteur.id}) }}" aria-label="{{ "go to " ~ post.auteur ~ "'s profile page" }}">
-                            <img class="topic-picture" src="{{ asset('/images/users/' ~ post.auteur.nomImageProfil) }}" alt="{{ post.auteur ~ "'s profile picture" }}">
-                        </a>
-                        <a href="{{ path('show_personne', {'id': post.auteur.id}) }}" aria-label="{{ "go to " ~ post.auteur ~ "'s profile page" }}">
-                            {{post.auteur}}
-                        </a>
-                    </div>
-                {% endif %}
-
-                <div class="topic-content">
-                    <p>{{post}}</p>
-                </div>
-
-            </div>
-        </div>
-    
-    {% endfor %}
-    {% endif %}
-</div>
-{% endif %}
-
-
-    
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
 

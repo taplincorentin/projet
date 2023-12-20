@@ -115,9 +115,9 @@ body {
 #alert-message {
   display: flex;
   z-index: 2;
-  animation: fadeOut ease 5s;
+  animation: fadeOut ease 7s;
   animation-fill-mode: forwards;
-  position: absolute;
+  position: fixed;
   left: 0;
   bottom: 0;
   margin-left: 10px;
@@ -749,19 +749,6 @@ select#seance_form_theme{
   margin: 20px 20px 10px 20px;
 }
 
-.participants{
-  display: flex;
-  flex-direction: row;
-  margin: 0px 20px 10px 20px;
-}
-.participant-picture {
-  border-radius: 50%;  
-  height: 100px; 
-  width: 100px;
-  object-fit: cover;
-  border:solid 1px var(--darkBlue);
-  margin: 2px;
-}
 
 .user-box{
   display: flex;
@@ -1011,6 +998,11 @@ select#seance_form_theme{
       margin-bottom: 1.5rem;
       margin-top: 1.5rem;
       width: 75%; 
+    }
+
+    .category-right > .container-fluid > .card > .card-header {
+      display: flex;
+      justify-content: space-between;
     }
 
     .card-header{
@@ -1675,41 +1667,228 @@ select#seance_form_theme{
 /*NEW EVENT INFO PAGE*/
 
   /*event info section*/
-    .event-info {
-      display: flex;
+    .event-info-page {
+      position: relative;
     }
 
-    .event-info-left > h1 {
+    .event-join{
+      background-color: var(--darkBlue);
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      padding: 10px 20px 10px 20px;
+      width: fit-content;
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin: 20px 20px 0 0;
+    }
+
+    .event-name {
       width: fit-content;
       border-width: 0 0 5px 0 ;
       border-style: dotted; 
-      border-color: #219a8d;
+      border-color: var(--tangerine);
       margin: 20px 0 20px 40px;
     }
 
-    .event-map {
+    .event-info {
+      display: flex;
+      padding: 20px;
+    }
+
+    .event-info-left {
+      width: 60%;
+      margin: 15px 15px 15px 50px;
+      padding: 30px;
+    }
+
+    .event-info-right {
+      width: 20%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+      margin-left: 30px;
+    }
+
+    .organiser-icon {
+      border-radius: 50%;  
+      height: 60px; 
+      width: 60px;
+      object-fit: cover;
+      border:solid 1px var(--darkBlue);
+    }
+
+    .event-info-right > h2 {
+      width: fit-content;
+      border-width: 0 0 5px 0 ;
+      border-style: dotted; 
+      border-color: var(--tangerine);
+    }
+
+    .event-edit{
+      background-color: #f5f8f8;
+      color: var(--darkBlue);
+      border: solid 1px var(--darkBlue);
+      text-decoration: none;
+      border-radius: 10px;
+      padding: 10px;
+      font-size: small;
+      max-width: 185px;
+      height: fit-content;
+    }
+
+    .event-delete {
+      background-color: #ae4f4d;
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      padding: 10px;
+      font-size: small;
+      max-width: 185px;
+      height: fit-content;
+    }
+
+    .event-map-participants {
       background-color: #fff8f6;
+      display: flex;
+    }
+
+    .event-map{
+      width: 60%;
+    }
+
+    .event-map > h2 {
+      width: fit-content;
+      border-width: 0 0 5px 0 ;
+      border-style: dotted; 
+      border-color: var(--tangerine);
+      margin: 20px 0 20px 40px;
     }
 
     #map_show{
       height: 400px; 
-      width:600px;
+      width:90%;
       border:solid 3px var(--darkBlue);
-      margin: 40px;
+      margin: 0 0 20px 50px;
     }
 
     .event-participants > h2 {
       width: fit-content;
       border-width: 0 0 5px 0 ;
       border-style: dotted; 
-      border-color: #219a8d;
+      border-color: var(--tangerine);
       margin: 20px 0 20px 40px;
+    }
+
+    .participants{
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin: 30px 30px 30px 50px;
+    }
+
+    .participant-picture {
+      border-radius: 50%;  
+      height: 100px; 
+      width: 100px;
+      object-fit: cover;
+      border:solid 2px var(--darkBlue);
+    }
+
+    .event-topic {
+      position: relative;
     }
 
     .event-topic > h2 {
       width: fit-content;
       border-width: 0 0 5px 0 ;
       border-style: dotted; 
-      border-color: #219a8d;
+      border-color: var(--tangerine);
       margin: 20px 0 20px 40px;
     }
+
+    
+    .event-topic-link {
+      position: absolute;
+      top : 0;
+      right : 0;
+      margin: 25px 10px 0 0;
+      background-color: var(--darkBlue);
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      padding: 5px;
+    }
+
+    .empty-topic {
+      margin: 30px 50px 30px 50px;;
+    }
+
+    .post {
+      border:solid 2px var(--darkBlue);
+      margin: 30px 50px 30px 50px;
+      border-radius: 10px;
+    }
+
+    .post-header {
+      display: flex;
+      padding: 10px 20px 10px 20px;
+      background-color: var(--darkBlue);
+      border-radius: 7px 7px 0 0;
+    }
+
+    .post-author-info {
+      margin-left: 20px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+    }
+
+    .post-author-info p {
+      margin: 0;
+    }
+
+    .author-icon {
+      border-radius: 50%;  
+      height: 60px; 
+      width: 60px;
+      object-fit: cover;
+      border:solid 2px white;
+    }
+
+    .post-body {
+      padding: 20px;
+      background-color: #fffbf5;
+      margin: 0;
+      border-radius: 0 0 7px 7px;
+    }
+
+  /*MEDIA QUERIES*/
+  @media only screen and (max-width: 850px) {
+    .event-info {
+      flex-direction: column;
+    }
+
+    .event-info-left {
+      width: 90%;
+    }
+
+    .event-info-right {
+      flex-direction: row;
+      justify-content: flex-start;
+      gap: 30px;
+      width: 100%;
+    }
+
+    .event-map-participants{
+      flex-direction: column;
+    }
+
+    .event-map{
+      width: 100%;
+    }
+  }

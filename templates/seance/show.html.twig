@@ -10,201 +10,117 @@
 {% endblock %}
 
 {% block body %}
+<main class="event-info-page">
+    <h1 class="event-name"> {{seance.nom}} </h1>
 
-    <div class='user-profile-head'>
-
-        <h1>TRAINING SESSION INFORMATION PAGE</h1>
-        <p>Learn about this training session's details and see who is participating.</p>
-        
-        {# link to associated topic #}
-        {% if (app.user in seance.participants) or (app.user == seance.organisateur) %}
-            <p><a href="{{ path('show_topic', {'id': seance.topic.id}) }}" class="button">Go to forum topic</a></p>
-        {% endif %}
-        
-        {#if user is organiser, can edit/delete session#}
-        {% if app.user == seance.organisateur %}
-            <span class="user-edit-delete">
-                <a href="{{ path('edit_seance', {'id': seance.id}) }}" aria-label="dedit your training session information"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
-                <a href="{{ path('delete_seance', {'id': seance.id}) }}" onclick="return confirm('delete training session ?')" aria-label="delete your dtraining session"><i class="fa-solid fa-trash fa-lg"></i></a>
-            </span>
-        {% endif %}
-            
-            {#if user is one of this session's participants can unlist#}
-            {% if app.user in seance.participants %} 
-                <a href="{{ path('remove_personne_seance', {'seance_id': seance.id , 'personne_id': app.user.id}) }}" class="new-dog-button" aria-label="disenroll from training session"><i class="fa-solid fa-user-minus"></i> DISENROLL</a>
+            {#if user is one of this session's participants can disenroll#}
+            {% if app.user in seance.participants %}
+                <a href="{{ path('remove_personne_seance', {'seance_id': seance.id , 'personne_id': app.user.id}) }}" class="event-join" aria-label="disenroll from session"><i class="fa-solid fa-user-minus"></i> Quit</a>
             {% endif %}
-            {#if user is not one of this session's participants and isn't the organiser can enlist#}
+            {#if user is not one of this session's participants and isn't the organiser can enroll#}
             {% if (app.user not in seance.participants) and (app.user != seance.organisateur) %}
-                <a href="{{ path('enlist_personne_seance', {'seance_id': seance.id , 'personne_id': app.user.id}) }}" class="new-dog-button" aria-label="enroll to training session"><i class="fa-solid fa-user-plus"></i> ENROLL</a>
+                <a href="{{ path('enlist_personne_seance', {'seance_id': seance.id , 'personne_id': app.user.id})}} " class="event-join" aria-label="enroll to session"><i class="fa-solid fa-user-plus"></i> Join</a>
             {% endif %}
-    
-    </div>
-    
-    {#show session info#}
-    <main>
-        <div class="event-container">
-            <div class="event-container-left">
-                <div class="event-information">
-                    <h2> {{seance.nom}} </h2>
 
-                    Organised by <button id="myBtn">{{ seance.organisateur }}</button>
-
-                        <!-- The Modal -->
-                        <div id="myModal" class="modal1">
-
-                            <!-- Modal content -->
-                            <div class="modal-content1">
-                                <span class="close">&times;</span>
-                                <img class="participant-picture" src="{{ asset('/images/users/' ~ seance.organisateur.nomImageProfil) }}" alt="{{ seance.organisateur ~ "'s profile picture" }}">
-                                <p>{{ seance.organisateur.description }}</p>
-                                <a href="{{ path('show_personne', {'id': seance.organisateur.id}) }}">see profile</a>
-                            </div>
-
-                        </div>
-
-
-                    {% if seance.theme is not empty %}
-                        <p><i class="fa-solid fa-puzzle-piece"></i> : {{seance.theme}}</p>
-                    {% endif %}
-
-                    <p><i class="fa-solid fa-tree-city"></i> : {{seance.ville}} </p>
-
-                    <p><i class="fa-solid fa-calendar-days"></i> : {{seance.dateHeureDepart | date('d-m-Y H:i')}}</p>
-
-                    <p><i class="fa-solid fa-circle-info"></i> : {{seance.description}}</p>
-                </div>
-
-                <div class="participant-line">Participants</div>
-                <div class="participants">
-                    {% for personne in seance.participants|sort((a, b) => a.pseudo <=> b.pseudo) %}
-                        <a href="{{ path('show_personne', {'id': personne.id}) }}">
-                            <div class="user-box">
-                                {% if personne.nomImageProfil %}
-                                    <img class="participant-picture" src="{{ asset('/images/users/' ~ personne.nomImageProfil) }}" alt="{{ personne ~ "'s profile picture" }}">
-                                {% endif %}
-                            </div>
-                        </a>
-                
-                        {#if user is the organiser, option to remove participants#}
-                        {% if app.user == seance.organisateur %}
-                            <div class="remove-participant">
-                                <a href="{{ path('remove_personne_seance', {'seance_id': seance.id , 'personne_id': personne.id}) }}"><i class="fa-regular fa-square-minus" style="color: var(--darkBlue)"></i></a>
-                            </div> 
-                        {% endif %}      
-
-                    {% endfor %}
-                </div>
-            </div>
-
-            <div class="event-container-right">
-
-                {# display balade location on map #}
-                <div id="map_show" style="height: 400px; width:500px;"
-                    data-latitude ="{{ seance.pointLatitude }}"
-                    data-longitude ="{{ seance.pointLongitude }}">
-                </div>
-
-            </div>
-
+    <section class="event-info">
         
+        <div class="event-info-left">
+
+            <p><i class="fa-solid fa-tree-city"></i> : {{seance.ville}} </p>
+
+            <p><i class="fa-solid fa-calendar-days"></i> : {{seance.dateHeureDepart | date('d F Y - H:i')}}</p>
+
+            {% if seance.theme is not empty %}
+                <p><i class="fa-solid fa-puzzle-piece"></i> : {{seance.theme}}</p>
+            {% endif %}
+
+            <p><i class="fa-solid fa-circle-info"></i> : {{seance.description}}</p>
+
+            
         </div>
+        <div class="event-info-center">
 
-        {#Forum part only visible by participants and organiser#}
-        {% if (app.user in seance.participants) or (app.user == seance.organisateur) %}
-            <div class="event-topic"> 
-                <div class="discussion-line">Discussion</div>
-                {% if seance.topic.posts is empty %}
-                    <div class="topic">
-                        <div class="topic-date">
-                            <p></p>
-                        </div>   
-                        
-                        <div class="topic-body">         
-                            <div class="topic-user" id="topicUserForm">
-                                
-                            </div>
-                
-                            <div class="topic-content">
-                                <p>No posts yet</p>
-                            </div>
-                        </div>
-                    </div>
+        </div>
+        <div class="event-info-right">
+            {#if user is organiser, can edit/delete session#}
+            {% if app.user == seance.organisateur %}
+                <h2>Options</h2>
+                <a href="{{ path('edit_seance', {'id': seance.id}) }}" class="event-edit" aria-label="edit your training session information"><i class="fa-solid fa-pen-to-square fa-lg"></i> Edit session information</a>
+                <a href="{{ path('delete_seance', {'id': seance.id}) }}" class="event-delete" onclick="return confirm('delete training session ?')" aria-label="delete your training session"><i class="fa-solid fa-trash fa-lg"></i> Delete session</a>
+            {% else %}
+                <h2>Created by :</h2>
+                <a href="{{ path('show_personne', {'id': seance.organisateur.id}) }}"><img src="{{ asset('/images/users/' ~ seance.organisateur.nomImageProfil) }}" class="organiser-icon" alt="{{ seance.organisateur ~ "'s profile picture" }}"></a>
+            {% endif %}
 
-                {% else %}
-                    {% for post in seance.topic.posts | sort((a, b) => a.dateCreation <=> b.dateCreation) %}
-                        <div class="topic">
+        </div>
+        
+    </section>
 
-                            <div class="topic-date">
-                                {{post.dateCreation | date('d-m-Y H:i:s')}}
-                                
-                                {#if user is post auteur, can edit/delete post#}
-                                {% if app.user == post.auteur %}
-                                    <span>
-                                        <a href="{{ path('delete_post', {'id': post.id}) }}" onclick="return confirm('delete post ?')" aria-label="delete post"><i class="fa-solid fa-trash fa-lg"></i></a>
-                                        <a href="{{ path('edit_post',  {'topic_id': seance.topic.id, 'id': post.id}) }}" aria-label="edit post content"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>
-                                    </span>
-                                {% endif %}
-                            </div>
-
-                            <div class="topic-body">
-                                {% if post.auteur is empty %}
-                                    <div class="topic-user">
-                                        <img class="topic-picture" src="{{ asset('/images/users/profile_picture_default.jpg') }}" alt="picture of a dog, default picture for deleted users">
-                                            {{ 'deleted' }}
-                                    </div>    
-                    
-                                {% else %}
-                                    <div class="topic-user">
-                                        <a href="{{ path('show_personne', {'id': post.auteur.id}) }}" aria-label="{{ "go to " ~ post.auteur ~ "'s profile page" }}">
-                                            <img class="topic-picture" src="{{ asset('/images/users/' ~ post.auteur.nomImageProfil) }}" alt="{{ post.auteur ~ "'s profile picture" }}">
-                                        </a>
-                                        <a href="{{ path('show_personne', {'id': post.auteur.id}) }}" aria-label="{{ "go to " ~ post.auteur ~ "'s profile page" }}">
-                                            {{post.auteur}}
-                                        </a>
-                                    </div>
-                                {% endif %}
-
-                                <div class="topic-content">
-                                    <p>{{post}}</p>
-                                </div>
-
-                            </div>
-                        </div>
-
-                    {% endfor %}
-                {% endif %}
-
+    <section class="event-map-participants">
+        <section class="event-map">
+            <h2>Map</h2>
+            {# display seance location on map #}
+            <div id="map_show"
+                data-latitude ="{{ seance.pointLatitude }}"
+                data-longitude ="{{ seance.pointLongitude }}">
             </div>
-    
-        {% endif %}
+        </section>
 
-    </main>
+        <section class="event-participants">
+            <h2>Participants</h2>
+            <div class="participants">
+                {% for personne in seance.participants|sort((a, b) => a.pseudo <=> b.pseudo) %}
+                    <a href="{{ path('show_personne', {'id': personne.id}) }}">
+                        <article class="participant">
+                            <img class="participant-picture" src="{{ asset('/images/users/' ~ personne.nomImageProfil) }}" alt="{{ personne ~ "'s profile picture" }}">
+                        </article>
+                    </a>      
+                {% endfor %}
+            </div>
+        </section>
+    </section>
+
+    {#Forum part only visible by participants and organiser#}
+    {% if (app.user in seance.participants) or (app.user == seance.organisateur) %}
+        <section class="event-topic">
+            <h2>Discussion</h2>
+            <a href="{{ path('show_topic', {'id': seance.topic.id}) }}" class="event-topic-link">Go to forum topic</a>
+
+            {% if seance.topic.posts is empty %}
+                <p class="empty-topic">No posts yet :(</p>
+            {% else %}
+                {% for post in seance.topic.posts | sort((a, b) => a.dateCreation <=> b.dateCreation) %}
+                    <article class="post">
+                        <div class="post-header">
+                            {% if post.auteur is empty %}
+                                <div class="post-author-icon">
+                                    <img src="{{ asset('/images/users/profile_picture_default.jpg') }}" alt="picture of a dog, default picture for deleted users">
+                                </div>
+                                <div class="post-author-info">
+                                    <p>deleted user</p>
+                                </div>
+                            {% else %}
+                                <div class="post-author-icon">
+                                    <a href="{{ path('show_personne', {'id': post.auteur.id}) }}" aria-label="{{ "go to " ~ post.auteur ~ "'s profile page" }}">
+                                        <img src="{{ asset('/images/users/' ~ post.auteur.nomImageProfil) }}" class="author-icon" alt="{{ post.auteur ~ "'s profile picture" }}">
+                                    </a>
+                                </div>
+                                <div class="post-author-info">
+                                    <p>{{post.auteur}}</p>
+                                    <p>{{post.dateCreation | date('d-m-Y H:i:s')}}</p>
+                                    <p></p>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <p class="post-body">{{post}}</p>
+                    </article>
+                {% endfor %}
+            {% endif %}
+        </section>
+    {% endif %}
+</main>
+    
     <script>
-    // Get the modal
-    var modal = document.getElementById("myModal");
-    
-    // Get the button that opens the modal
-    var btn = document.getElementById("myBtn");
-    
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
-    
-    // When the user clicks the button, open the modal 
-    btn.onclick = function() {
-      modal.style.display = "block";
-    }
-    
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-      modal.style.display = "none";
-    }
-    
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
-    }
 
     document.addEventListener('DOMContentLoaded', function () {
 

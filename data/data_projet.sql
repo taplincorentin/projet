@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `balade` (
 
 -- Listage des données de la table projet.balade : ~2 rows (environ)
 INSERT INTO `balade` (`id`, `nom`, `description`, `ville`, `date_heure_depart`, `organisateur_id`, `point_longitude`, `point_latitude`, `topic_id`) VALUES
-	(13, 'Balade à la Citadelle', 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nemo eum possimus aperiam necessitatibus minus perspiciatis, quae, expedita, odit labore recusandae reiciendis est rem. Obcaecati hic temporibus, ipsa exercitationem aut sunt!', 'Strasbourg', '2023-12-20 15:00:00', 1, 7.776000000000, 48.575000000000, 8),
+	(13, 'Balade à la Citadelle', 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nemo eum possimus aperiam necessitatibus minus perspiciatis, quae, expedita, odit labore recusandae reiciendis est rem. Obcaecati hic temporibus, ipsa exercitationem aut sunt!', 'Strasbourg', '2024-01-20 15:00:00', 1, 7.776000000000, 48.575000000000, 8),
 	(14, 'Balade à la Meinau', NULL, 'Strasbourg', '2024-01-16 16:00:00', 1, 7.754791975021, 48.557435400052, 20);
 
 -- Listage de la structure de table projet. balade_personne
@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS `chien` (
   CONSTRAINT `FK_13A4067EA21BD112` FOREIGN KEY (`personne_id`) REFERENCES `personne` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.chien : ~5 rows (environ)
+-- Listage des données de la table projet.chien : ~7 rows (environ)
 INSERT INTO `chien` (`id`, `personne_id`, `nom`, `image_name`, `date_naissance`, `description`, `date_actualisation`, `races`) VALUES
 	(2, 1, 'Harlem', 'img-20220724-100308-655631eb82b47611926708.jpg', '2016-02-12', 'A 45kg Bernese Montain Dog x Border Collie Mix.\r\n\r\nHe is very friendly and gentle giant who\'s never had any problems with other dogs.\r\n\r\nHis favourite thing in life is to play with a ball.', '2023-11-23 14:40:33', '["bouvier", "collie border"]'),
 	(3, 1, 'Boomer', 'img-20220828-180548-655632b47f2e0061526150.jpg', '2016-04-01', 'Nipperkin Jack Tar draft carouser strike colors Blimey yo-ho-ho snow no prey, no pay pink. Code of conduct fire in the hole salmagundi list interloper booty careen', '2023-12-19 15:07:18', '["collie border"]'),
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `doctrine_migration_versions` (
   PRIMARY KEY (`version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
--- Listage des données de la table projet.doctrine_migration_versions : ~15 rows (environ)
+-- Listage des données de la table projet.doctrine_migration_versions : ~16 rows (environ)
 INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_time`) VALUES
 	('DoctrineMigrations\\Version20231116080020', '2023-11-16 08:00:30', 38),
 	('DoctrineMigrations\\Version20231116082144', '2023-11-16 08:21:49', 18),
@@ -165,8 +165,8 @@ CREATE TABLE IF NOT EXISTS `personne` (
 
 -- Listage des données de la table projet.personne : ~5 rows (environ)
 INSERT INTO `personne` (`id`, `email`, `pseudo`, `roles`, `password`, `date_creation`, `description`, `is_educateur`, `last_login`, `nom_image_profil`) VALUES
-	(1, 'coco@gmail.com', 'coco', '["ROLE_SUPER_ADMIN"]', '$2y$13$EfjDykRYy8LuDUoIx/Fp.uKGENqPa6rH9AhUtuy.3EKR7.BZAhIvS', '2023-11-09 11:11:09', 'Barkadeer bowsprit belay rum ballast quarter starboard splice the main brace cable galleon. Arr gun marooned Privateer provost pressgang gabion bucko gangplank shrouds. Buccaneer walk the plank chase Blimey jolly boat scourge of the seven seas jack hempen halter booty long boat.', 0, '2023-12-19 12:44:54', 'profile_picture_65564df36f900.jpg'),
-	(4, 'coco2@gmail.com', 'coco2', '["ROLE_USER"]', '$2y$13$HFZiNPEiY8l4WNSaJ.jxsO3BZSXGZkfcixBncHR.ixoSGx67kI7WW', '2023-11-14 08:15:50', 'Lorem Elsass ipsum Heineken ullamcorper réchime morbi aliquam et id, Pfourtz ! turpis condimentum Christkindelsmärik eget semper risus, knepfle elementum eleifend ornare tchao bissame nullam schpeck lotto-owe blottkopf, tristique salu mänele hopla porta Gal. elit libero, flammekueche id consectetur ac Yo dû. in, adipiscing Oberschaeffolsheim Miss Dahlias purus hop ftomi!', 1, '2023-12-18 08:04:07', 'profile_picture_6557832648f1f.jpg'),
+	(1, 'coco@gmail.com', 'coco', '["ROLE_SUPER_ADMIN"]', '$2y$13$EfjDykRYy8LuDUoIx/Fp.uKGENqPa6rH9AhUtuy.3EKR7.BZAhIvS', '2023-11-09 11:11:09', 'Barkadeer bowsprit belay rum ballast quarter starboard splice the main brace cable galleon. Arr gun marooned Privateer provost pressgang gabion bucko gangplank shrouds. Buccaneer walk the plank chase Blimey jolly boat scourge of the seven seas jack hempen halter booty long boat.', 0, '2023-12-20 15:49:38', 'profile_picture_65564df36f900.jpg'),
+	(4, 'coco2@gmail.com', 'coco2', '["ROLE_USER"]', '$2y$13$HFZiNPEiY8l4WNSaJ.jxsO3BZSXGZkfcixBncHR.ixoSGx67kI7WW', '2023-11-14 08:15:50', 'Lorem Elsass ipsum Heineken ullamcorper réchime morbi aliquam et id, Pfourtz ! turpis condimentum Christkindelsmärik eget semper risus, knepfle elementum eleifend ornare tchao bissame nullam schpeck lotto-owe blottkopf, tristique salu mänele hopla porta Gal. elit libero, flammekueche id consectetur ac Yo dû. in, adipiscing Oberschaeffolsheim Miss Dahlias purus hop ftomi!', 1, '2023-12-20 15:39:19', 'profile_picture_6557832648f1f.jpg'),
 	(6, 'coco3@gmail.com', 'coco3', '[]', '$2y$13$HCE.A.5A8/qz6RPjHF.sieqcMr7Zf9WrMNFh7wqwqYjWst1VlWDFS', '2023-11-14 15:07:31', NULL, 1, '2023-12-18 09:54:09', 'profile_picture_655784a7da726.jpg'),
 	(8, 'gertrude@exemple.com', 'geranium', '[]', '$2y$13$8Z6UeGIrPQ3cmcQvjl3TKOzzvKF6ov7ys/iapEMJ3nORWDu9rOvdK', '2023-11-21 09:06:07', NULL, 0, '2023-12-13 15:40:28', 'profile_picture_default.jpg'),
 	(9, 'gerard@gmail.com', 'gege', '[]', '$2y$13$jomHlbhIQx2gLNqNy94UYeXvXI1lDpRdoNVXIX7lxvYY3LftpI4Ui', '2023-12-18 11:05:43', NULL, 0, '2023-12-18 11:05:43', 'profile_picture_default.jpg');
@@ -184,7 +184,7 @@ CREATE TABLE IF NOT EXISTS `post` (
   KEY `IDX_5A8A6C8D60BB6FE6` (`auteur_id`),
   CONSTRAINT `FK_5A8A6C8D1F55203D` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id`),
   CONSTRAINT `FK_5A8A6C8D60BB6FE6` FOREIGN KEY (`auteur_id`) REFERENCES `personne` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table projet.post : ~31 rows (environ)
 INSERT INTO `post` (`id`, `topic_id`, `auteur_id`, `contenu`, `date_creation`, `last_modified`) VALUES
@@ -197,7 +197,7 @@ INSERT INTO `post` (`id`, `topic_id`, `auteur_id`, `contenu`, `date_creation`, `
 	(10, 12, 1, 'Etiam rhoeruncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. \r\nNam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. \r\n\r\nDonec vitae sapien ut libero venenatis faucibus. \r\nNullam quis ante.', '2023-11-23 12:32:51', '2023-12-12 10:28:41'),
 	(12, 12, 4, 'Gal. kuglopf Hans ante salu habitant hopla Kabinetpapier varius schneck wurscht météor Coopé de Truchtersheim Wurschtsalad dui mollis hopla Oberschaeffolsheim  Yo dû. non aliquam ornare picon bière libero. consectetur gravida flammekueche ullamcorper Christkindelsmärik ornvare ac condimentum und s\'guelt hopla Heineken risusare', '2023-11-23 16:21:35', NULL),
 	(13, 11, 1, 'rthre', '2023-12-08 09:33:24', NULL),
-	(15, 8, 1, '£¨PKIPM¨%', '2023-12-08 10:20:17', NULL),
+	(15, 8, 1, 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, magni quidem fugiat voluptatum, libero nobis alias tempore adipisci harum aspernatur cum quasi asperiores neque quo ipsa aliquam eveniet, natus veritatis.', '2023-12-08 10:20:17', '2023-12-20 12:34:11'),
 	(30, 3, 1, 'fckthisshit', '2023-12-08 10:37:03', NULL),
 	(31, 11, 1, 'ery', '2023-12-08 10:38:26', NULL),
 	(43, 21, 8, 'Coopé de Truchtersheim leo turpis, et bissame Salu bissame wie consectetur habitant Kabinetpapier ch\'ai sagittis auctor, leo hoplageiss Wurschtsalad schpeck porta Strasbourg Oberschaeffolsheim knack dui lacus mänele rossbolla id messti de Bischheim amet ornare ac hopla schnaps Carola quam. yeuh.', '2023-12-13 15:41:51', NULL),
@@ -217,14 +217,15 @@ INSERT INTO `post` (`id`, `topic_id`, `auteur_id`, `contenu`, `date_creation`, `
 	(57, 4, 1, 'Cat o\'nine tails cable yo-ho-ho come about furl coxswain heave down log mizzenmast black jack. Hardtack league dead men tell no tales grapple driver jury mast yard quarter chase gabion.', '2023-12-15 10:13:26', NULL),
 	(58, 4, 1, 'Code of conduct draft keelhaul long clothes Blimey lass pinnace tack landlubber or just lubber Shiver me timbers.', '2023-12-15 10:13:38', NULL),
 	(59, 4, 1, 'Blimey rutters gibbet hulk tack tender code of conduct spike keelhaul Arr.', '2023-12-15 10:13:57', NULL),
-	(61, 34, 1, 'Nipperkin Jack Tar draft carouser strike colors Blimey yo-ho-ho snow no prey, no pay pink. Code of conduct fire in the hole salmagundi list interloper booty careen Corsair trysail coxswain. Transom squiffy pillage killick cackle fruit bilge rat cog black jack dead men tell no tales wherry.', '2023-12-15 13:27:41', '2023-12-15 13:40:16');
+	(61, 34, 1, 'Nipperkin Jack Tar draft carouser strike colors Blimey yo-ho-ho snow no prey, no pay pink. Code of conduct fire in the hole salmagundi list interloper booty careen Corsair trysail coxswain. Transom squiffy pillage killick cackle fruit bilge rat cog black jack dead men tell no tales wherry.', '2023-12-15 13:27:41', '2023-12-15 13:40:16'),
+	(63, 4, 1, 'jack gangplank gaff execution dock deadlights. Marooned six pounders killick sutler weigh anchor long boat loaded to the gunwalls', '2023-12-20 14:06:04', NULL);
 
 -- Listage de la structure de table projet. report
 CREATE TABLE IF NOT EXISTS `report` (
   `id` int NOT NULL AUTO_INCREMENT,
   `post_id` int NOT NULL,
   `reporter_id` int NOT NULL,
-  `reason` longtext COLLATE utf8mb4_unicode_ci,
+  `reason` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `date` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_C42F77844B89032C` (`post_id`),
@@ -248,7 +249,7 @@ CREATE TABLE IF NOT EXISTS `reset_password_request` (
   CONSTRAINT `FK_7CE748AA76ED395` FOREIGN KEY (`user_id`) REFERENCES `personne` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table projet.reset_password_request : ~1 rows (environ)
+-- Listage des données de la table projet.reset_password_request : ~0 rows (environ)
 INSERT INTO `reset_password_request` (`id`, `user_id`, `selector`, `hashed_token`, `requested_at`, `expires_at`) VALUES
 	(6, 1, 'scz6wXAqewJe4UfUJO4z', 'z8p3RwDGgVyBWgFos0pi1FSLnHD6j0xR0Pj4+L7rshE=', '2023-12-15 12:59:28', '2023-12-15 13:59:28');
 
@@ -275,7 +276,7 @@ CREATE TABLE IF NOT EXISTS `seance` (
 
 -- Listage des données de la table projet.seance : ~2 rows (environ)
 INSERT INTO `seance` (`id`, `organisateur_id`, `nom`, `date_heure_depart`, `ville`, `description`, `theme_id`, `point_latitude`, `point_longitude`, `topic_id`) VALUES
-	(5, 4, 'Central Park Medical Training', '2024-01-10 18:00:00', 'New York', NULL, 1, 40.789475261829, -73.957573954182, 6),
+	(5, 4, 'Central Park Medical Training', '2024-01-10 18:00:00', 'New York', 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit neque cum enim sapiente recusandae beatae iure dolor ipsam aliquid at. Aliquam earum ut temporibus nihil deserunt expedita tenetur? Unde, sit.', 1, 40.789000000000, -73.958000000000, 6),
 	(6, 6, 'Travailler sur les ordres de bases', '2024-01-19 15:00:00', 'Strasbourg', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium praesentium veritatis, eius esse iusto similique saepe fugiat dolores illum pariatur alias harum voluptas. Natus quia placeat quos asperiores! Aspernatur, recusandae.', 4, 48.568031547389, 7.800164222717, 32);
 
 -- Listage de la structure de table projet. seance_personne
@@ -333,7 +334,7 @@ INSERT INTO `topic` (`id`, `categorie_id`, `auteur_id`, `titre`, `date_creation`
 	(4, 2, NULL, 'hello', '2023-11-12 17:56:44', NULL),
 	(6, 7, 4, '[DISCUSSION] Central Park Medical Training', '2023-11-16 13:20:58', NULL),
 	(8, 6, 1, '[DISCUSSION] Balade à la Citadelle', '2023-11-17 08:23:03', NULL),
-	(9, 5, 1, 'test', '2023-11-23 13:48:18', '2023-12-08 15:45:03'),
+	(9, 5, 1, 'Notify our team of bugs here', '2023-11-23 13:48:18', '2023-12-20 09:49:59'),
 	(11, 2, 1, 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.', '2023-11-23 08:08:15', NULL),
 	(12, 2, 1, 'Convallis aenean et tortor at. Lobortis mattis aliquam faucibus purus in massa tempor nec.', '2023-11-23 09:51:09', NULL),
 	(20, 6, 1, '[DISCUSSION] Balade à la Meinau', '2023-12-13 08:23:50', NULL),
