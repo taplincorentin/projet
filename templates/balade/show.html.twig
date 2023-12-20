@@ -11,6 +11,13 @@
 
 {% block body %}
 
+    <main>
+        <section class="event-info"></section>
+        <section class="event-map"></section>
+        <section class="event-participants"></section>
+        <section class="event-topic"></section>
+    </main>
+
     <div class='user-profile-head'>
 
         <h1>DOG WALK INFORMATION PAGE</h1>
@@ -30,11 +37,11 @@
         {% endif %}
             {#if user is one of this walk's participants can disenroll#}
             {% if app.user in balade.personnes %}
-                <a href="{{ path('remove_personne_balade', {'balade_id': balade.id , 'personne_id': app.user.id}) }}" class="new-dog-button" aria-label="disenroll from walk">DISENROLL</a>
+                <a href="{{ path('remove_personne_balade', {'balade_id': balade.id , 'personne_id': app.user.id}) }}" class="new-dog-button" aria-label="disenroll from walk"><i class="fa-solid fa-user-minus"></i> DISENROLL</a>
             {% endif %}
             {#if user is not one of this walk's participants and isn't the organiser can enroll#}
             {% if (app.user not in balade.personnes) and (app.user != balade.organisateur) %}
-                <a href="{{ path('enlist_personne_balade', {'balade_id': balade.id , 'personne_id': app.user.id})}} " class="new-dog-button" aria-label="enroll to walk">ENROLL</a>
+                <a href="{{ path('enlist_personne_balade', {'balade_id': balade.id , 'personne_id': app.user.id})}} " class="new-dog-button" aria-label="enroll to walk"><i class="fa-solid fa-user-plus"></i> ENROLL</a>
             {% endif %}
     </div>
     

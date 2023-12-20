@@ -31,11 +31,11 @@
             
             {#if user is one of this session's participants can unlist#}
             {% if app.user in seance.participants %} 
-                <a href="{{ path('remove_personne_seance', {'seance_id': seance.id , 'personne_id': app.user.id}) }}" class="new-dog-button" aria-label="disenroll from training session">DISENROLL</a>
+                <a href="{{ path('remove_personne_seance', {'seance_id': seance.id , 'personne_id': app.user.id}) }}" class="new-dog-button" aria-label="disenroll from training session"><i class="fa-solid fa-user-minus"></i> DISENROLL</a>
             {% endif %}
             {#if user is not one of this session's participants and isn't the organiser can enlist#}
             {% if (app.user not in seance.participants) and (app.user != seance.organisateur) %}
-                <a href="{{ path('enlist_personne_seance', {'seance_id': seance.id , 'personne_id': app.user.id}) }}" class="new-dog-button" aria-label="enroll to training session">ENROLL</a>
+                <a href="{{ path('enlist_personne_seance', {'seance_id': seance.id , 'personne_id': app.user.id}) }}" class="new-dog-button" aria-label="enroll to training session"><i class="fa-solid fa-user-plus"></i> ENROLL</a>
             {% endif %}
     
     </div>

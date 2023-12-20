@@ -18,7 +18,7 @@
             <div class="user-info-left">
                 <img src="{{ asset('/images/users/' ~ personne.nomImageProfil) }}" class="user-image" id="profile-picture" alt="{{ personne ~ "'s profile picture" }}">
                 <p class="text-center text-muted small">Joined : {{ personne.dateCreation | date('j F Y') }}</p>
-                <p class="text-center text-muted small">Last login : {{ personne.lastLogin | date('j F Y H:i') }}</p>
+                <p class="text-center text-muted small">Last login : {{ personne.lastLogin | date('j/m/Y H:i') }}</p>
             </div>
 
             <div class="user-info-center">
@@ -50,12 +50,13 @@
                 {% for chien in personne.chiens %}
                     <article class="dog-card">
 
-
+                        <div class="img-container">
                         {% if chien.imageName is empty %}
                             <img src="{{ asset('/images/chiens/dog-paw.png') }}" class="dog-image" alt="{{ "default picture of a paw for " ~ chien ~ ", " ~ personne ~ "'s dog" }}">
                         {% else %}
                             <img src="{{ vich_uploader_asset(chien, 'imageFile') }}" class="dog-image" alt="{{ "picture of " ~ chien ~ ", " ~ personne ~ "'s dog" }}">
                         {% endif %}
+                        </div>
 
                         
 
@@ -84,7 +85,7 @@
         </section>
 
         <section class="user-events">
-            <h2>Upcoming Events</h2>
+            <h2>Upcoming events</h2>
 
             {# Links to create Walk or Training Session #}
             <section class="new-events">
@@ -158,15 +159,17 @@
         </section>
 
         <section class="user-forum-activity">
-            <h2>Latest Topics</h2>
+            <h2>Latest topics</h2>
 
             {% if latestTopics is not empty %}
                 {% for topic in latestTopics |sort((b, a) => a.dateCreation <=> b.dateCreation) |slice(0, 3)%}
-                    <article>
-                        <h3>in {{topic.categorie}}</h3>
-                        <p>{{topic.dateCreation | date('d-m-Y H:i:s')}}</p>
+                    <article class="user-topic">
+                        <div class="topic-header">
+                            <p>in <span class="categorie-name">{{topic.categorie}}</span></p>
+                            <p>{{topic.dateCreation | date('d-m-Y H:i:s')}}</p>
+                        </div>
                         <p>{{topic}}</p>
-                        <a href="{{ path('show_topic', {'id': topic.id}) }}" aria-label="{{ "go to topic's comments" }}">go to topic >></a>
+                        <a href="{{ path('show_topic', {'id': topic.id}) }}" class="topic-link" aria-label="{{ "go to topic's comments" }}">go to topic >></a>
                     </article>
                 {% endfor %}
             {% else %}
