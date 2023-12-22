@@ -24,7 +24,7 @@
 
     <section class="event-info">
         
-        <div class="event-info-left">
+        <section class="event-info-left">
 
             <p><i class="fa-solid fa-tree-city"></i> : {{seance.ville}} </p>
 
@@ -37,22 +37,28 @@
             <p><i class="fa-solid fa-circle-info"></i> : {{seance.description}}</p>
 
             
-        </div>
-        <div class="event-info-center">
+        </section>
 
-        </div>
-        <div class="event-info-right">
+        
             {#if user is organiser, can edit/delete session#}
             {% if app.user == seance.organisateur %}
+            <section class="event-info-right">
                 <h2>Options</h2>
                 <a href="{{ path('edit_seance', {'id': seance.id}) }}" class="event-edit" aria-label="edit your training session information"><i class="fa-solid fa-pen-to-square fa-lg"></i> Edit session information</a>
                 <a href="{{ path('delete_seance', {'id': seance.id}) }}" class="event-delete" onclick="return confirm('delete training session ?')" aria-label="delete your training session"><i class="fa-solid fa-trash fa-lg"></i> Delete session</a>
             {% else %}
-                <h2>Created by :</h2>
-                <a href="{{ path('show_personne', {'id': seance.organisateur.id}) }}"><img src="{{ asset('/images/users/' ~ seance.organisateur.nomImageProfil) }}" class="organiser-icon" alt="{{ seance.organisateur ~ "'s profile picture" }}"></a>
+            <section class="event-info-right-trainer">
+                <h2>Organizer :</h2>
+                <section class="trainer-card">
+                    <div class="trainer-icon-name">
+                        <img src="{{ asset('/images/users/' ~ seance.organisateur.nomImageProfil) }}" class="organiser-icon" alt="{{ seance.organisateur ~ "'s profile picture" }}">
+                        <p>{{seance.organisateur}}</p>
+                    </div>
+                    <p class="trainer-description">{{seance.organisateur.description}}</p>
+                    <a href="{{ path('show_personne', {'id': seance.organisateur.id}) }}" class="go-trainer-profile">See profile >></a>
+                </section>
             {% endif %}
-
-        </div>
+        </section>
         
     </section>
 

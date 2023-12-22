@@ -45,7 +45,7 @@
                     <a href="{{ path('edit_balade', {'id': balade.id}) }}" class="event-edit" aria-label="edit your dog walk information"><i class="fa-solid fa-pen-to-square fa-lg"></i> Edit walk information</a>
                     <a href="{{ path('delete_balade', {'id': balade.id}) }}" class="event-delete" onclick="return confirm('delete dog walk ?')" aria-label="delete your dog walk"><i class="fa-solid fa-trash fa-lg"></i> Delete walk</a>
                 {% else %}
-                    <h2>Created by :</h2>
+                    <h2>Organizer :</h2>
                     <a href="{{ path('show_personne', {'id': balade.organisateur.id}) }}"><img src="{{ asset('/images/users/' ~ balade.organisateur.nomImageProfil) }}" class="organiser-icon" alt="{{ balade.organisateur ~ "'s profile picture" }}"></a>
                 {% endif %}
 

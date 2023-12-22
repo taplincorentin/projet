@@ -1703,8 +1703,12 @@ select#seance_form_theme{
       padding: 30px;
     }
 
+    .event-info-left > p > i {
+      color: var(--darkBlue);
+    }
+
     .event-info-right {
-      width: 20%;
+      width: 40%;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -1712,15 +1716,72 @@ select#seance_form_theme{
       margin-left: 30px;
     }
 
+    .event-info-right-trainer {
+      width: 40%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+      margin-left: 30px;
+    }
+
+    .trainer-card{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background-color: #fffbf5;
+      border: dashed 2px var(--tangerine);
+      border-radius: 10px;
+      font-size: small;
+      padding: 15px;
+      position: relative;
+    }
+
+    .trainer-icon-name {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      height: fit-content;
+    }
+
+    .trainer-icon-name p {
+      margin: 0;
+    }
+
     .organiser-icon {
       border-radius: 50%;  
       height: 60px; 
       width: 60px;
       object-fit: cover;
-      border:solid 1px var(--darkBlue);
+      border:solid 1px var(--lightBlue);
     }
 
+    .trainer-description {
+      text-align: justify;
+      font-size: x-small;
+      margin: 0;
+    }
+
+    .go-trainer-profile {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      padding: 5px;
+      text-decoration: none;
+      color: var(--darkBlue);
+    }
+
+
+
     .event-info-right > h2 {
+      width: fit-content;
+      border-width: 0 0 5px 0 ;
+      border-style: dotted; 
+      border-color: var(--tangerine);
+    }
+
+    .event-info-right-trainer > h2 {
       width: fit-content;
       border-width: 0 0 5px 0 ;
       border-style: dotted; 
@@ -1869,19 +1930,40 @@ select#seance_form_theme{
 
   /*MEDIA QUERIES*/
   @media only screen and (max-width: 850px) {
+    .event-name {
+      margin-bottom: 0;
+    }
+    
     .event-info {
       flex-direction: column;
     }
 
     .event-info-left {
       width: 90%;
+      padding: 10px;
+      margin: 0 15px 15px 20px;
     }
 
     .event-info-right {
       flex-direction: row;
       justify-content: flex-start;
-      gap: 30px;
       width: 100%;
+    }
+
+    .event-info-right > a {
+      text-align: center;
+    }
+
+    .event-edit, .event-delete {
+      min-width: 185px;
+    }
+
+    .event-info-right-trainer {
+      width: 100%;
+    }
+
+    .trainer-card {
+      width: 90%;
     }
 
     .event-map-participants{
