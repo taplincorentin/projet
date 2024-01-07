@@ -1974,3 +1974,122 @@ select#seance_form_theme{
       width: 100%;
     }
   }
+
+
+
+/*LANDING*/
+.landing {
+  background-color: var(--lightBlue);
+}
+
+.global_header {
+  background-image: url( '/images/site/landing.jpg' );
+  background-size: cover;
+}
+
+
+.bloc-central {
+  color: white;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding-top: 6%;
+  padding-left: 150px;
+  padding-right: 150px;
+}
+
+#texte {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  width: 500px;
+  height: 500px;
+}
+
+#texte h1 {
+  font-size: 60px;
+  padding-bottom: 30px;
+  font-weight: bolder;
+  text-align: center;
+}
+
+#texte p {
+  text-align: center;
+  font-size: 20px;
+  padding-bottom: 25px;
+}
+
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
+  border-radius: 25px;
+  width: 400px;
+}
+
+.landing-button {
+  background-color: var(--darkBlue);
+  color: white;
+  text-decoration: none;
+  font-size: 2em;
+  padding: 10px;
+  border-radius: 5px;
+  width: 150px;
+  text-align: center;
+}
+
+
+/* css de la 2d section */
+
+.second-section  {
+  margin: 50px 20px 100px 20px;
+}
+
+.container-card {
+  display: flex;
+  justify-content: center;
+  column-gap: 30px;
+}
+.card1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: var(--darkBlue);
+  width: 25%;
+  height: 300px;
+  border-radius: 20px;
+  color: white;
+}
+
+.card1 h2 {
+  text-align: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 20px;
+}
+
+.card1 p {
+  text-align: center;
+  padding: 20px;
+}
+
+.icone-card {
+  font-size: 50px;
+  text-align: center;
+}
+
+
+/*MEDIA QUERIES*/
+@media only screen and (max-width: 850px) {
+  .container-card {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card1 {
+    width: 75%;
+    margin-bottom: 20px;
+  }
+}

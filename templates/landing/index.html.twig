@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Walk&Train{% endblock %}
+{% block meta_description %}
+<meta name="description" content="Welcome to Walk&Train, a community for all dog lovers to discuss or search walks or training sessions around you.">
+{% endblock %}
+
+{% block body %}
+<main class="landing">
+    <section>
+        <header class="global_header">
+            <div class="bloc-central">
+                <div id="texte">
+                    <h1><strong>Welcome to Walk&Train </strong> <i class="fa-solid fa-paw"></i></h1>
+                    <p><strong>Join our dog lovers community to discuss and participate in events around you</strong></p>
+                        <div class="wrapper">
+                            <a href="{{ path('app_register')}}" class="landing-button">SIGN UP</a>
+                            <a href="{{ path('app_login')}}" class="landing-button">SIGN IN</a>
+                        </div>
+                </div>
+            </div>
+        </header>
+    </section>
+    <section class="second-section">
+        <div class="container-card">
+            <article class="card1">
+                <div class="icone-card">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <h2>Search for Events</h2>
+                <p>Look up and join walks and training sessions around you</p>
+            </article>
+            <article class="card1">
+                <div class="icone-card">
+                    <i class="fa-solid fa-circle-plus"></i>
+                </div>
+                <h2>Create your Events</h2>
+                <p>Organise your own dog walks or training sessions</p>
+            </article>
+            <article class="card1">
+                <div class="icone-card">
+                    <i class="fa-solid fa-comments"></i>
+                </div>
+                <h2>Join our Community</h2>
+                <p>Discuss with other users in our forum</p>
+            </article>
+        </div>
+    </section>
+</main>
+
+{% endblock %}
