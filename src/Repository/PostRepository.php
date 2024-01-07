@@ -48,10 +48,10 @@ class PostRepository extends ServiceEntityRepository
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
-        $qb ->select('COUNT(p.id)')
+        $qb ->select('COUNT(p.id)')                 //select number of posts
             ->from('App\Entity\Post', 'p')
-            ->where('p.auteur = :auteur')
-            ->setParameter('auteur', $auteur);
+            ->where('p.auteur = :auteur')           //condition
+            ->setParameter('auteur', $auteur);      //set function parameter as condition parameter
         
         $query = $qb->getQuery();
         

@@ -37,16 +37,13 @@ class BaladeController extends AbstractController
     #[Route('/balade/new', name: 'new_balade')]
     public function new(Balade $balade = null, Request $request, EntityManagerInterface $entityManager): Response {
         
-        //create new Balade object
-        $balade = new Balade();
+        $balade = new Balade();                          //create new Balade object
 
         $form = $this->createForm(BaladeFormType::class, $balade);
 
-
         $form->handleRequest($request);
 
-        //when form is submitted, check form data is valid
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) { //when form is submitted, check form data is valid
             
             $balade = $form->getData();                 //get submitted data
 
@@ -56,8 +53,7 @@ class BaladeController extends AbstractController
             $entityManager->persist($balade);           //prepare
             $entityManager->flush();                    //execute
 
-            $this->addFlash('success', "Dog walk created !");
-
+            $this->addFlash('success', "Dog walk created !");   //add notification
             
             //ASSOCIATED TOPIC CREATION
                 $balade->createAssociatedTopic();
@@ -77,12 +73,13 @@ class BaladeController extends AbstractController
                 $entityManager->persist($topic);
                 $entityManager->flush();
 
+            //
 
-
-            return $this->redirectToRoute('show_balade', ['id' => $balade->getId()]);; //redirection page d'info de la balade
+            //redirect to walk info page
+            return $this->redirectToRoute('show_balade', ['id' => $balade->getId()]);; 
 
         }
-        return $this->render('balade/new.html.twig', [
+        return $this->render('balade/new.html.twig', [  //form rendering
             'formAddBalade' => $form,
         ]);
 

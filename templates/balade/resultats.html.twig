@@ -9,29 +9,25 @@
 {% endblock %}
 {% block body %}
 
-    <h3>Upcoming dog walks in {{ville}}: </h3>
-
+    <h1>Upcoming dog walks in {{ville}}: </h1>
 
         {% for balade in resultatsBalades %}
-            
-            
-                <div class="walk-results" data-id="{{balade.id}}" data-name="{{balade.nom}}" data-latitude="{{balade.pointLatitude}}" data-longitude="{{balade.pointLongitude}}"
-                data-date="{{balade.dateHeureDepart | date('j F Y H:i')}}"> 
-                </div>
-            </a>
-
+            <div class="walk-results"   data-id="{{balade.id}}" 
+                                        data-name="{{balade.nom}}" 
+                                        data-latitude="{{balade.pointLatitude}}" 
+                                        data-longitude="{{balade.pointLongitude}}"
+                                        data-date="{{balade.dateHeureDepart | date('j F Y H:i')}}"> 
+            </div>
         {% endfor %}
 
 
     {# display balade results location on map #}
     <div id="map_show_results" style="height: 400px; width:500px;">
-</div>
+
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-            
-        
+    document.addEventListener('DOMContentLoaded', function () {        
             const resultsElementsLatitude = document.querySelectorAll('[data-latitude]');
             const resultsElementsLongitude = document.querySelectorAll('[data-longitude]');
             const resultsElementsId = document.querySelectorAll('[data-id]');

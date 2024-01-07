@@ -16,24 +16,26 @@ class SearchController extends AbstractController
     #[Route('/recherche', name: 'app_recherche')]
     public function search(Request $request, BaladeRepository $baladeRepository, SeanceRepository $seanceRepository): Response
     {
-        $form = $this->createForm(SearchFormType::class);
+        $form = $this->createForm(SearchFormType::class);   //form creation
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $ville = $form->get('ville')->getData();
-            $type = $form->get('type')->getData();
+            $ville = $form->get('ville')->getData();        //get search city from form
+            $type = $form->get('type')->getData();          //get type of event from form
 
-            // Perform actions based on the selected search type (balades/seances)
+            //if user searching for a walk
             if ($type === 'balades') {
 
                 //get walks with same ville
                 $resultatsBalades = $baladeRepository->getBaladesFuturesParVille($ville);
 
+                //return walk objects + city name to view
                 return $this->render('balade/resultats.html.twig', [
                     'resultatsBalades' => $resultatsBalades,
                     'ville' => $ville
                 ]);
-
+            
+            //if user searching for a training session
             } elseif ($type === 'seances') {
                 //get seances with same ville
                 $resultatsSeances = $seanceRepository->getSeancesFuturesParVille($ville);
@@ -44,7 +46,8 @@ class SearchController extends AbstractController
                 ]);
             }
         }
-
+        
+        //form rendering
         return $this->render('search/index.html.twig', [
             'searchForm' => $form->createView(),
         ]);

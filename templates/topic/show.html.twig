@@ -33,7 +33,8 @@
                             <div class="col" style="font-style:italic">by a deleted user</div> 
                             {% else %}
                             <a href="{{ path('show_personne', {'id': topic.auteur.id}) }}" aria-label="{{ "go to " ~ topic.auteur ~ "'s profile page" }}">
-                                <img class="topic-picture" id="topic-card-image" src="{{ asset('/images/users/' ~ topic.auteur.nomImageProfil) }}" alt="{{ topic.auteur ~ "'s profile picture" }}">
+                                <img class="topic-picture" id="topic-card-image" src="{{ asset('/images/users/' ~ topic.auteur.nomImageProfil) }}" 
+                                    alt="{{ topic.auteur ~ "'s profile picture" }}">
                             </a>
                             <div class="ml-3 col">
                                 <p class="topic-footer-info">by {{ topic.auteur }}</p>
