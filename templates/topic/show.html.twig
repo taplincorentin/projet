@@ -89,14 +89,14 @@
             <h4 style="text-align: center;">No comments yet</h4>
         {% endif %}
 
-        {% for post in postsPaginate | sort((a, b) => a.dateCreation <=> b.dateCreation) %}
+        {# {% for post in postsPaginate | sort((a, b) => a.dateCreation <=> b.dateCreation) %}
             <div class="container-fluid" id="post-{{post.id}}">
                 
                     
                         <div class="card">
                             <div class="card-header">
                     
-                                    {# if post has no author (user deleted its account) #}
+                          
                                     {% if post.auteur is empty %}
                                         <div class="col-md-auto">
                                             <img class="topic-picture" src="{{ asset('/images/users/profile_picture_default.jpg') }}" alt="picture of a dog, default picture for deleted users">
@@ -113,7 +113,7 @@
                                         <div class="ml-3 col"> <p class="user-name">{{post.auteur}}</p></div>
                                     {% endif %}
                                         <div class="text-muted small">{{post.dateCreation | date('d-m-Y H:i:s')}}</div>
-                                        </div> {#end of post-username-date div#}
+                                        </div>
 
                                     
 
@@ -130,7 +130,7 @@
                                 <p> {{post}} </p>
                             </div>
                             
-                            {#if user is post auteur, can edit/delete post#}
+                           
                             <div class="card-footer">
                                 {% if app.user == post.auteur %}
                                     <span class="topic-edit-delete">
@@ -143,13 +143,13 @@
                                 </span>
                             </div>
                         </div>
-                    </div>
+                    </div> #}
                 
             
 
-            {% if app.user == post.auteur %}
+            
                 
-            <div class="container-fluid"  id="edit-post-{{post.id}}" style="display : none">
+            {# <div class="container-fluid"  id="edit-post-{{post.id}}" style="display : none">
 
                 
                     <div class="card">
@@ -168,45 +168,108 @@
                         {{ form_end(postForms[post.id]) }}
                         </div>                        
                     </div>
-            </div>
-            {% endif %}
+            </div> #}
+            
 
 
-        {% endfor %}
+        {# {% endfor %}
         <div class="category-center">{{ knp_pagination_render(postsPaginate) }}
-        </div>
-        
-        <div class="container-fluid">
-            
-                
-                    <div class="card">
-                        <div class="card-header">      
-                                    <div class="col-md-auto">
-                                        <img class="topic-picture" src="{{ asset('/images/users/' ~ app.user.nomImageProfil) }}" alt="your profile picture">
-                                    </div>
-                                    <div class="post-username-date"><p class="user-name">{{app.user}}</p></div>
-                                    
+        </div> #}
+    <section class="topic-postss">
+        {% for post in postsPaginate | sort((a, b) => a.dateCreation <=> b.dateCreation) %}
 
-                                
-                                    <div class="text-muted small col text-end">
-                                        <div>Member since <strong>{{app.user.dateCreation | date('d/m/Y')}}</strong></div>
-                                    </div>
+            {# POST DISPLAY #}
+                <article class="topic-post" id="post-{{post.id}}">
+                    <div class="topic-post-header">
+                        <div class="topic-post-header-left">
+                            {% if post.auteur is empty %}
+                                <img class="author-icon" src="{{ asset('/images/users/profile_picture_default.jpg') }}" alt="picture of a dog, default picture for deleted users">
+                                <div class="topic-post-header-left-info">
+                                    <p><strong>deleted</strong></p>
+                            {% else %}
+                                <a href="{{ path('show_personne', {'id': post.auteur.id}) }}" aria-label="{{ "go to " ~ post.auteur ~ "'s profile page" }}">
+                                    <img class="author-icon" src="{{ asset('/images/users/' ~ post.auteur.nomImageProfil) }}" alt="{{ post.auteur ~ "'s profile picture" }}">
+                                </a>
+                                <div class="topic-post-header-left-info">
+                                    <p><strong>{{post.auteur}}</strong></p>
+                            {% endif %}
+                            <p>{{post.dateCreation | date('d-m-Y H:i:s')}}</p>
+                                </div>
                         </div>
-                        <div class="card-body">
-                            <form method="post" class="topic-content">
-                                {{ form_start(formAddPost) }}
-                                    {{ form_widget(formAddPost.contenu, {'attr': {'placeholder': 'Type your comment here'}}) }}
+                        <div class="topic-post-header-right">
+                            {% if post.auteur %}
+                                <p>Member since <strong>{{post.auteur.dateCreation | date('d/m/Y')}}</strong></p>
+                                <p><strong>{{ nbPostsTotalAuteur[post.id] }}</strong> post(s)</p>
+                            {% endif %}
                         </div>
-                        <div class="card-footer">
-                            {{ form_widget(formAddPost.submit, {'label': 'comment'}) }}
-                        {{ form_end(formAddPost) }}
-                    </form>
-                        </div>                        
                     </div>
-                
+                    <p class="topic-post-body"> {{post}} </p>
+                    <div class="topic-post-footer">
+                        {% if app.user == post.auteur %}
+                        <a onclick="togglePostForm({{post.id}})" aria-label="edit post content"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <a href="{{ path('delete_post', {'id': post.id}) }}" onclick="return confirm('delete post ?')" aria-label="delete post"><i class="fa-solid fa-trash"></i></a>
+                        {% endif %}
+                        <a href="{{ path('new_report', {'post_id': post.id}) }}" aria-label="report post" target="_blank"><i class="fa-solid fa-flag"></i></a>
+                    </div>
+                </article>
             
-        </div>
-        </div>
+            {% if app.user == post.auteur %}
+            {# POST EDITION FORM #}
+                <article class="topic-post" id="edit-post-{{post.id}}" style="display: none;">
+                    <div class="topic-post-header">
+                        <div class="topic-post-header-left">
+                            <a href="{{ path('show_personne', {'id': app.user.id}) }}" aria-label="{{ "go to your profile page" }}">
+                                <img class="author-icon" src="{{ asset('/images/users/' ~ app.user.nomImageProfil) }}" alt="{{ "your profile picture" }}">
+                            </a>
+                            <div class="topic-post-header-left-info">
+                                <p><strong>{{app.user}}</strong></p>
+                            </div>
+                        </div>
+                        <div class="topic-post-header-right">
+                            <p><a onclick="togglePostFormR({{post.id}})" class="exit-edit" aria-label="edit topic title"><i class="fa-solid fa-xmark"></i></a></p>
+                        </div>
+                    </div>
+                    <div class="topic-post-body"> 
+                        {{ form_start(postForms[post.id]) }}
+                        {{ form_widget(postForms[post.id].contenu, {'attr': {'placeholder': "Your comment"}}) }}
+                    </div>
+                    <div class="topic-post-footer">
+                            {{ form_widget(postForms[post.id].submit, {'label': 'edit >>'}) }}
+                        {{ form_end(postForms[post.id]) }}
+                    </div>
+                </article>
+            {% endif %}
+                
+            {% endfor %}
+        </section>
+
+        
+       
+        {# POST CREATION #}
+            <article class="topic-post">
+                <div class="topic-post-header">
+                    <div class="topic-post-header-left">
+                        <a href="{{ path('show_personne', {'id': app.user.id}) }}" aria-label="{{ "go to your profile page" }}">
+                            <img class="author-icon" src="{{ asset('/images/users/' ~ app.user.nomImageProfil) }}" alt="{{ "your profile picture" }}">
+                        </a>
+                        <div class="topic-post-header-left-info">
+                            <p><strong>{{app.user}}</strong></p>
+                        </div>
+                    </div>
+                    <div class="topic-post-header-right">
+                        <p>Member since <strong>{{app.user.dateCreation | date('d/m/Y')}}</strong></p>
+                    </div>
+                </div>
+                <div class="topic-post-body"> 
+                    {{ form_start(formAddPost) }}
+                        {{ form_widget(formAddPost.contenu, {'attr': {'placeholder': 'Type your comment here'}}) }}
+                </div>
+                <div class="topic-post-footer">
+                        {{ form_widget(formAddPost.submit, {'label': 'post >>'}) }}
+                    {{ form_end(formAddPost) }}
+                </div>
+            </article>
+        
     </main>
     
     <script>

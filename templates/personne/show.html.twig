@@ -25,7 +25,12 @@
                 <h1>{{personne}}'s profile </h1>
                 <p>{{personne.description}}</p>
             </div>
-
+            {% if is_granted('ROLE_ADMIN') and (app.user != personne) %}
+            <div class="user-info-right">
+                <h2>Delete account</h2>
+                <a href="{{ path('delete_personne', {'id': personne.id}) }}" class="profile-delete" onclick="return confirm('Are you sure?')" aria-label="delete account"><i class="fa-solid fa-trash fa-lg"></i> Delete this user's account</a>
+            </div>
+            {% endif %}
             {% if (app.user == personne) %}
                 <div class="user-info-right">
                     <h2>Edit your profile</h2>

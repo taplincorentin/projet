@@ -29,19 +29,16 @@ class PersonneController extends AbstractController
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 
+                //dd($form->get('imageProfil')->getData());
                 $personne = $form->getData();
-
-                $entityManager->persist($personne); //prepare
-                $entityManager->flush(); //execute
 
 
                 //Take care of profile picture
-                
                 $fichierImageProfil = $form->get('imageProfil')->getData();
-
+                // dd($personne);
                 //If a new profile picture file was added to form
                 if ($fichierImageProfil) {
-
+                    
                     //Delete old profile picture if it exists
                     //get old profile picture name
                     $ancienneImageProfil = $user->getNomImageProfil();
@@ -62,9 +59,11 @@ class PersonneController extends AbstractController
                     
                     
                     //set picture name to current user (current user == $personne)
-                    $user->setNomImageProfil($nouveauNomFichier);
-                    $entityManager->flush(); //execute
+                    $personne->setNomImageProfil($nouveauNomFichier);
                 }
+
+                $entityManager->persist($personne); //prepare
+                $entityManager->flush(); //execute
 
                 $this->addFlash('success', "User information updated !");
 

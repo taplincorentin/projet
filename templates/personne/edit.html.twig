@@ -16,7 +16,6 @@
           
             <h1>Your Information Page <i class="fa-solid fa-paw"></i></h1>
           
-            <form method="post" class="register-form">
 
                 {{ form_start(formAddPersonne) }}
 
@@ -31,14 +30,14 @@
                         'id': 'text_post_edit'}) }}
                     
                     {{ form_label(formAddPersonne.imageProfil) }}
+                    {{ form_errors(formAddPersonne.imageProfil) }}
                     {{ form_widget(formAddPersonne.imageProfil) }}
                 
                     {{ form_widget(formAddPersonne.submit, { 'attr' : { 'data-label': 'confirm your information editon form' } }) }}
 
                 {{ form_end(formAddPersonne) }}
                 
-                
-            </form>           
+                           
 
         </div>
 
