@@ -13,7 +13,7 @@
 
         
     <div class="category-right">
-        <div class="container-fluid" id="topic-card">
+        {# <div class="container-fluid" id="topic-card">
             
                     <div class="card">
                         <div class="breadcrumbs">
@@ -50,14 +50,81 @@
                         </div>                        
                     </div>
                 
-        </div>
+        </div> #}
+
+        <article class="topic-topic-page" id="topic-card">
+            <div class="topic-topic-header">
+                <div class="breadcrumbs">
+                    <a href="{{ path('app_home') }}">Home</a> >> 
+                    <a href="{{ path('app_categorie') }}">Forum</a> >>
+                    <a href="{{ path('show_categorie', {'id': topic.categorie.id}) }}">{{topic.categorie}}</a> >>
+                </div>
+            </div>
+            <p class="topic-topic-body"><b>{{ topic }}</b></p>
+            <div class="topic-topic-footer">
+                {% if topic.auteur is empty %}
+                    <div class="topic-topic-footer-left">
+                        <img class="author-icon" src="{{ asset('/images/users/profile_picture_default.jpg') }}" alt="picture of a dog, default picture for deleted users">
+                        <div class="topic-topic-footer-left-info">
+                            <p>by a deleted user</p>
+                            <p>{{ topic.dateCreation | date("F j, Y, g:i a") }}</p>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="topic-topic-footer-left">
+                        <a href="{{ path('show_personne', {'id': topic.auteur.id}) }}" aria-label="{{ "go to " ~ topic.auteur ~ "'s profile page" }}">
+                            <img class="author-icon" src="{{ asset('/images/users/' ~ topic.auteur.nomImageProfil) }}" alt="{{ topic.auteur ~ "'s profile picture" }}">
+                        </a>
+                        <div class="topic-topic-footer-left-info">
+                            <p>by {{ topic.auteur }}</p>
+                            <p>{{ topic.dateCreation | date("F j, Y, g:i a") }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="topic-topic-footer-right">
+                    {% if app.user == topic.auteur %}
+                        <a onclick="myFunction()" aria-label="edit topic title"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a href="{{ path('delete_topic', {'id': topic.id}) }}" onclick="return confirm('delete topic ?')" aria-label="delete topic"><i class="fa-solid fa-trash"></i></a>
+                    {% endif %}
+                </div>
+            </div>
+        </article>
         
 
             {# EDIT TOPIC DIV#}
             {% if app.user == topic.auteur %}
-                
+                <article class="topic-topic-page" id="edit-topic" style="display: none;">
+                    <div class="topic-topic-header">
+                        <div class="breadcrumbs">
+                            <a href="{{ path('app_home') }}">Home</a> >> 
+                            <a href="{{ path('app_categorie') }}">Forum</a> >>
+                            <a href="{{ path('show_categorie', {'id': topic.categorie.id}) }}">{{topic.categorie}}</a> >>
+                            <a onclick="myFunctionR()" class="exit-edit-topic" aria-label="edit topic title"><i class="fa-solid fa-xmark"></i></a>
+                        </div>
+                    </div>
+                    <div class="topic-topic-body">
+                        {{ form_start(formAddTopic) }}
+                            {{ form_widget(formAddTopic.titre, {'attr': {'placeholder': "Your topic's title"}}) }}
+                    </div>
+                    <div class="topic-topic-footer">
+                            <div class="topic-topic-footer-left">
+                                <a href="{{ path('show_personne', {'id': topic.auteur.id}) }}" aria-label="{{ "go to " ~ topic.auteur ~ "'s profile page" }}">
+                                    <img class="author-icon" src="{{ asset('/images/users/' ~ topic.auteur.nomImageProfil) }}" alt="{{ topic.auteur ~ "'s profile picture" }}">
+                                </a>
+                                <div class="topic-topic-footer-left-info">
+                                    <p>by {{ topic.auteur }}</p>
+                                    <p>{{ topic.dateCreation | date("F j, Y, g:i a") }}</p>
+                                </div>
+                            </div>
+                        <div class="topic-topic-footer-right">
+                                {{ form_widget(formAddTopic.submit, {'label': 'edit'}) }}
+                            {{ form_end(formAddTopic) }}
+                        </div>
+                    </div>
+                </article>
+            {% endif %}   
             
-            <div class="container-fluid" id="edit-topic">
+            {# <div class="container-fluid" id="edit-topic">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
@@ -80,9 +147,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> #}
 
-            {% endif %}
+            
 
 
         {% if topic.posts is empty %}
@@ -226,7 +293,7 @@
                             </div>
                         </div>
                         <div class="topic-post-header-right">
-                            <p><a onclick="togglePostFormR({{post.id}})" class="exit-edit" aria-label="edit topic title"><i class="fa-solid fa-xmark"></i></a></p>
+                            <p><a onclick="togglePostFormR({{post.id}})" aria-label="edit topic title"><i class="fa-solid fa-xmark"></i></a></p>
                         </div>
                     </div>
                     <div class="topic-post-body"> 
