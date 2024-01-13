@@ -9,8 +9,8 @@
 {% endblock %}
 
 {% block body %}
-
-<h3>Upcoming training sessions in {{ville}}: </h3>
+<main class="search-results">
+<h1>Upcoming training sessions in {{ville}}: </h1>
     
 
     {% for seance in resultatsSeances %}
@@ -21,9 +21,24 @@
 
     {% endfor %}
 
-    {# display balade results location on map #}
-    <div id="map_show_results" style="height: 400px; width:500px;">
-    </div>
+    <section class="search-results-page">
+        {# display session results location on map #}
+        <div id="map_show_results" style="height: 400px; width:500px;"></div>
+
+        <section class="results-list">
+            <h2>Results</h2>
+            {% for seance in resultatsSeances %}
+                <a href="{{ path('show_seance', {'id': seance.id}) }}" aria-label="go to the {{seance}}'s info page">
+                    <article class="search-result">
+                        <p>{{seance.nom}}</p>
+                        <p><i class="fa-solid fa-calendar-days"></i> {{seance.dateHeureDepart | date('j F Y H:i')}}</p>
+                    </article>
+                </a>
+            {% endfor %}
+        </section>
+    </section>
+
+    </main>
 
 
     <script>

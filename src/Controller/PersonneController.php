@@ -42,10 +42,10 @@ class PersonneController extends AbstractController
                     //Delete old profile picture if it exists
                     //get old profile picture name
                     $ancienneImageProfil = $user->getNomImageProfil();
-                    if ($ancienneImageProfil) {
-                        unlink($this->getParameter('profile_picture_directory') . '/' .$ancienneImageProfil);
+                    // if ($ancienneImageProfil) {
+                    //     unlink($this->getParameter('profile_picture_directory') . '/' .$ancienneImageProfil);
 
-                    }
+                    // }
                         
                     //create unique picture name
                     $nouveauNomFichier = 'profile_picture_' . uniqid() . '.' . $fichierImageProfil->guessExtension();

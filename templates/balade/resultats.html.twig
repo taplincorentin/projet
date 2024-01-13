@@ -8,7 +8,7 @@
     <meta name="keywords" content="dog project, dog, dog trainers near me, local dog trainers, dog walks near me, dog owners community, profile page">
 {% endblock %}
 {% block body %}
-
+    <main class="search-results">
     <h1>Upcoming dog walks in {{ville}}: </h1>
 
         {% for balade in resultatsBalades %}
@@ -20,9 +20,24 @@
             </div>
         {% endfor %}
 
+    <section class="search-results-page">
+        {# display balade results location on map #}
+        <div id="map_show_results" style="height: 400px; width:500px;"></div>
 
-    {# display balade results location on map #}
-    <div id="map_show_results" style="height: 400px; width:500px;">
+        <section class="results-list">
+            <h2>Results</h2>
+            {% for balade in resultatsBalades %}
+                <a href="{{ path('show_balade', {'id': balade.id}) }}" aria-label="go to the {{balade}}'s info page">
+                    <article class="search-result">
+                        <p>{{balade.nom}}</p>
+                        <p><i class="fa-solid fa-calendar-days"></i> {{balade.dateHeureDepart | date('j F Y H:i')}}</p>
+                    </article>
+                </a>
+            {% endfor %}
+        </section>
+    </section>
+
+    </main>
 
 
 
